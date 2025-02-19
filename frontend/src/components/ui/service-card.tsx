@@ -17,7 +17,7 @@ export default function ServiceCard({ serviceId, name, description, duration, pr
     return (
         <div
             className="flex flex-col gap-2 items-start justify-between rounded-lg bordersm:p-4 text-left text-sm transition-all hover:bg-gray-100 bg-muted outline-none outline-offset-0  hover:outline-gray-100 hover:outline-[6px] cursor-pointer  overflow-hidden"
-            onClick={() => router.push(`/master-time-select/${serviceId}`)}
+            onClick={() => router.push(`/masterTimeSelect/${serviceId}`)}
         >
             <div className="w-full">
                 <img

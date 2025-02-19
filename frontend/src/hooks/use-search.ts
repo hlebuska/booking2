@@ -7,8 +7,7 @@ export function useSearch(unfilteredServices: IService[]) {
     const [searchItem, setSearchItem] = useState('');
     const [filteredServices, setFilteredServices] = useState(unfilteredServices);
 
-    const handleInputChange = (e) => {
-        console.log('input changed', e.target.value);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value;
         setSearchItem(searchTerm);
         const filteredItems = unfilteredServices.filter((service) =>

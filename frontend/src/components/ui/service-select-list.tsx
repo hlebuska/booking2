@@ -7,7 +7,7 @@ interface IProps {
     services: IService[];
 }
 
-export default function ServiceSelectPage({ services }: IProps) {
+export default function ServiceSelectList({ services }: IProps) {
     return (
         <div>
             <div className="flex flex-col gap-4">

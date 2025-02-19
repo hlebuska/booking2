@@ -22,7 +22,7 @@ module.exports = {
                 },
             },
             animation: {
-                'pulse-width': 'pulseWidth 2s ease-in-out infinite',
+                'pulse-width': 'pulseWidth 1.5s ease-in-out infinite',
             },
         },
     },
