@@ -1,11 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { H5 } from './typography';
-import { SetNumberStateType } from '@/lib/type/types';
 
 interface IProps {
     name: string;
     id: number;
-    setMasterId: SetNumberStateType;
+    setMasterId: (id: number) => void;
     isSelected: boolean;
 }
 

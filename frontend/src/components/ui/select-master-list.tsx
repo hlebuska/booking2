@@ -1,10 +1,10 @@
-import { IMaster, SetNumberStateType } from '@/lib/type/types';
+import { IMaster } from '@/lib/type/types';
 import MasterCard from './master-card';
 
 interface IProps {
     masters: IMaster[];
     selectedMaster?: number | null;
-    setMasterId: SetNumberStateType;
+    setMasterId: (id: number) => void;
 }
 
 export default function SelectMasterList({ masters, setMasterId, selectedMaster }: IProps) {

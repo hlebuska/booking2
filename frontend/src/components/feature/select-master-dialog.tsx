@@ -6,15 +6,15 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import { IMaster } from '@/lib/type/types';
+import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import SelectMasterList from '../ui/select-master-list';
-import { IMaster, SetNumberStateType } from '@/lib/type/types';
-import { useEffect, useState } from 'react';
 
 interface IProps {
     barbers: IMaster[];
     selectedMaster: number | null;
-    setSelectedMaster: SetNumberStateType;
+    setSelectedMaster: (id: number) => void;
 }
 
 //Responsible for rendering and selecting masters

@@ -1,21 +1,30 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getMasters, getScheduleByMaster } from '@/lib/utils';
+import useStore from './use-store';
 
 export function useBooking() {
-    const [selectedMasterId, setSelectedMasterId] = useState<number | null>(null);
+    const { masterIdState, setMasterId } = useStore();
     const [selectedSlotId, setSelectedSlotId] = useState<number | null>(null);
 
     const barbersQuery = useQuery({ queryKey: ['barbers'], queryFn: getMasters });
     const scheduleQuery = useQuery({
-        queryKey: ['schedule', selectedMasterId],
-        queryFn: () => (selectedMasterId ? getScheduleByMaster(selectedMasterId) : { schedules: [] }),
-        enabled: !!selectedMasterId,
+        queryKey: ['schedule', masterIdState],
+        queryFn: () => (masterIdState ? getScheduleByMaster(masterIdState) : { schedules: [] }),
+        enabled: !!masterIdState,
     });
 
+    const selectedMaster =
+        barbersQuery.data && Array.isArray(barbersQuery.data)
+            ? barbersQuery.data.find((barber) => barber.id === masterIdState)
+            : null;
+
+    const selectedMasterName = selectedMaster ? selectedMaster.name : '';
+
     return {
-        selectedMaster: selectedMasterId,
-        setSelectedMaster: setSelectedMasterId,
+        selectedMaster: masterIdState,
+        selectedMasterName,
+        setSelectedMaster: setMasterId,
         selectedSlot: selectedSlotId,
         setSelectedSlot: setSelectedSlotId,
         barbersQuery,
@@ -23,6 +32,4 @@ export function useBooking() {
     };
 }
 
-export function useSelectMaster() {
-    
-}
+export function useSelectMaster() {}
