@@ -12,6 +12,7 @@ export const phoneRegex = new RegExp(/^\+7\s?7\d{2}\s?\d{3}\s?\d{4}$/);
 
 export const breadcrumbNames: Record<string, string> = {
     '': 'Главная',
+    branchSelect: 'Филиал',
     serviceSelect: 'Услуги',
     masterTimeSelect: 'Мастер и время',
 };

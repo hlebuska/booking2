@@ -2,6 +2,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { H5 } from './typography';
+import useStore from '@/hooks/use-store';
 
 interface IProps {
     serviceId: number;
@@ -13,11 +14,18 @@ interface IProps {
 
 export default function ServiceCard({ serviceId, name, description, duration, price }: IProps) {
     const router = useRouter();
+    const { serviceIdState, setServiceId } = useStore();
+    console.log(serviceIdState);
+
+    const handleServiceSelect = () => {
+        setServiceId(serviceId);
+        router.push(`/branchSelect/serviceSelect/masterTimeSelect/${serviceId}`);
+    };
 
     return (
         <div
             className="flex flex-col gap-2 items-start justify-between rounded-lg bordersm:p-4 text-left text-sm transition-all hover:bg-gray-100 bg-muted outline-none outline-offset-0  hover:outline-gray-100 hover:outline-[6px] cursor-pointer  overflow-hidden"
-            onClick={() => router.push(`/masterTimeSelect/${serviceId}`)}
+            onClick={() => handleServiceSelect()}
         >
             <div className="w-full">
                 <img

@@ -17,7 +17,7 @@ export default function BreadcrumbsBar() {
         <Breadcrumb className="mx-auto pt-9 w-full max-w-3xl px-4 sm:px-20 md:px-24 lg:px-12 bg-white h-full min-h-scr">
             <BreadcrumbList>
                 <BreadcrumbItem>
-                    <BreadcrumbLink href="/">Филиал</BreadcrumbLink>
+                    <BreadcrumbLink href="/">Главная (переделать)</BreadcrumbLink>
                 </BreadcrumbItem>
                 {pathSegments.map((segment, index) => {
                     const href = `/${pathSegments.slice(0, index + 1).join('/')}`;
