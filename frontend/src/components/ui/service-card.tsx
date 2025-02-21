@@ -14,12 +14,11 @@ interface IProps {
 
 export default function ServiceCard({ serviceId, name, description, duration, price }: IProps) {
     const router = useRouter();
-    const { serviceIdState, setServiceId } = useStore();
-    console.log(serviceIdState);
+    const { setServiceId } = useStore();
 
     const handleServiceSelect = () => {
         setServiceId(serviceId);
-        router.push(`/branchSelect/serviceSelect/masterTimeSelect/${serviceId}`);
+        router.push(`/branchSelect/serviceSelect/masterTimeSelect`);
     };
 
     return (

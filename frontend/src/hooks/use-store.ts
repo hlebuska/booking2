@@ -1,7 +1,19 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-const useStore = create(
+type State = {
+    serviceIdState: number | null;
+    masterIdState: number | null;
+    branchIdState: number | null;
+};
+
+type Action = {
+    setServiceId: (serviceIdState: number) => void;
+    setMasterId: (masterIdState: number) => void;
+    setBranchId: (branchIdState: number) => void;
+};
+
+const useStore = create<State & Action>()(
     persist(
         (set) => ({
             serviceIdState: null,

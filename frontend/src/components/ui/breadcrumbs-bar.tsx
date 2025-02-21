@@ -25,16 +25,16 @@ export default function BreadcrumbsBar() {
                     const translatedName = breadcrumbNames[segment] || decodeURIComponent(segment);
 
                     return (
-                        <>
+                        <div key={href} className="flex gap-1.5 items-center w-full xs:w-fit">
                             <BreadcrumbSeparator />
-                            <BreadcrumbItem key={href}>
+                            <BreadcrumbItem>
                                 {isLast ? (
                                     <BreadcrumbPage>{translatedName}</BreadcrumbPage>
                                 ) : (
                                     <BreadcrumbLink href={href}>{translatedName}</BreadcrumbLink>
                                 )}
                             </BreadcrumbItem>
-                        </>
+                        </div>
                     );
                 })}
             </BreadcrumbList>
