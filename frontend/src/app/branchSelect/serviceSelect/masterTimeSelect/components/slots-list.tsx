@@ -1,9 +1,9 @@
 'use client';
-import { H4 } from '../ui/typography';
+import { H4 } from '../../../../../components/ui/typography';
 import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group';
 import { Label } from '@radix-ui/react-label';
 import { ISlot, SetNumberStateType } from '@/lib/type/types';
-import SkeletonLoader from '../ui/skeleton-loader';
+import SkeletonLoader from '../../../../../components/ui/skeleton-loader';
 
 interface IProps {
     schedules: ISlot[];

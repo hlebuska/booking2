@@ -1,7 +1,7 @@
 'use client';
-import BookingFormDialog from '@/components/feature/booking-form-dialog';
-import SelectMasterDialog from '@/components/feature/select-master-dialog';
-import SlotsList from '@/components/feature/slots-list';
+import BookingFormDialog from '@/app/branchSelect/serviceSelect/masterTimeSelect/components/booking-form-dialog';
+import SelectMasterDialog from '@/app/branchSelect/serviceSelect/masterTimeSelect/components/select-master-dialog';
+import SlotsList from '@/app/branchSelect/serviceSelect/masterTimeSelect/components/slots-list';
 import { H2 } from '@/components/ui/typography';
 import { useBooking } from '@/hooks/use-booking';
 import useStore from '@/hooks/use-store';

@@ -9,7 +9,7 @@ type State = {
 
 type Action = {
     setServiceId: (serviceIdState: number) => void;
-    setMasterId: (masterIdState: number) => void;
+    setMasterId: (masterIdState: number | null) => void;
     setBranchId: (branchIdState: number) => void;
 };
 
@@ -21,7 +21,7 @@ const useStore = create<State & Action>()(
             branchIdState: null,
 
             setServiceId: (serviceIdState: number) => set({ serviceIdState }),
-            setMasterId: (masterIdState: number) => set({ masterIdState }),
+            setMasterId: (masterIdState: number | null) => set({ masterIdState }),
             setBranchId: (branchIdState: number) => set({ branchIdState }),
 
             clearServiceId: () => set({ serviceIdState: null }),

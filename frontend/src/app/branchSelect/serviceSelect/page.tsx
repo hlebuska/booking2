@@ -1,6 +1,6 @@
 'use client';
 import IconInput from '@/components/ui/icon-input';
-import ServiceSelectList from '@/components/ui/service-select-list';
+import ServiceSelectList from '@/app/branchSelect/serviceSelect/components/service-select-list';
 import { H2 } from '@/components/ui/typography';
 import { useSearch } from '@/hooks/use-search';
 import { SearchIcon } from 'lucide-react';

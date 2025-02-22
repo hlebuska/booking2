@@ -1,7 +1,7 @@
 'use client';
 import { IService } from '@/lib/type/types';
 import ServiceCard from './service-card';
-import { H3 } from './typography';
+import { H3 } from '../../../../components/ui/typography';
 
 interface IProps {
     services: IService[];

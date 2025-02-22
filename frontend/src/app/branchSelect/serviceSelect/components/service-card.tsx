@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import { useRouter } from 'next/navigation';
-import { H5 } from './typography';
+import { H5 } from '@/components/ui/typography';
 import useStore from '@/hooks/use-store';
 
 interface IProps {
@@ -14,10 +14,11 @@ interface IProps {
 
 export default function ServiceCard({ serviceId, name, description, duration, price }: IProps) {
     const router = useRouter();
-    const { setServiceId } = useStore();
+    const { setServiceId, setMasterId } = useStore();
 
     const handleServiceSelect = () => {
         setServiceId(serviceId);
+        setMasterId(null);
         router.push(`/branchSelect/serviceSelect/masterTimeSelect`);
     };
 

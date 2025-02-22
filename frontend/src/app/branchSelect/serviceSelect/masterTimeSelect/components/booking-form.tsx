@@ -1,21 +1,19 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { phoneRegex, postBooking } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { PhoneInput } from '@/components/ui/phone-input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { PhoneInput } from '@/components/ui/phone-input';
 import { Textarea } from '@/components/ui/textarea';
-import { H3 } from './typography';
-import { RequiredStar } from './required-star';
-import { useMutation } from '@tanstack/react-query';
-import { IPostBooking } from '@/lib/type/types';
-import { ToastAction } from '@radix-ui/react-toast';
 import { useToast } from '@/hooks/use-toast';
+import { IPostBooking } from '@/lib/type/types';
+import { phoneRegex, postBooking } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { RequiredStar } from '@/components/ui/required-star';
 
 interface IProps {
     barber_id: number;
