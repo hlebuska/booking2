@@ -7,6 +7,7 @@ import { useBooking } from '@/hooks/use-booking';
 import useStore from '@/hooks/use-store';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import MasterCard from './components/master-card';
 
 export default function MasterTimeSelectPage() {
     const router = useRouter();
@@ -32,7 +33,8 @@ export default function MasterTimeSelectPage() {
     return (
         <div className="space-y-6 mx-auto p-4 sm:p-9 w-full max-w-3xl px-4 sm:px-20 md:px-24 lg:px-12 bg-white h-full min-h-screen">
             <H2>Новая запись</H2>
-            {selectedMasterName}
+
+            {selectedMaster && <MasterCard id={selectedMaster} name={selectedMasterName} isSelected={false} />}
             <SelectMasterDialog
                 barbers={barbersQuery.data}
                 selectedMaster={selectedMaster}
