@@ -16,9 +16,6 @@ export default function BreadcrumbsBar() {
     return (
         <Breadcrumb className="mx-auto pt-9 w-full max-w-3xl px-4 sm:px-20 md:px-24 lg:px-12 bg-white h-full min-h-scr">
             <BreadcrumbList>
-                <BreadcrumbItem>
-                    <BreadcrumbLink href="/">Главная (переделать)</BreadcrumbLink>
-                </BreadcrumbItem>
                 {pathSegments.map((segment, index) => {
                     const href = `/${pathSegments.slice(0, index + 1).join('/')}`;
                     const isLast = index === pathSegments.length - 1;
@@ -26,7 +23,6 @@ export default function BreadcrumbsBar() {
 
                     return (
                         <div key={href} className="flex gap-1.5 items-center w-full xs:w-fit">
-                            <BreadcrumbSeparator />
                             <BreadcrumbItem>
                                 {isLast ? (
                                     <BreadcrumbPage>{translatedName}</BreadcrumbPage>
@@ -34,6 +30,7 @@ export default function BreadcrumbsBar() {
                                     <BreadcrumbLink href={href}>{translatedName}</BreadcrumbLink>
                                 )}
                             </BreadcrumbItem>
+                            {!isLast && <BreadcrumbSeparator />}
                         </div>
                     );
                 })}
