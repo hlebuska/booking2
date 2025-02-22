@@ -13,7 +13,7 @@ export function useSearch(unfilteredServices: IService[]) {
         const filteredItems = unfilteredServices.filter((service) =>
             service.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        console.log(filteredItems);
+
         if (filteredItems.length > 0) {
             setFilteredServices(filteredItems);
         } else {

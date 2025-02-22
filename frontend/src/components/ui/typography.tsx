@@ -30,7 +30,7 @@ export const H4: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ childre
 export const H5: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, className, ...props }) => {
     return (
         <h5
-            className={`scroll-m-20 text-sm sm:text-base/none leading-none font-semibold  tracking-tight ${className}`}
+            className={`scroll-m-20 text-sm sm:text-base/none leading-none font-medium  tracking-tight ${className}`}
             {...props}
         >
             {children}
