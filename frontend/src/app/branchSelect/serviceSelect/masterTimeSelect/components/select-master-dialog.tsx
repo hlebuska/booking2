@@ -10,15 +10,18 @@ import { IMaster } from '@/lib/type/types';
 import { useEffect, useState } from 'react';
 import { Button } from '../../../../../components/ui/button';
 import SelectMasterList from './select-master-list';
+import MasterCard from './master-card';
+import MasterDialogTrigger from './master-dialog-trigger';
 
 interface IProps {
     barbers: IMaster[];
     selectedMaster: number | null;
+    selectedMasterName: string;
     setSelectedMaster: (id: number) => void;
 }
 
 //Responsible for rendering and selecting masters
-export default function SelectMasterDialog({ barbers, selectedMaster, setSelectedMaster }: IProps) {
+export default function SelectMasterDialog({ barbers, selectedMaster, selectedMasterName, setSelectedMaster }: IProps) {
     const [open, setOpen] = useState<boolean>(false);
 
     useEffect(() => {
@@ -31,7 +34,7 @@ export default function SelectMasterDialog({ barbers, selectedMaster, setSelecte
         <div>
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Выберите мастера</Button>
+                    <MasterDialogTrigger name={selectedMasterName} id={selectedMaster} onClick={() => setOpen(true)} />
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[600px]">
                     <DialogHeader>
