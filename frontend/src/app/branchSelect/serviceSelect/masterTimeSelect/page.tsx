@@ -7,7 +7,6 @@ import { useBooking } from '@/hooks/use-booking';
 import useStore from '@/hooks/use-store';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import MasterCard from './components/master-card';
 
 export default function MasterTimeSelectPage() {
     const router = useRouter();

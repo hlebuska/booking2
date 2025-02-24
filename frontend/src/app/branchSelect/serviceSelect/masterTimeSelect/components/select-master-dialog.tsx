@@ -8,10 +8,8 @@ import {
 } from '@/components/ui/dialog';
 import { IMaster } from '@/lib/type/types';
 import { useEffect, useState } from 'react';
-import { Button } from '../../../../../components/ui/button';
-import SelectMasterList from './select-master-list';
-import MasterCard from './master-card';
 import MasterDialogTrigger from './master-dialog-trigger';
+import SelectMasterList from './select-master-list';
 
 interface IProps {
     barbers: IMaster[];
