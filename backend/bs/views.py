@@ -2,7 +2,7 @@ from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import *
-from .serializers import BarberSerializer, BookingSerializer
+from .serializers import BarberSerializer, BookingSerializer, ServiceSerializer
 from .services import BookingService
 
 class BarberViewSet(viewsets.ModelViewSet):
@@ -18,6 +18,41 @@ class BarberViewSet(viewsets.ModelViewSet):
                 for slot in slots
             ]
         })
+    
+    @action(methods=['get'], detail=True)
+    def services(self, request, pk=None):
+        barber = self.get_object()  # Получаем объект барбера
+        services_list = barber.services.all()  # Получаем услуги, связанные с этим барбером
+        return Response({
+            'services': [
+                {
+                    'id': service.id, 
+                    'name': service.name, 
+                    'description': service.description, 
+                    'price': service.price
+                }
+                for service in services_list
+            ]
+        })
+
+class ServiceViewSet(viewsets.ModelViewSet):
+    queryset = BarberService.objects.all()
+    serializer_class = ServiceSerializer
+
+    @action(methods=['get'], detail = True)
+    def barbers(self, request, pk = None):
+        service = self.get_object()
+        barbers_list = service.barbers.all()
+        return Response({
+            'barbers': [{
+                'id':barber.id,
+                'name': barber.name,
+
+            }
+            for barber in barbers_list
+            ]
+        })
+        
 
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = BarberBooking.objects.all()
