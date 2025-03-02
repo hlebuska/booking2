@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { H4, H5 } from '@/components/ui/typography';
 import { EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
@@ -40,7 +41,7 @@ export default function ServiceInfoCard() {
         <div className="flex flex-col gap-3 items-start justify-between rounded-lg bordersm:p-4 text-left text-sm transition-all p-3 bg-muted outline-none outline-offset-0  border overflow-hidden">
             <div className="flex justify-between items-center w-full">
                 <H4>Борода 1 головы первой категории</H4>
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="p-2">
                             <EllipsisVertical />
