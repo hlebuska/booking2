@@ -9,9 +9,10 @@ class TimeSlot(models.Model):
 
 class Barber(models.Model):
     name = models.CharField(max_length=100)
-
+    services = models.ManyToManyField('BarberService', related_name='barbers')
     def __str__(self):
         return self.name
+
 
 
 class BarberTime(models.Model):
@@ -29,3 +30,11 @@ class BarberBooking(models.Model):
     phone_number = models.CharField(max_length=30)
     comment = models.TextField()
     booked_at = models.DateTimeField(auto_now_add=True)
+
+class BarberService(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.name

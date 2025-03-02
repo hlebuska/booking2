@@ -18,8 +18,14 @@ class BarberSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Barber
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['services']
 
+
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BarberService
+        fields = '__all__'
 
 
 class BookingSerializer(serializers.ModelSerializer):
