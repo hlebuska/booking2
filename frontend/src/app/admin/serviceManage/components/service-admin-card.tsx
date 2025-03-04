@@ -27,7 +27,7 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
     return (
         <div className="flex flex-col gap-2 items-start justify-between rounded-lg bordersm:p-4 text-left text-sm transition-all p-3 bg-muted outline-none outline-offset-0  border overflow-hidden">
             <div className="flex justify-between items-center w-full">
-                <H4>Борода 1 головы первой категории</H4>
+                <H4>{name}</H4>
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="p-2">
@@ -59,10 +59,7 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                         <b>Описание:</b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-10/12">
-                        Мужская стрижка выполняется машинкой и ножницами. В услугу входит:-подбор стрижки, -мытье головы
-                        до и после стрижки, -стрижка,-укладка профессиональными средствами
-                    </div>
+                    <div className="w-10/12">{description}</div>
                 </div>
             </div>
             <Separator />
@@ -72,7 +69,7 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                         <b>Длительность: </b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-10/12">1ч</div>
+                    <div className="w-10/12">{duration}</div>
                 </div>
             </div>
             <Separator />
@@ -82,7 +79,7 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                         <b>Стоимость: </b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-10/12">10000</div>
+                    <div className="w-10/12">{price}</div>
                 </div>
             </div>
 
