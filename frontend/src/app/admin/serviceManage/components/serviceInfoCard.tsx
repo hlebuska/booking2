@@ -1,24 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { H4, H5 } from '@/components/ui/typography';
+import { H4 } from '@/components/ui/typography';
 import { EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
-
-import {
-    Cloud,
-    CreditCard,
-    Github,
-    Keyboard,
-    LifeBuoy,
-    LogOut,
-    Mail,
-    MessageSquare,
-    Plus,
-    PlusCircle,
-    Settings,
-    User,
-    UserPlus,
-    Users,
-} from 'lucide-react';
 
 import {
     DropdownMenu,
@@ -26,19 +9,15 @@ import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuPortal,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Separator } from '@/components/ui/separator';
 
 // todo: dropdown shadcn
 export default function ServiceInfoCard() {
     return (
-        <div className="flex flex-col gap-3 items-start justify-between rounded-lg bordersm:p-4 text-left text-sm transition-all p-3 bg-muted outline-none outline-offset-0  border overflow-hidden">
+        <div className="flex flex-col gap-2 items-start justify-between rounded-lg bordersm:p-4 text-left text-sm transition-all p-3 bg-muted outline-none outline-offset-0  border overflow-hidden">
             <div className="flex justify-between items-center w-full">
                 <H4>Борода 1 головы первой категории</H4>
                 <DropdownMenu modal={false}>
@@ -65,17 +44,38 @@ export default function ServiceInfoCard() {
                 </DropdownMenu>
             </div>
 
-            <div className="flex flex-col gap-[6px]">
-                <p>
-                    <b>Описание: </b>Мужская стрижка выполняется машинкой и ножницами. В услугу входит:-подбор стрижки,
-                    -мытье головы до и после стрижки, -стрижка,-укладка профессиональными средствами
-                </p>
-                <p>
-                    <b>Длительность: </b>1ч
-                </p>
-                <p>
-                    <b>Стоимость: </b> 100000 т
-                </p>
+            <Separator />
+            <div className="w-full">
+                <div className="flex gap-3">
+                    <div className="w-2/12">
+                        <b>Описание:</b>
+                    </div>
+                    <Separator orientation="vertical" className="h-auto" />
+                    <div className="w-10/12">
+                        Мужская стрижка выполняется машинкой и ножницами. В услугу входит:-подбор стрижки, -мытье головы
+                        до и после стрижки, -стрижка,-укладка профессиональными средствами
+                    </div>
+                </div>
+            </div>
+            <Separator />
+            <div className="w-full">
+                <div className="flex gap-3">
+                    <div className="w-2/12">
+                        <b>Длительность: </b>
+                    </div>
+                    <Separator orientation="vertical" className="h-auto" />
+                    <div className="w-10/12">1ч</div>
+                </div>
+            </div>
+            <Separator />
+            <div className="w-full">
+                <div className="flex gap-3">
+                    <div className="w-2/12">
+                        <b>Стоимость: </b>
+                    </div>
+                    <Separator orientation="vertical" className="h-auto" />
+                    <div className="w-10/12">10000</div>
+                </div>
             </div>
 
             <div className="flex flex-col xs:flex-row-reverse gap-2 w-full"></div>
