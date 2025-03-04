@@ -14,8 +14,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 
+interface IProps {
+    serviceId: number;
+    name: string;
+    description: string;
+    duration: number;
+    price: number;
+}
+
 // todo: dropdown shadcn
-export default function ServiceInfoCard() {
+export default function ServiceAdminCard({ serviceId, name, description, duration, price }: IProps) {
     return (
         <div className="flex flex-col gap-2 items-start justify-between rounded-lg bordersm:p-4 text-left text-sm transition-all p-3 bg-muted outline-none outline-offset-0  border overflow-hidden">
             <div className="flex justify-between items-center w-full">

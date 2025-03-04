@@ -44,3 +44,8 @@ export async function postBooking(bookingData: IPostBooking) {
         throw error; // Ensure error is properly handled
     }
 }
+
+export async function getServices() {
+    const { data } = await axiosApiClient.get(`services/`);
+    return data;
+}
