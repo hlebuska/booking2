@@ -4,14 +4,9 @@ import ServiceSelectList from '@/app/branchSelect/serviceSelect/components/servi
 import { H2 } from '@/components/ui/typography';
 import { useSearch } from '@/hooks/use-search';
 import { SearchIcon } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { getServices } from '@/lib/utils';
-import { useState } from 'react';
-import { useBooking } from '@/hooks/use-booking';
 import useServices from '@/hooks/use-services';
 
 export default function ServiceSelectPage() {
-
     const { unfilteredServices } = useServices();
     const { searchItem, handleInputChange, filteredServices } = useSearch(unfilteredServices ?? []);
 
