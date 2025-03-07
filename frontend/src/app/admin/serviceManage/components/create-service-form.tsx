@@ -7,13 +7,19 @@ import { PhoneInput } from '@/components/ui/phone-input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { IPostBooking, IService } from '@/lib/type/types';
-import { phoneRegex, postBooking, postService } from '@/lib/utils';
+import { phoneRegex, postBooking, postService, queryClient } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { RequiredStar } from '@/components/ui/required-star';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+interface IProps {
+    setOpen: SetBooleanStateType;
+}
 
 interface IBookingFormValues {
     name: string;
@@ -29,7 +35,7 @@ const formSchema = z.object({
     price: z.coerce.number().positive('Цена является обязательным полем.'),
 });
 
-export default function CreateServiceForm() {
+export default function CreateServiceForm({ setOpen }: IProps) {
     const form = useForm<IBookingFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: { name: '', description: '', duration: '', price: 0 },
@@ -45,6 +51,9 @@ export default function CreateServiceForm() {
                 title: 'Услуга успешна создана.',
                 description: 'Создание услуги ${name} прошло успешно.',
             });
+            form.reset();
+            queryClient.invalidateQueries(['services']);
+            setOpen(false);
         },
         onError: (error) => {
             if (axios.isAxiosError(error)) {
