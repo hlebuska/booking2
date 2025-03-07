@@ -6,8 +6,8 @@ import { Input } from '@/components/ui/input';
 import { PhoneInput } from '@/components/ui/phone-input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { IPostBooking } from '@/lib/type/types';
-import { phoneRegex, postBooking } from '@/lib/utils';
+import { IPostBooking, IService } from '@/lib/type/types';
+import { phoneRegex, postBooking, postService } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
@@ -26,7 +26,7 @@ const formSchema = z.object({
     name: z.string().min(1, 'Имя является обязательным полем.'),
     description: z.string().min(1, 'Описание является обязательным полем.'),
     duration: z.string().min(1, 'Длительность является обязательным полем.'),
-    price: z.number().positive('Цена является обязательным полем.'),
+    price: z.coerce.number().positive('Цена является обязательным полем.'),
 });
 
 export default function CreateServiceForm() {
@@ -36,14 +36,14 @@ export default function CreateServiceForm() {
     });
 
     const mutation = useMutation({
-        mutationFn: (data: IPostBooking) => {
-            return postBooking(data);
+        mutationFn: (data: Omit<IService, 'id'>) => {
+            return postService(data);
         },
         onSuccess: (data) => {
             toast({
                 variant: 'success',
-                title: 'Запись прошла успешно.',
-                description: 'Запись к мастеру ${barber_id} на ${time_id} прошла успешно.',
+                title: 'Услуга успешна создана.',
+                description: 'Создание услуги ${name} прошло успешно.',
             });
         },
         onError: (error) => {
@@ -68,7 +68,7 @@ export default function CreateServiceForm() {
     const { toast } = useToast();
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        mutation.mutate({ ...values, barber_id, time_id });
+        mutation.mutate({ ...values });
     }
 
     return (
