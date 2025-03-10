@@ -13,9 +13,8 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { deleteService, queryClient } from '@/lib/utils';
-import { ConfirmDialog } from '@/components/feature/confirm-dialog';
 import useConfirm from '@/hooks/use-confirm';
+import { deleteService, queryClient } from '@/lib/utils';
 
 interface IProps {
     serviceId: number;

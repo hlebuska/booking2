@@ -42,7 +42,7 @@ export default function CreateServiceForm({ setOpen }: IProps) {
         mutationFn: (data: Omit<IService, 'id'>) => {
             return postService(data);
         },
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast({
                 variant: 'success',
                 title: 'Услуга успешна создана.',
