@@ -58,3 +58,12 @@ export async function postService(serviceData: Omit<IService, 'id'>) {
         throw error;
     }
 }
+
+export async function deleteService(id: number) {
+    try {
+        const { data } = await axiosApiClient.delete(`services/${id}/`);
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}

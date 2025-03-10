@@ -13,6 +13,9 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
+import { deleteService, queryClient } from '@/lib/utils';
+import { ConfirmDialog } from '@/components/feature/confirm-dialog';
+import useConfirm from '@/hooks/use-confirm';
 
 interface IProps {
     serviceId: number;
@@ -24,6 +27,8 @@ interface IProps {
 
 // todo: dropdown shadcn
 export default function ServiceAdminCard({ serviceId, name, description, duration, price }: IProps) {
+    const confirm = useConfirm();
+
     return (
         <div className="flex flex-col items-start justify-between rounded-lg bordersm:p-4 text-left text-sm transition-all p-3 bg-muted outline-none outline-offset-0  border overflow-hidden">
             <div className="flex justify-between items-center w-full">
@@ -42,7 +47,20 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                                 <Pencil />
                                 <span>Редактировать</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem
+                                onSelect={(e) => {
+                                    e.preventDefault();
+
+                                    confirm({
+                                        title: 'Вы уверены что хотите удалить эту услугу?',
+                                        description: 'Это действие безвозвратно удалит услугу.',
+                                        onConfirm: async () => {
+                                            await deleteService(serviceId);
+                                            queryClient.invalidateQueries({ queryKey: ['services'] });
+                                        },
+                                    });
+                                }}
+                            >
                                 <Trash2 />
                                 <span>Удалить</span>
                             </DropdownMenuItem>

@@ -3,19 +3,16 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { PhoneInput } from '@/components/ui/phone-input';
+import { RequiredStar } from '@/components/ui/required-star';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { IPostBooking, IService } from '@/lib/type/types';
-import { phoneRegex, postBooking, postService, queryClient } from '@/lib/utils';
+import { IService, SetBooleanStateType } from '@/lib/type/types';
+import { postService, queryClient } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { RequiredStar } from '@/components/ui/required-star';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 interface IProps {
     setOpen: SetBooleanStateType;
@@ -52,7 +49,8 @@ export default function CreateServiceForm({ setOpen }: IProps) {
                 description: 'Создание услуги ${name} прошло успешно.',
             });
             form.reset();
-            queryClient.invalidateQueries(['services']);
+            queryClient.invalidateQueries({ queryKey: ['services'] });
+
             setOpen(false);
         },
         onError: (error) => {
