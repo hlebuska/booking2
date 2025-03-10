@@ -1,7 +1,7 @@
 'use client';
 
 import { IService } from '@/lib/type/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function useSearch(unfilteredServices: IService[]) {
     const [searchItem, setSearchItem] = useState('');
@@ -20,6 +20,11 @@ export function useSearch(unfilteredServices: IService[]) {
             setFilteredServices(unfilteredServices);
         }
     };
+
+    //Update unfilteredServices on fetch
+    useEffect(() => {
+        setFilteredServices(unfilteredServices);
+    }, [unfilteredServices]);
 
     return { searchItem, handleInputChange, filteredServices };
 }
