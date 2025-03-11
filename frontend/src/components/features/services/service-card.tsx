@@ -8,11 +8,14 @@ interface IProps {
     serviceId: number;
     name: string;
     description: string;
-    duration: string;
+    duration: number;
     price: number;
 }
 
 export default function ServiceCard({ serviceId, name, description, duration, price }: IProps) {
+    const hours = Math.floor(duration / 60);
+    const minutes = duration % 60;
+
     const router = useRouter();
     const { setServiceId, setMasterId } = useStore();
 
@@ -37,7 +40,7 @@ export default function ServiceCard({ serviceId, name, description, duration, pr
             <div className="flex flex-col gap-2">
                 <H5>{name}</H5>
                 <p className="text-zinc-500">
-                    {duration} · {description}
+                    {hours ? `${hours} ч.` : ''} {minutes} мин. · {description}
                 </p>
                 <H5 className="font-normal">{price} ₸</H5>
             </div>

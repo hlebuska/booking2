@@ -26,38 +26,46 @@ interface IProps {
 interface IBookingFormValues {
     name: string;
     description: string;
-    duration: number;
+    hours: number;
+    minutes: number;
     price: number;
 }
 
 const formSchema = z.object({
-    name: z.string(),
-    description: z.string(),
-    duration: z.coerce.number(),
-    price: z.coerce.number(),
+    name: z.string().min(1, 'Имя является обязательным полем.'),
+    description: z.string().min(1, 'Описание является обязательным полем.'),
+    hours: z.coerce.number().nonnegative('Часы должно быть 0 или больше.'),
+    minutes: z.coerce.number().nonnegative('Минуты должно быть 0 или больше.').max(59, 'Минут должно быть меньше 60'),
+    price: z.coerce.number().positive('Цена является обязательным полем.'),
 });
 
-export default function PatchServiceForm({ id, name, description, duration, price }: IProps) {
+export default function PatchServiceForm({ id, name, description, duration = 0, price }: IProps) {
     const { setOpen } = useDialogStore();
+
+    const defaultHours = Math.floor(duration / 60);
+    const defaultMinutes = duration % 60;
 
     const form = useForm<IBookingFormValues>({
         resolver: zodResolver(formSchema),
-        defaultValues: { name, description, duration, price },
+        defaultValues: {
+            name: name || '',
+            description: description || '',
+            hours: defaultHours,
+            minutes: defaultMinutes,
+            price: price || 0,
+        },
     });
 
     const mutation = useMutation({
-        mutationFn: (data: IPatchService) => {
-            return patchService(id, data);
-        },
+        mutationFn: (data: IPatchService) => patchService(id, data),
         onSuccess: () => {
             toast({
                 variant: 'success',
-                title: 'Услуга успешна создана.',
-                description: `Создание услуги ${name} прошло успешно.`,
+                title: 'Услуга успешно отредактирована.',
+                description: `Редактирование услуги "${name}" прошло успешно.`,
             });
             form.reset();
             queryClient.invalidateQueries({ queryKey: ['services'] });
-
             setOpen(false);
         },
         onError: (error) => {
@@ -81,8 +89,17 @@ export default function PatchServiceForm({ id, name, description, duration, pric
 
     const { toast } = useToast();
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        mutation.mutate({ ...values });
+    function onSubmit(formData: z.infer<typeof formSchema>) {
+        const duration = formData.hours * 60 + formData.minutes;
+
+        const submitData = {
+            ...formData,
+            duration,
+            ...(formData.hours !== undefined ? {} : { hours: undefined }),
+            ...(formData.minutes !== undefined ? {} : { minutes: undefined }),
+        };
+
+        mutation.mutate(submitData);
     }
 
     return (
@@ -98,9 +115,8 @@ export default function PatchServiceForm({ id, name, description, duration, pric
                                     Название <RequiredStar />
                                 </FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Введите название услуги." type="" {...field} />
+                                    <Input placeholder="Введите название услуги." {...field} />
                                 </FormControl>
-
                                 <FormMessage />
                             </FormItem>
                         )}
@@ -121,27 +137,11 @@ export default function PatchServiceForm({ id, name, description, duration, pric
                                         {...field}
                                     />
                                 </FormControl>
-
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="duration"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>
-                                    Длительность <RequiredStar />
-                                </FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Введите длительность." type="number" {...field} />
-                                </FormControl>
 
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
                     <FormField
                         control={form.control}
                         name="price"
@@ -153,11 +153,48 @@ export default function PatchServiceForm({ id, name, description, duration, pric
                                 <FormControl>
                                     <Input placeholder="Введите стоимость услуги." type="number" {...field} />
                                 </FormControl>
-
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
+
+                    <div>
+                        <FormLabel>
+                            Длительность <RequiredStar />
+                        </FormLabel>
+                        <div className="flex gap-3 mt-2">
+                            {/* ✅ Hours Field */}
+                            <FormField
+                                control={form.control}
+                                name="hours"
+                                render={({ field }) => (
+                                    <FormItem className="w-1/6">
+                                        <FormControl>
+                                            <Input type="number" {...field} />
+                                        </FormControl>
+                                        <FormLabel>Часы</FormLabel>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* ✅ Minutes Field */}
+                            <FormField
+                                control={form.control}
+                                name="minutes"
+                                render={({ field }) => (
+                                    <FormItem className="w-1/6">
+                                        <FormControl>
+                                            <Input type="number" {...field} />
+                                        </FormControl>
+                                        <FormLabel>Минуты</FormLabel>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
+
                     <Button type="submit">Редактировать услугу</Button>
                 </form>
             </Form>

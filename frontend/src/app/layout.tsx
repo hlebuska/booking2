@@ -7,7 +7,7 @@ import { queryClient } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import BreadcrumbsBar from '@/components/ui/breadcrumbs-bar';
 import { ConfirmDialog } from '@/components/common/confirm-dialog';
-import GlobalDialog from '@/components/features/services/global-dialog';
+import GlobalDialog from '@/components/common/global-dialog';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
