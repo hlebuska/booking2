@@ -5,8 +5,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { RequiredStar } from '@/components/ui/required-star';
 import { Textarea } from '@/components/ui/textarea';
+import { useDialogStore } from '@/hooks/use-dialog-store';
 import { useToast } from '@/hooks/use-toast';
-import { IService, SetBooleanStateType } from '@/lib/type/types';
+import { IService } from '@/lib/type/types';
 import { postService, queryClient } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -14,28 +15,26 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-interface IProps {
-    setOpen: SetBooleanStateType;
-}
-
 interface IBookingFormValues {
     name: string;
     description: string;
-    duration: string;
+    duration: number;
     price: number;
 }
 
 const formSchema = z.object({
     name: z.string().min(1, 'Имя является обязательным полем.'),
     description: z.string().min(1, 'Описание является обязательным полем.'),
-    duration: z.string().min(1, 'Длительность является обязательным полем.'),
+    duration: z.number().positive('Длительность является обязательным полем.'),
     price: z.coerce.number().positive('Цена является обязательным полем.'),
 });
 
-export default function CreateServiceForm({ setOpen }: IProps) {
+export default function CreateServiceForm() {
+    const { setOpen } = useDialogStore();
+
     const form = useForm<IBookingFormValues>({
         resolver: zodResolver(formSchema),
-        defaultValues: { name: '', description: '', duration: '', price: 0 },
+        defaultValues: { name: '', description: '', duration: 0, price: 0 },
     });
 
     const mutation = useMutation({
@@ -128,7 +127,7 @@ export default function CreateServiceForm({ setOpen }: IProps) {
                                     Длительность <RequiredStar />
                                 </FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Введите длительность." type="" {...field} />
+                                    <Input placeholder="Введите длительность." type="number" {...field} />
                                 </FormControl>
 
                                 <FormMessage />

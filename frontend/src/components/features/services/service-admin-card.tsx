@@ -14,18 +14,21 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import useConfirm from '@/hooks/use-confirm';
+import { useDialogStore } from '@/hooks/use-dialog-store';
 import { deleteService, queryClient } from '@/lib/utils';
+import PatchServiceForm from './patch-service-form';
 
 interface IProps {
     serviceId: number;
     name: string;
     description: string;
-    duration: string;
+    duration: number;
     price: number;
 }
 
 export default function ServiceAdminCard({ serviceId, name, description, duration, price }: IProps) {
-    const confirm = useConfirm();
+    const { confirm } = useConfirm();
+    const { openDialog} = useDialogStore();
 
     return (
         <div className="flex flex-col items-start justify-between rounded-lg bordersm:p-4 text-left text-sm transition-all p-3 bg-muted outline-none outline-offset-0  border overflow-hidden">
@@ -41,7 +44,24 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                         <DropdownMenuLabel>Услуга</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem
+                                onSelect={(e) => {
+                                    e.preventDefault();
+
+                                    openDialog({
+                                        content: (
+                                            <PatchServiceForm
+                                                id={serviceId}
+                                                name={name}
+                                                description={description}
+                                                duration={duration}
+                                                price={price}
+                                            />
+                                        ),
+                                        title: 'Редактирование услуги.',
+                                    });
+                                }}
+                            >
                                 <Pencil />
                                 <span>Редактировать</span>
                             </DropdownMenuItem>
