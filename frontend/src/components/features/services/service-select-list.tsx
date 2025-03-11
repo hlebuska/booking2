@@ -1,7 +1,7 @@
 'use client';
 import { IService } from '@/lib/type/types';
 import ServiceCard from './service-card';
-import { H3 } from '../../../../components/ui/typography';
+import { H3 } from '../../ui/typography';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
 
 interface IProps {

@@ -8,7 +8,7 @@ interface IProps {
     serviceId: number;
     name: string;
     description: string;
-    duration: number;
+    duration: string;
     price: number;
 }
 

@@ -6,7 +6,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '../../../../../components/ui/button';
+import { Button } from '../../ui/button';
 import BookingForm from './booking-form';
 
 interface IProps {

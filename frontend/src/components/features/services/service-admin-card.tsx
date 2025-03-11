@@ -20,11 +20,10 @@ interface IProps {
     serviceId: number;
     name: string;
     description: string;
-    duration: number;
+    duration: string;
     price: number;
 }
 
-// todo: dropdown shadcn
 export default function ServiceAdminCard({ serviceId, name, description, duration, price }: IProps) {
     const confirm = useConfirm();
 

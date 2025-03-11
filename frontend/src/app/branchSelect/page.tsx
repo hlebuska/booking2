@@ -1,4 +1,4 @@
-import BranchCard from './components/branch-card';
+import BranchCard from '../../components/features/branches/branch-card';
 
 export default function Home() {
     return (

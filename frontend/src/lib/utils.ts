@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { IPostBooking, IService } from './type/types';
+import { IPatchService, IPostBooking, IService } from './type/types';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -45,6 +45,7 @@ export async function postBooking(bookingData: IPostBooking) {
     }
 }
 
+//Services
 export async function getServices() {
     const { data } = await axiosApiClient.get(`services/`);
     return data;
@@ -62,6 +63,15 @@ export async function postService(serviceData: Omit<IService, 'id'>) {
 export async function deleteService(id: number) {
     try {
         const { data } = await axiosApiClient.delete(`services/${id}/`);
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function patchService(id: number, serviceData: IPatchService) {
+    try {
+        const { data } = await axiosApiClient.patch(`services/${id}/`, serviceData);
         return data;
     } catch (error) {
         throw error;

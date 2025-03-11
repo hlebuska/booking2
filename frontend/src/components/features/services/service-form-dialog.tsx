@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogContent,
@@ -6,14 +7,15 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
-import CreateServiceForm from './create-service-form';
-import { useState } from 'react';
-// import BookingForm from './booking-form';
+import React, { useState } from 'react';
 
-//Responsible for opening a dialog with form to create a service
-export default function CreateServiceFormDialog() {
+interface IProps {
+    children: React.ReactNode;
+}
+
+//Responsible for opening a dialog with form to create/patch a service
+export default function ServiceFormDialog({ children }: IProps) {
     const [open, setOpen] = useState<boolean>(false);
 
     return (
@@ -28,8 +30,7 @@ export default function CreateServiceFormDialog() {
                     <DialogTitle>Новая услуга</DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
-
-                <CreateServiceForm setOpen={setOpen} />
+                {children}
             </DialogContent>
         </Dialog>
     );

@@ -8,7 +8,7 @@ interface IProps {
 
 export default function ServiceAdminList({ services }: IProps) {
     return (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-5">
             {services && services.length > 0 ? (
                 services.map((service, index) => (
                     <ServiceAdminCard
