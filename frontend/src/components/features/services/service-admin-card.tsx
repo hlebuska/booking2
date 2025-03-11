@@ -13,9 +13,10 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { deleteService, queryClient } from '@/lib/utils';
-import { ConfirmDialog } from '@/components/feature/confirm-dialog';
 import useConfirm from '@/hooks/use-confirm';
+import { useDialogStore } from '@/hooks/use-dialog-store';
+import { deleteService, queryClient } from '@/lib/utils';
+import PatchServiceForm from './patch-service-form';
 
 interface IProps {
     serviceId: number;
@@ -25,9 +26,12 @@ interface IProps {
     price: number;
 }
 
-// todo: dropdown shadcn
 export default function ServiceAdminCard({ serviceId, name, description, duration, price }: IProps) {
-    const confirm = useConfirm();
+    const hours = Math.floor(duration / 60);
+    const minutes = duration % 60;
+
+    const { confirm } = useConfirm();
+    const { openDialog } = useDialogStore();
 
     return (
         <div className="flex flex-col items-start justify-between rounded-lg bordersm:p-4 text-left text-sm transition-all p-3 bg-muted outline-none outline-offset-0  border overflow-hidden">
@@ -43,7 +47,24 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                         <DropdownMenuLabel>Услуга</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem
+                                onSelect={(e) => {
+                                    e.preventDefault();
+
+                                    openDialog({
+                                        content: (
+                                            <PatchServiceForm
+                                                id={serviceId}
+                                                name={name}
+                                                description={description}
+                                                duration={duration}
+                                                price={price}
+                                            />
+                                        ),
+                                        title: 'Редактирование услуги.',
+                                    });
+                                }}
+                            >
                                 <Pencil />
                                 <span>Редактировать</span>
                             </DropdownMenuItem>
@@ -76,11 +97,7 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                         <b>Описание:</b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-9/12">
-                        {description} [Временный большой текст. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Atque reprehenderit culpa aspernatur alias soluta dicta eligendi facilis aperiam error sapiente.
-                        Временный большой текст.]
-                    </div>
+                    <div className="w-9/12">{description}</div>
                 </div>
             </div>
 
@@ -90,7 +107,9 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                         <b>Длительность: </b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-9/12">{duration}</div>
+                    <div className="w-9/12">
+                        {hours ? `${hours} ч.` : ''} {minutes} мин.
+                    </div>
                 </div>
             </div>
 
@@ -100,7 +119,7 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                         <b>Стоимость: </b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-9/12">{price}</div>
+                    <div className="w-9/12">{price} ₸</div>
                 </div>
             </div>
 

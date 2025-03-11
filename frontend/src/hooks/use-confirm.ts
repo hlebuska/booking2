@@ -5,11 +5,13 @@ interface ConfirmDialogOptions {
 }
 
 export default function useConfirm() {
-    return ({ title, description, onConfirm }: ConfirmDialogOptions) => {
-        window.dispatchEvent(
-            new CustomEvent('open-confirm-dialog', {
-                detail: { title, description, onConfirm: onConfirm ?? (() => {}) },
-            })
-        );
+    return {
+        confirm: ({ title, description, onConfirm }: ConfirmDialogOptions) => {
+            window.dispatchEvent(
+                new CustomEvent('open-confirm-dialog', {
+                    detail: { title, description, onConfirm: onConfirm ?? (() => {}) },
+                })
+            );
+        },
     };
 }

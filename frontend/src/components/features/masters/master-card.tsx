@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import { H5 } from '../../../../../components/ui/typography';
+import { H5 } from '@/components/ui/typography';
 
 interface IProps {
     name: string;
