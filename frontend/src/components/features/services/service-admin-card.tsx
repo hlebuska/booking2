@@ -61,7 +61,8 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                                                 price={price}
                                             />
                                         ),
-                                        title: 'Редактирование услуги.',
+                                        title: 'Редактирование услуги',
+                                        description: 'Введите данные об услуге.',
                                     });
                                 }}
                             >

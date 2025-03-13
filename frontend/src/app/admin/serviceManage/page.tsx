@@ -28,7 +28,7 @@ export default function ServiceManage() {
                 onClick={() => {
                     openDialog({
                         content: <CreateServiceForm />,
-                        title: 'Создание услуги.',
+                        title: 'Создание услуги',
                         description: 'Введите данные об услуге.',
                     });
                 }}
