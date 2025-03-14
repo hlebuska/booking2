@@ -46,7 +46,7 @@ export default function BranchCard({ name, address, mapSrc, gisLink, googleLink 
                     <LogoLink
                         name={'Google Maps'}
                         imgSrc={
-                            'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-map-icon.png'
+                            'https://cdn.iconscout.com/icon/free/png-256/free-google-maps-logo-icon-download-in-svg-png-gif-file-formats--new-logos-pack-icons-2476488.png?f=webp&w=256'
                         }
                         src={googleLink}
                     />

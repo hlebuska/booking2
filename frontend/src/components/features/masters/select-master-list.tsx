@@ -10,16 +10,19 @@ interface IProps {
 export default function SelectMasterList({ masters, setMasterId, selectedMaster }: IProps) {
     return (
         <div className="flex flex-col gap-3 sm:gap-3">
-            {masters?.map((master: IMaster) => (
-                //close on select
-                <MasterCard
-                    name={master.name}
-                    key={master.id}
-                    id={master.id}
-                    setMasterId={setMasterId}
-                    isSelected={master.id === selectedMaster}
-                />
-            ))}
+            {masters && masters.length > 0 ? (
+                masters?.map((master: IMaster) => (
+                    <MasterCard
+                        name={master.name}
+                        key={master.id}
+                        id={master.id}
+                        setMasterId={setMasterId}
+                        isSelected={master.id === selectedMaster}
+                    />
+                ))
+            ) : (
+                <>Нет доступных мастеров.</>
+            )}
         </div>
     );
 }

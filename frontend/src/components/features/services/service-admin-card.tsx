@@ -36,7 +36,7 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
     return (
         <div className="flex flex-col items-start justify-between rounded-lg bordersm:p-4 text-left text-sm transition-all p-3 bg-muted outline-none outline-offset-0  border overflow-hidden">
             <div className="flex justify-between items-center w-full">
-                <H4 className="mb-3">{name}</H4>
+                <H4 className="mb-3 ml-1">{name}</H4>
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="p-2">
@@ -61,7 +61,8 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                                                 price={price}
                                             />
                                         ),
-                                        title: 'Редактирование услуги.',
+                                        title: 'Редактирование услуги',
+                                        description: 'Введите данные об услуге.',
                                     });
                                 }}
                             >
@@ -74,7 +75,7 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
 
                                     confirm({
                                         title: 'Вы уверены что хотите удалить эту услугу?',
-                                        description: 'Это действие безвозвратно удалит услугу.',
+                                        description: `Это действие безвозвратно удалит услугу - (${name}).`,
                                         onConfirm: async () => {
                                             await deleteService(serviceId);
                                             queryClient.invalidateQueries({ queryKey: ['services'] });
@@ -91,35 +92,35 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                 </DropdownMenu>
             </div>
 
-            <div className="w-full border-b border-t py-1">
+            <div className="w-full border-b border-t py-1 text-xs xs:text-sm">
                 <div className="flex gap-3">
-                    <div className="w-3/12">
+                    <div className="w-3/12 truncate text-center">
                         <b>Описание:</b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-9/12">{description}</div>
+                    <div className="w-8/12 break-words">{description}</div>
                 </div>
             </div>
 
-            <div className="w-full py-1">
+            <div className="w-full py-1 text-xs xs:text-sm">
                 <div className="flex gap-3">
-                    <div className="w-3/12">
+                    <div className="w-3/12 truncate text-center">
                         <b>Длительность: </b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-9/12">
+                    <div className="w-8/12">
                         {hours ? `${hours} ч.` : ''} {minutes} мин.
                     </div>
                 </div>
             </div>
 
-            <div className="w-full border-b border-t  py-1">
+            <div className="w-full border-b border-t  py-1 text-xs xs:text-sm">
                 <div className="flex gap-3">
-                    <div className="w-3/12">
-                        <b>Стоимость: </b>
+                    <div className="w-3/12 truncate text-center ">
+                        <b className="w-full">Стоимость: </b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-9/12">{price} ₸</div>
+                    <div className="w-8/12">{price} ₸</div>
                 </div>
             </div>
 
