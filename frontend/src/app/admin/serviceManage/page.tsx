@@ -35,9 +35,7 @@ export default function ServiceManage() {
             >
                 Создать услугу
             </Button>
-            <div className="flex flex-col gap-3">
-                <IconInput icon={<SearchIcon strokeWidth={2} />} value={searchItem} onChange={handleInputChange} />
-            </div>
+            <IconInput icon={<SearchIcon strokeWidth={2} />} value={searchItem} onChange={handleInputChange} />
 
             <ServiceAdminList services={filteredServices} />
         </div>

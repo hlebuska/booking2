@@ -10,7 +10,7 @@ import {
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Separator } from '@/components/ui/separator';
-import { Building2, CircleUserRound, Scissors, Settings, SquareUser, UserRound } from 'lucide-react';
+import { Building2, Scissors, Settings, UserRound } from 'lucide-react';
 
 export default function AdminHome() {
     return (

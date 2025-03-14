@@ -27,7 +27,7 @@ export default function ServiceCard({ serviceId, name, description, duration, pr
 
     return (
         <div
-            className="flex flex-col  items-start justify-between rounded-[10px] bordersm:p-4 text-left text-sm transition-all hover:bg-gray-100 bg-muted outline-none outline-offset-0  hover:outline-gray-100 cursor-pointer  overflow-hidden border "
+            className="flex flex-col  items-start justify-between rounded-[10px] bordersm:p-4 text-left text-sm transition-all hover:bg-gray-50 bg-muted outline-none outline-offset-0  cursor-pointer  overflow-hidden border "
             onClick={() => handleServiceSelect()}
         >
             <div className="w-full">
