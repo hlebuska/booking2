@@ -39,7 +39,7 @@ export default function ServiceCard({ serviceId, name, description, duration, pr
             </div>
             <div className="flex flex-col gap-2 p-2">
                 <H5>{name}</H5>
-                <p className="text-zinc-500">
+                <p className="text-zinc-500 break-normal">
                     {hours ? `${hours} ч.` : ''} {minutes} мин. · {description}
                 </p>
                 <H5 className="font-normal">{price} ₸</H5>
