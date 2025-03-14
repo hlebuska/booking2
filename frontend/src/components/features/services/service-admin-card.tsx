@@ -75,7 +75,7 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
 
                                     confirm({
                                         title: 'Вы уверены что хотите удалить эту услугу?',
-                                        description: 'Это действие безвозвратно удалит услугу.',
+                                        description: `Это действие безвозвратно удалит услугу - (${name}).`,
                                         onConfirm: async () => {
                                             await deleteService(serviceId);
                                             queryClient.invalidateQueries({ queryKey: ['services'] });
@@ -92,35 +92,35 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                 </DropdownMenu>
             </div>
 
-            <div className="w-full border-b border-t py-1">
+            <div className="w-full border-b border-t py-1 text-xs xs:text-sm">
                 <div className="flex gap-3">
-                    <div className="w-3/12">
+                    <div className="w-3/12 truncate">
                         <b>Описание:</b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-9/12">{description}</div>
+                    <div className="w-8/12 break-words">{description}</div>
                 </div>
             </div>
 
-            <div className="w-full py-1">
+            <div className="w-full py-1 text-xs xs:text-sm">
                 <div className="flex gap-3">
-                    <div className="w-3/12">
+                    <div className="w-3/12 truncate">
                         <b>Длительность: </b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-9/12">
+                    <div className="w-8/12">
                         {hours ? `${hours} ч.` : ''} {minutes} мин.
                     </div>
                 </div>
             </div>
 
-            <div className="w-full border-b border-t  py-1">
+            <div className="w-full border-b border-t  py-1 text-xs xs:text-sm">
                 <div className="flex gap-3">
-                    <div className="w-3/12">
+                    <div className="w-3/12 truncate">
                         <b>Стоимость: </b>
                     </div>
                     <Separator orientation="vertical" className="h-auto" />
-                    <div className="w-9/12">{price} ₸</div>
+                    <div className="w-8/12">{price} ₸</div>
                 </div>
             </div>
 
