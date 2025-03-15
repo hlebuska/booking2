@@ -123,8 +123,6 @@ export default function ServiceAdminCard({ serviceId, name, description, duratio
                     <div className="w-8/12">{price} ₸</div>
                 </div>
             </div>
-
-            <div className="flex flex-col xs:flex-row-reverse gap-2 w-full"></div>
         </div>
     );
 }

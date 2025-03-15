@@ -38,7 +38,7 @@ export default function AdminHome() {
                         <Separator orientation="vertical" className="h-6 w-[1px] hidden xs:block" />
 
                         <NavigationMenuItem className="border-b xs:border-none w-full">
-                            <Link href="/docs" legacyBehavior passHref>
+                            <Link href="/admin/masterManage" legacyBehavior passHref>
                                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                     <UserRound size={16} strokeWidth={1.5} className="mr-1" /> Мастера
                                 </NavigationMenuLink>

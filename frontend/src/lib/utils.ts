@@ -17,6 +17,7 @@ export const breadcrumbNames: Record<string, string> = {
     masterTimeSelect: 'Мастер и время',
     admin: 'Администрирование',
     serviceManage: 'Настройка услуг',
+    masterManage: 'Настройка мастеров',
 };
 
 export const queryClient = new QueryClient({ defaultOptions: { queries: { refetchOnWindowFocus: false } } });
