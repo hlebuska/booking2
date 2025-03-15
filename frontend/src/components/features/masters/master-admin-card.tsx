@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { H4 } from '@/components/ui/typography';
-import { EllipsisVertical, Pencil, Settings, Settings2, Trash2 } from 'lucide-react';
+import { EllipsisVertical, Pencil, Settings2, Trash2 } from 'lucide-react';
 
 import {
     DropdownMenu,
@@ -12,9 +12,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import useConfirm from '@/hooks/use-confirm';
 import { useDialogStore } from '@/hooks/use-dialog-store';
-import { Separator } from '@/components/ui/separator';
 import MastersServiceList from './master-service-list/masters-service-list';
 
 interface IProps {
@@ -24,7 +22,6 @@ interface IProps {
 }
 
 export default function MasterAdminCard({ masterId, name, description }: IProps) {
-    const { confirm } = useConfirm();
     const { openDialog } = useDialogStore();
 
     return (

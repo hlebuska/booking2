@@ -1,13 +1,13 @@
 'use client';
+import AdminCard from '@/components/features/admin/admin-card';
+import MastersServiceList from '@/components/features/masters/master-service-list/masters-service-list';
 import CreateServiceForm from '@/components/features/services/create-service-form';
 import { Button } from '@/components/ui/button';
 import IconInput from '@/components/ui/icon-input';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { useSearch } from '@/hooks/use-search';
 import useServices from '@/hooks/use-services';
-import { SearchIcon } from 'lucide-react';
-import ServiceAdminList from '../../../components/features/services/service-admin-list';
-import MasterAdminCard from '@/components/features/masters/master-admin-card';
+import { SearchIcon, Settings2 } from 'lucide-react';
 
 export default function ServiceManage() {
     const { unfilteredServices } = useServices();
@@ -28,7 +28,33 @@ export default function ServiceManage() {
                 Создать мастера
             </Button>
             <IconInput icon={<SearchIcon strokeWidth={2} />} value={searchItem} onChange={handleInputChange} />
-            <MasterAdminCard name="Барбер 1" masterId={1} description="1 категория" />
+
+            <AdminCard>
+                <AdminCard.Header>Глеб</AdminCard.Header>
+                <AdminCard.Row>
+                    <AdminCard.RowTitle>Описание: </AdminCard.RowTitle>
+                    <AdminCard.RowDescription>Первая категория</AdminCard.RowDescription>
+                </AdminCard.Row>
+                <AdminCard.Row>
+                    <AdminCard.RowTitle>Услуги: </AdminCard.RowTitle>
+                    <AdminCard.RowDescription truncate>
+                        Стрижка головы 1 категории, Стрижка головы и бороды, Стижка бесплатная (налысо)
+                    </AdminCard.RowDescription>
+                    <Button
+                        variant="ghost"
+                        className="p-2 h-fit"
+                        onClick={() =>
+                            openDialog({
+                                content: <MastersServiceList />,
+                                title: 'Редактирование доступных услуг',
+                                description: 'Выберите услуги которые может выполнять данный мастер.',
+                            })
+                        }
+                    >
+                        <Settings2 />
+                    </Button>
+                </AdminCard.Row>
+            </AdminCard>
         </div>
     );
 }

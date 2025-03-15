@@ -89,7 +89,7 @@ export default function CreateServiceForm() {
     }
 
     return (
-        <div className="mx-auto w-full max-w-3xl p-0 sm:p-6">
+        <div className="mx-auto w-full max-w-3xl">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
                     <FormField

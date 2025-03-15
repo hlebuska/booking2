@@ -10,6 +10,13 @@ export function cn(...inputs: ClassValue[]) {
 
 export const phoneRegex = new RegExp(/^\+7\s?7\d{2}\s?\d{3}\s?\d{4}$/);
 
+export const formatDuration = (duration: number): string => {
+    const hours = Math.floor(duration / 60);
+    const minutes = duration % 60;
+
+    return `${hours ? `${hours} ч.` : ''} ${minutes ? `${minutes} мин.` : ''}`.trim();
+};
+
 export const breadcrumbNames: Record<string, string> = {
     '': 'Главная',
     branchSelect: 'Филиал',

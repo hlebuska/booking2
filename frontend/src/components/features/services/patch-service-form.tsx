@@ -103,7 +103,7 @@ export default function PatchServiceForm({ id, name, description, duration = 0, 
     }
 
     return (
-        <div className="mx-auto w-full max-w-3xl p-0 sm:p-6">
+        <div className="mx-auto w-full max-w-3xl p-0">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
                     <FormField
