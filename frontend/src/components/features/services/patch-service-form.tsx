@@ -31,13 +31,27 @@ interface IBookingFormValues {
     price: number;
 }
 
-const formSchema = z.object({
-    name: z.string().min(1, 'Имя является обязательным полем.'),
-    description: z.string().min(1, 'Описание является обязательным полем.'),
-    hours: z.coerce.number().nonnegative('Часы должно быть 0 или больше.'),
-    minutes: z.coerce.number().nonnegative('Минуты должно быть 0 или больше.').max(59, 'Минут должно быть меньше 60'),
-    price: z.coerce.number().positive('Цена является обязательным полем.'),
-});
+const formSchema = z
+    .object({
+        name: z.string().min(1, 'Имя является обязательным полем.'),
+        description: z.string().min(1, 'Описание является обязательным полем.'),
+        hours: z.coerce.number().nonnegative('Часы является обязательным полем.'),
+        minutes: z.coerce
+            .number()
+            .nonnegative({ message: 'Минуты не могут быть отрицательными.' })
+            .max(59, 'Минут должно быть меньше 60'),
+        price: z.coerce.number().positive('Цена является обязательным полем.'),
+    })
+    .refine(
+        (data) => {
+            // Ensure minutes can be 0 only if hours > 0
+            return data.hours > 0 || data.minutes > 0;
+        },
+        {
+            message: 'Минуты должны быть больше 0, если часы равны 0.',
+            path: ['minutes'], // Attach error to minutes field
+        }
+    );
 
 export default function PatchServiceForm({ id, name, description, duration = 0, price }: IProps) {
     const { setOpen } = useDialogStore();
@@ -103,7 +117,7 @@ export default function PatchServiceForm({ id, name, description, duration = 0, 
     }
 
     return (
-        <div className="mx-auto w-full max-w-3xl p-0 sm:p-6">
+        <div className="mx-auto w-full max-w-3xl p-0">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
                     <FormField

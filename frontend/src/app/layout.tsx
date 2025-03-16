@@ -5,9 +5,10 @@ import './globals.css';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
-import BreadcrumbsBar from '@/components/ui/breadcrumbs-bar';
+import BreadcrumbsBar from '@/components/common/breadcrumbs-bar';
 import { ConfirmDialog } from '@/components/common/confirm-dialog';
 import GlobalDialog from '@/components/common/global-dialog';
+import AdminNavbar from '@/components/common/admin-navbar';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -29,7 +30,8 @@ export default function RootLayout({
             <QueryClientProvider client={queryClient}>
                 <body className={`${geistSans.variable} ${geistMono.variable} w-full max-w-full bg-zinc-100 `}>
                     <BreadcrumbsBar />
-                    <Toaster />
+                    <AdminNavbar />
+                    <Toaster /> 
                     <ConfirmDialog />
                     <GlobalDialog />
                     {children}
