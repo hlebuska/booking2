@@ -1,5 +1,5 @@
 'use client';
-import AdminCard from '@/components/features/admin/admin-card';
+import AdminCard from '@/components/ui/admin-card';
 import MastersServiceList from '@/components/features/masters/master-service-list/masters-service-list';
 import CreateServiceForm from '@/components/features/services/create-service-form';
 import { Button } from '@/components/ui/button';

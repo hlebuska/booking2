@@ -1,17 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { H4 } from '@/components/ui/typography';
-import { EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import React from 'react';
 
 const AdminCard = ({ children }: { children?: React.ReactNode }) => {

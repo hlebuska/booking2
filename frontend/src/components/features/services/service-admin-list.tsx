@@ -10,7 +10,7 @@ import {
 import SkeletonLoader from '@/components/ui/skeleton-loader';
 import { IService } from '@/lib/type/types';
 import { deleteService, formatDuration, queryClient } from '@/lib/utils';
-import AdminCard from '../admin/admin-card';
+import AdminCard from '../../ui/admin-card';
 
 import { Button } from '@/components/ui/button';
 import useConfirm from '@/hooks/use-confirm';
