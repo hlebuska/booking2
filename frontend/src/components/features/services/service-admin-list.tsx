@@ -72,7 +72,7 @@ export default function ServiceAdminList({ services }: IProps) {
 
                                                     confirm({
                                                         title: 'Вы уверены что хотите удалить эту услугу?',
-                                                        description: `Это действие безвозвратно удалит услугу - (${name}).`,
+                                                        description: `Это действие безвозвратно удалит услугу - (${service.name}).`,
                                                         onConfirm: async () => {
                                                             await deleteService(service.id);
                                                             queryClient.invalidateQueries({ queryKey: ['services'] });

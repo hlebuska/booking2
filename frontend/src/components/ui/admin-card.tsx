@@ -16,7 +16,7 @@ const AdminCardHeader = ({ children }: { children?: React.ReactNode }) => {
 };
 
 const AdminCardTitle = ({ children }: { children?: React.ReactNode }) => {
-    return <H4 className="absolute left-1/2 transform -translate-x-1/2">{children}</H4>;
+    return <H4 className="absolute left-1/2 transform -translate-x-1/2 text-center">{children}</H4>;
 };
 
 const AdminCardRow = ({ children }: { children?: React.ReactNode }) => {

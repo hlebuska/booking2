@@ -1,66 +1,32 @@
 'use client';
-import Link from 'next/link';
-import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
-import { Separator } from '@/components/ui/separator';
-import { Building2, Home, Scissors, Settings, UserRound } from 'lucide-react';
 
-//REDO THIS SHIT (writing own navbar easier that trying to fix this weird bs)
+import Link from 'next/link';
+import { Home, Building2, Scissors, UserRound, Settings } from 'lucide-react';
+
+const NAV_ITEMS = [
+    { href: '/dashboard', label: 'Главная', icon: Home },
+    { href: '/branches', label: 'Филиалы', icon: Building2 },
+    { href: '/admin/serviceManage', label: 'Услуги', icon: Scissors },
+    { href: '/admin/masterManage', label: 'Мастера', icon: UserRound },
+    { href: '/settings', label: 'Настройки', icon: Settings },
+];
+
 export default function AdminNavbar() {
     return (
-        <div className="mx-auto pt-9  w-full max-w-3xl px-4 sm:px-20 md:px-24 lg:px-12 bg-white h-full  ">
-            <NavigationMenu className="border rounded-md  w-full max-w-full ">
-                <NavigationMenuList className="w-full flex-col xs:flex-row ">
-                    <NavigationMenuItem className="border-b xs:border-none w-full">
-                        <Link href="/docs" legacyBehavior passHref>
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                <Home size={16} strokeWidth={1.5} className="mr-1" /> Главная
-                            </NavigationMenuLink>
+        <nav className="mx-auto pt-6 w-full max-w-3xl px-4 sm:px-20 md:px-24 lg:px-12 bg-white h-full">
+            <ul className="flex flex-col xs:flex-row border rounded-md w-full justify-between">
+                {NAV_ITEMS.map(({ href, label, icon: Icon }) => (
+                    <li key={href} className="w-full border-b xs:border-r xs:border-b-0 last:border-r-0">
+                        <Link
+                            href={href}
+                            className="flex items-center justify-center py-2 text-sm font-medium hover:bg-gray-100"
+                        >
+                            <Icon size={16} strokeWidth={1.5} className="mr-2" />
+                            {label}
                         </Link>
-                    </NavigationMenuItem>
-                    <Separator orientation="vertical" className="h-6 w-[1px] hidden xs:block" />
-                    <NavigationMenuItem className="border-b xs:border-none w-full">
-                        <Link href="/docs" legacyBehavior passHref>
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                <Building2 size={16} strokeWidth={1.25} className="mr-1" /> Филиалы
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                    <Separator orientation="vertical" className="h-6 w-[1px] hidden xs:block" />
-
-                    <NavigationMenuItem className="border-b xs:border-none w-full">
-                        <Link href="/admin/serviceManage" legacyBehavior passHref>
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                <Scissors size={16} strokeWidth={1.5} className="mr-1" />
-                                Услуги
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                    <Separator orientation="vertical" className="h-6 w-[1px] hidden xs:block" />
-
-                    <NavigationMenuItem className="border-b xs:border-none w-full ">
-                        <Link href="/admin/masterManage" legacyBehavior passHref>
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                <UserRound size={16} strokeWidth={1.5} className="mr-1" /> Мастера
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                    <Separator orientation="vertical" className="h-6 w-[1px] hidden xs:block" />
-
-                    <NavigationMenuItem className="w-full ">
-                        <Link href="/docs" legacyBehavior passHref>
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                <Settings size={16} strokeWidth={1.5} className="mr-1" /> Настройки
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-            </NavigationMenu>
-        </div>
+                    </li>
+                ))}
+            </ul>
+        </nav>
     );
 }
