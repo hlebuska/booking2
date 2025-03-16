@@ -12,11 +12,11 @@ const AdminCard = ({ children }: { children?: React.ReactNode }) => {
 };
 
 const AdminCardHeader = ({ children }: { children?: React.ReactNode }) => {
-    return <div className="relative flex items-center w-full mb-2">{children}</div>;
+    return <div className="flex flex-col items-center w-full mb-2 py-1 relative">{children}</div>;
 };
 
 const AdminCardTitle = ({ children }: { children?: React.ReactNode }) => {
-    return <H4 className="absolute left-1/2 transform -translate-x-1/2">{children}</H4>;
+    return <H4 className="text-center w-full  break-words px-9">{children}</H4>;
 };
 
 const AdminCardRow = ({ children }: { children?: React.ReactNode }) => {
