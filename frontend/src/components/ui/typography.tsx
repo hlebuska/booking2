@@ -21,7 +21,7 @@ export const H3: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ childre
 
 export const H4: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, className, ...props }) => {
     return (
-        <h4 className={`scroll-m-20 text-xl font-semibold tracking-tight ${className}`} {...props}>
+        <h4 className={`scroll-m-20 text-md sm:text-xl font-semibold tracking-tight ${className}`} {...props}>
             {children}
         </h4>
     );

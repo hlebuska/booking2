@@ -33,7 +33,7 @@ export default function ServiceAdminList({ services }: IProps) {
                     <AdminCard key={index}>
                         <AdminCard.Header>
                             <AdminCard.Title>{service.name}</AdminCard.Title>
-                            <div className="ml-auto">
+                            <div className="ml-auto absolute right-0 top-1/2 -translate-y-1/2">
                                 <DropdownMenu modal={false}>
                                     <DropdownMenuTrigger asChild>
                                         <Button variant="ghost" className="p-2">
