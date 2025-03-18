@@ -31,7 +31,7 @@ export default function RootLayout({
                 <body className={`${geistSans.variable} ${geistMono.variable} w-full max-w-full bg-zinc-100 `}>
                     <BreadcrumbsBar />
                     <AdminNavbar />
-                    <Toaster /> 
+                    <Toaster />
                     <ConfirmDialog />
                     <GlobalDialog />
                     {children}
