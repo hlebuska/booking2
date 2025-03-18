@@ -1,7 +1,7 @@
 'use client';
 import AdminCard from '@/components/ui/admin-card';
 import MastersServiceList from '@/components/features/masters/master-service-list/masters-service-list';
-import CreateServiceForm from '@/components/features/services/create-service-form';
+import CreateServiceForm from '@/components/forms/create-service-form';
 import { Button } from '@/components/ui/button';
 import IconInput from '@/components/ui/icon-input';
 import { useDialogStore } from '@/hooks/use-dialog-store';

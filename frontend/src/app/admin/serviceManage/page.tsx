@@ -1,5 +1,5 @@
 'use client';
-import CreateServiceForm from '@/components/features/services/create-service-form';
+import CreateServiceForm from '@/components/forms/create-service-form';
 import { Button } from '@/components/ui/button';
 import IconInput from '@/components/ui/icon-input';
 import { useDialogStore } from '@/hooks/use-dialog-store';
