@@ -19,7 +19,7 @@ export default function BreadcrumbsBar() {
                 {pathSegments.map((segment, index) => {
                     const href = `/${pathSegments.slice(0, index + 1).join('/')}`;
                     const isLast = index === pathSegments.length - 1;
-                    const translatedName = breadcrumbNames[segment] || decodeURIComponent(segment);
+                    const translatedName = breadcrumbNames[segment] || 'Страница не найдена';
 
                     return (
                         <div key={href} className="flex gap-1.5 items-center w-full xs:w-fit">

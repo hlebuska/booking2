@@ -1,5 +1,5 @@
 'use client';
-import BookingForm from '@/components/features/booking/booking-form';
+import BookingForm from '@/components/forms/booking-form';
 import BookingFormDialog from '@/components/features/booking/booking-form-dialog';
 import MasterDialogTrigger from '@/components/features/masters/master-dialog-trigger';
 import SelectMasterList from '@/components/features/masters/select-master-list';

@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import useConfirm from '@/hooks/use-confirm';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
-import PatchServiceForm from './patch-service-form';
+import PatchServiceForm from '../../forms/patch-service-form';
 
 interface IProps {
     services?: IService[];

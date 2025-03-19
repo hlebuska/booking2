@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Home, Building2, Scissors, UserRound, Settings } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 const NAV_ITEMS = [
     { href: '/dashboard', label: 'Главная', icon: Home },
@@ -12,6 +13,10 @@ const NAV_ITEMS = [
 ];
 
 export default function AdminNavbar() {
+    const pathname = usePathname();
+
+    if (!pathname.startsWith('/admin')) return null;
+
     return (
         <nav className="mx-auto pt-6 w-full max-w-3xl px-4 sm:px-20 md:px-24 lg:px-12 bg-white h-full">
             <ul className="flex flex-col xs:flex-row border rounded-md w-full justify-between">
