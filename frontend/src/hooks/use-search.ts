@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-export function useSearch<T>(unfilteredData: T[], filterFn: (item: T, searchItem: string) => boolean) {
+export function useSearch<T>(unfilteredData: T[] = [], filterFn: (item: T, searchItem: string) => boolean) {
     const [searchItem, setSearchItem] = useState('');
     const [filteredData, setFilteredData] = useState(unfilteredData);
 
