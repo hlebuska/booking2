@@ -1,18 +1,18 @@
+import { Button } from '@/components/ui/button';
 import IconInput from '@/components/ui/icon-input';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
+import useMasterServices from '@/hooks/use-masters-services';
 import { useSearch } from '@/hooks/use-search';
-import useServices from '@/hooks/use-services';
 import { IService } from '@/lib/type/types';
 import { SearchIcon } from 'lucide-react';
 import MastersServiceOption from './masters-service-option';
-import { Button } from '@/components/ui/button';
 
 interface IProps {
     masterId: number;
 }
 
 export default function MastersServiceList({ masterId }: IProps) {
-    const { unfilteredServices } = useServices();
+    const { unfilteredServices } = useMasterServices(masterId);
     const { filteredServices, handleInputChange, searchItem } = useSearch(unfilteredServices);
 
     return (

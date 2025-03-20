@@ -6,20 +6,12 @@ import { useDialogStore } from '@/hooks/use-dialog-store';
 import { useSearch } from '@/hooks/use-search';
 import useServices from '@/hooks/use-services';
 import { SearchIcon } from 'lucide-react';
-import ServiceAdminList from '../../../components/features/services/service-admin-list';
-
-// Display existing services (edit, remove)
-// -- Good looking tables
-// -- add search
-
-// Create new services
-// -- Form with validation (modal?)
-
-// (later) Select where these services are awailable (probably should be done in branches manage)
+import ServiceAdminList from '@/components/features/services/service-admin-list';
+import { filterServices } from '@/lib/utils';
 
 export default function ServiceManage() {
     const { unfilteredServices } = useServices();
-    const { searchItem, handleInputChange, filteredServices } = useSearch(unfilteredServices ?? []);
+    const { searchItem, handleInputChange, filteredData } = useSearch(unfilteredServices ?? [], filterServices);
     const { openDialog } = useDialogStore();
 
     return (
@@ -37,7 +29,7 @@ export default function ServiceManage() {
             </Button>
             <IconInput icon={<SearchIcon strokeWidth={2} />} value={searchItem} onChange={handleInputChange} />
 
-            <ServiceAdminList services={filteredServices} />
+            <ServiceAdminList services={filteredData} />
         </div>
     );
 }

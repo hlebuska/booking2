@@ -1,30 +1,27 @@
 'use client';
 
-import { IService } from '@/lib/type/types';
 import { useEffect, useState } from 'react';
 
-export function useSearch(unfilteredServices: IService[]) {
+export function useSearch<T>(unfilteredData: T[], filterFn: (item: T, searchItem: string) => boolean) {
     const [searchItem, setSearchItem] = useState('');
-    const [filteredServices, setFilteredServices] = useState(unfilteredServices);
+    const [filteredData, setFilteredData] = useState(unfilteredData);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value;
         setSearchItem(searchTerm);
-        const filteredItems = unfilteredServices.filter((service) =>
-            service.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        const filteredItems = unfilteredData.filter((item) => filterFn(item, searchTerm));
 
         if (filteredItems.length > 0) {
-            setFilteredServices(filteredItems);
+            setFilteredData(filteredItems);
         } else {
-            setFilteredServices(unfilteredServices);
+            setFilteredData(unfilteredData);
         }
     };
 
     //Update unfilteredServices on fetch
     useEffect(() => {
-        setFilteredServices(unfilteredServices);
-    }, [unfilteredServices]);
+        setFilteredData(unfilteredData);
+    }, [unfilteredData]);
 
-    return { searchItem, handleInputChange, filteredServices };
+    return { searchItem, handleInputChange, filteredData };
 }
