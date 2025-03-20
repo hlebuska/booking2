@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { IPatchService, IPostBooking, IService } from './type/types';
+import { IMaster, IPatchService, IPostBooking, IService } from './type/types';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -25,7 +25,16 @@ export const breadcrumbNames: Record<string, string> = {
     admin: 'Администрирование',
     serviceManage: 'Настройка услуг',
     masterManage: 'Настройка мастеров',
+    branchManage: 'Настройка филиалов',
 };
+
+//Filters
+
+export const filterServices = (service: IService, searchTerm: string) =>
+    service.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+export const filterMasters = (master: IMaster, searchTerm: string) =>
+    master.name.toLowerCase().includes(searchTerm.toLowerCase());
 
 export const queryClient = new QueryClient({ defaultOptions: { queries: { refetchOnWindowFocus: false } } });
 
@@ -53,10 +62,17 @@ export async function postBooking(bookingData: IPostBooking) {
     }
 }
 
+//Masters
+
 //Services
 export async function getServices() {
     const { data } = await axiosApiClient.get(`services/`);
     return data;
+}
+
+export async function getMastersServices(masterId: number) {
+    const { data } = await axiosApiClient.get(`barbers/${masterId}/services/`);
+    return data.services;
 }
 
 export async function postService(serviceData: Omit<IService, 'id'>) {
