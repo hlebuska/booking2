@@ -7,6 +7,7 @@ export function useSearch<T>(unfilteredData: T[] = [], filterFn: (item: T, searc
     const [filteredData, setFilteredData] = useState(unfilteredData);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        //Filtering
         const searchTerm = e.target.value;
         setSearchItem(searchTerm);
         const filteredItems = unfilteredData.filter((item) => filterFn(item, searchTerm));

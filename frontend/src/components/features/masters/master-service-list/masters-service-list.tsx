@@ -18,7 +18,7 @@ export default function MastersServiceList({ masterId }: IProps) {
     const { handleInputChange, searchItem, filteredData } = useSearch(unfilteredServices, filterServices);
 
     return (
-        <div className="flex flex-col justify-start gap-5">
+        <div className="flex flex-col justify-start gap-4">
             <IconInput icon={<SearchIcon strokeWidth={2} />} value={searchItem} onChange={handleInputChange} />
 
             <ConditionalSkeletonLoader
