@@ -36,6 +36,36 @@ export const filterServices = (service: IService, searchTerm: string) =>
 export const filterMasters = (master: IMaster, searchTerm: string) =>
     master.name.toLowerCase().includes(searchTerm.toLowerCase());
 
+//Sorting stuff
+
+type GenericKeyInfo<T> = {
+    key: keyof T;
+    type: string;
+};
+
+export const getGenericKeys = <T extends Record<string, any>>(items?: T[]): GenericKeyInfo<T>[] => {
+    if (!items || items.length === 0) return [];
+
+    const keys = Object.keys(items[0])
+        .filter((key) => key !== 'id')
+        .map((key) => {
+            return { key, type: typeof items[0][key] };
+        });
+
+    return keys;
+};
+
+export const sortByFn = <T extends Record<string, any>>(items: T[], sortBy: GenericKeyInfo<T>) => {
+    if (!sortBy) return items;
+
+    console.log('sorting by', sortBy);
+    if (sortBy.type === 'string') {
+        return [...items].sort((a, b) => String(a[sortBy.key]).localeCompare(String(b[sortBy.key])));
+    } else if (sortBy.type === 'number') {
+        return [...items].sort((a, b) => Number(a[sortBy.key]) - Number(b[sortBy.key]));
+    }
+};
+
 export const queryClient = new QueryClient({ defaultOptions: { queries: { refetchOnWindowFocus: false } } });
 
 export const axiosApiClient = axios.create({

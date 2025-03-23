@@ -1,13 +1,12 @@
 'use client';
 
-import { IMaster } from '@/lib/type/types';
-import AdminCard from '../../ui/admin-card';
 import { Button } from '@/components/ui/button';
 import { useDialogStore } from '@/hooks/use-dialog-store';
-import { ArrowDownUp, Settings2 } from 'lucide-react';
+import { IMaster } from '@/lib/type/types';
+import { Settings2 } from 'lucide-react';
+import AdminCard from '../../ui/admin-card';
 import MastersServiceList from './master-service-list/masters-service-list';
 
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AdminList from '@/components/common/admin-list';
 
 interface IProps {
@@ -19,41 +18,6 @@ export default function MastersAdminList({ masters }: IProps) {
 
     return (
         <div className="flex flex-col gap-4">
-            {/* Sorting dropdown */}
-            <div className="flex items-center gap-2 mt-2 relative">
-                <div className="absolute inset-y-0 top-1/2 -translate-y-1/2 flex items-center ml-[9px] pointer-events-none w-4 h-4 text-zinc-500">
-                    <ArrowDownUp color="#85858d" strokeWidth={1.75} />
-                </div>
-                <Select>
-                    <SelectTrigger className="w-[300px] pl-8 text-zinc-500">
-                        <SelectValue placeholder="По названию" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectItem className="pl-8" value="2">
-                                <div className="absolute inset-y-0 top-1/2 -translate-y-1/2 flex items-center pointer-events-none w-4 h-4 text-zinc-500 left-[9px]">
-                                    <ArrowDownUp color="#85858d" strokeWidth={1.75} />
-                                </div>
-                                По названию
-                            </SelectItem>
-                            <SelectItem className="pl-8" value="1">
-                                <div className="absolute inset-y-0 top-1/2 -translate-y-1/2 flex items-center pointer-events-none w-4 h-4 text-zinc-500 left-[9px]">
-                                    <ArrowDownUp color="#85858d" strokeWidth={1.75} />
-                                </div>
-                                По времени создания
-                            </SelectItem>
-                            <SelectItem className="pl-8" value="3">
-                                <div className="absolute inset-y-0 top-1/2 -translate-y-1/2 flex items-center pointer-events-none w-4 h-4 text-zinc-500 left-[9px]">
-                                    <ArrowDownUp color="#85858d" strokeWidth={1.75} />
-                                </div>
-                                По длительности
-                            </SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
-            </div>
-
-            {/* Generic list rendering masters */}
             <AdminList
                 items={masters}
                 renderItem={(master, index) => (
