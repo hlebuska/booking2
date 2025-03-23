@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { IMaster, IPatchService, IPostBooking, IService } from './type/types';
+import { IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './type/types';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -58,7 +58,6 @@ export const getGenericKeys = <T extends Record<string, any>>(items?: T[]): Gene
 export const sortByFn = <T extends Record<string, any>>(items: T[], sortBy: GenericKeyInfo<T>) => {
     if (!sortBy) return items;
 
-    console.log('sorting by', sortBy);
     if (sortBy.type === 'string') {
         return [...items].sort((a, b) => String(a[sortBy.key]).localeCompare(String(b[sortBy.key])));
     } else if (sortBy.type === 'number') {
