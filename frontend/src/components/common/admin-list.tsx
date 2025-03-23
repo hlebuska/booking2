@@ -1,11 +1,11 @@
 'use client';
 
-import SkeletonLoader from '@/components/ui/skeleton-loader';
-import { useEffect, useMemo, useState } from 'react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowDown, ArrowDownUp, ArrowUp } from 'lucide-react';
-import { getGenericKeys, sortByFn } from '@/lib/utils';
+import SkeletonLoader from '@/components/ui/skeleton-loader';
 import { SortOrderType } from '@/lib/type/types';
+import { getGenericKeys, sortByFn, translateProp } from '@/lib/utils';
+import { ArrowDown, ArrowUp } from 'lucide-react';
+import { useMemo, useState } from 'react';
 
 interface IProps<T extends Record<string, any>> {
     items?: T[];
@@ -21,7 +21,7 @@ export default function AdminList<T extends Record<string, any>>({ items, render
 
     const sortedItems = useMemo(() => {
         if (!items || !sortKey) return items ?? [];
-        return sortByFn(items, sortKey);
+        return sortByFn(items, sortKey, sortOrder);
     }, [items, sortKey]);
 
     return (
@@ -38,7 +38,7 @@ export default function AdminList<T extends Record<string, any>>({ items, render
                                 <SelectItem value={'no'}>Без сортировки</SelectItem>
                                 {keys.map((key, index) => (
                                     <SelectItem value={key.key as string} key={index}>
-                                        {key.key as string}
+                                        {translateProp(key.key as string)}
                                     </SelectItem>
                                 ))}
                             </SelectGroup>

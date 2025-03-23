@@ -38,6 +38,17 @@ export const filterMasters = (master: IMaster, searchTerm: string) =>
 
 //Sorting stuff
 
+export const sortingPropNames: Record<string, string> = {
+    name: 'По названию',
+    price: 'По цене',
+    description: 'По описанию',
+    duration: 'По длительности',
+};
+
+export const translateProp = (prop: string): string => {
+    return sortingPropNames[prop] || prop;
+};
+
 type GenericKeyInfo<T> = {
     key: keyof T;
     type: string;
@@ -55,14 +66,20 @@ export const getGenericKeys = <T extends Record<string, any>>(items?: T[]): Gene
     return keys;
 };
 
-export const sortByFn = <T extends Record<string, any>>(items: T[], sortBy: GenericKeyInfo<T>) => {
+export const sortByFn = <T extends Record<string, any>>(
+    items: T[],
+    sortBy: GenericKeyInfo<T>,
+    order: SortOrderType = 'asc'
+) => {
     if (!sortBy) return items;
+    const sorted = [...items];
 
     if (sortBy.type === 'string') {
-        return [...items].sort((a, b) => String(a[sortBy.key]).localeCompare(String(b[sortBy.key])));
+        sorted.sort((a, b) => String(a[sortBy.key]).localeCompare(String(b[sortBy.key])));
     } else if (sortBy.type === 'number') {
-        return [...items].sort((a, b) => Number(a[sortBy.key]) - Number(b[sortBy.key]));
+        sorted.sort((a, b) => Number(a[sortBy.key]) - Number(b[sortBy.key]));
     }
+    return order == 'asc' ? sorted : sorted.reverse();
 };
 
 export const queryClient = new QueryClient({ defaultOptions: { queries: { refetchOnWindowFocus: false } } });
