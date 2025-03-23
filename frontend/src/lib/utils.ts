@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './type/types';
+import { GenericKeyInfo, IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './type/types';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -46,11 +46,6 @@ export const sortingPropNames: Record<string, string> = {
 
 export const translateProp = (prop: string): string => {
     return sortingPropNames[prop] || prop;
-};
-
-type GenericKeyInfo<T> = {
-    key: keyof T;
-    type: string;
 };
 
 export const getGenericKeys = <T extends Record<string, any>>(items?: T[]): GenericKeyInfo<T>[] => {
