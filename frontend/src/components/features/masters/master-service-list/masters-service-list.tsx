@@ -1,13 +1,12 @@
+import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
 import { Button } from '@/components/ui/button';
 import IconInput from '@/components/ui/icon-input';
-import SkeletonLoader from '@/components/ui/skeleton-loader';
 import useMasterServices from '@/hooks/use-masters-services';
 import { useSearch } from '@/hooks/use-search';
 import { IService } from '@/lib/type/types';
+import { filterServices } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
 import MastersServiceOption from './masters-service-option';
-import { filterServices } from '@/lib/utils';
-import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
 
 interface IProps {
     masterId: number;
@@ -34,13 +33,6 @@ export default function MastersServiceList({ masterId }: IProps) {
                     <Button>Сохранить</Button>
                 </div>
             </ConditionalSkeletonLoader>
-
-            {/* 
-            {filteredData && filteredData.length > 0 && (
-                 <div>
-                    <Button>Сохранить</Button>
-                </div>
-            )} */}
         </div>
     );
 }

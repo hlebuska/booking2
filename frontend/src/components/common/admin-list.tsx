@@ -1,12 +1,7 @@
 'use client';
 
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
 import { useSorting } from '@/hooks/use-sorting';
-import { SortOrderType } from '@/lib/type/types';
-import { getGenericKeys, sortByFn, translateProp } from '@/lib/utils';
-import { ArrowDown, ArrowUp } from 'lucide-react';
-import { useMemo, useState } from 'react';
 import SortingSelect from './sorting-select';
 
 interface IProps<T extends Record<string, any>> {
