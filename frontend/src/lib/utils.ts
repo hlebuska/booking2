@@ -8,6 +8,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+//Misc
 export const phoneRegex = new RegExp(/^\+7\s?7\d{2}\s?\d{3}\s?\d{4}$/);
 
 export const formatDuration = (duration: number): string => {
@@ -29,7 +30,6 @@ export const breadcrumbNames: Record<string, string> = {
 };
 
 //Filters
-
 export const filterServices = (service: IService, searchTerm: string) =>
     service.name.toLowerCase().includes(searchTerm.toLowerCase());
 
@@ -37,7 +37,6 @@ export const filterMasters = (master: IMaster, searchTerm: string) =>
     master.name.toLowerCase().includes(searchTerm.toLowerCase());
 
 //Sorting stuff
-
 export const sortingPropNames: Record<string, string> = {
     name: 'По названию',
     price: 'По цене',
@@ -82,6 +81,7 @@ export const sortByFn = <T extends Record<string, any>>(
     return order == 'asc' ? sorted : sorted.reverse();
 };
 
+//Fetching
 export const queryClient = new QueryClient({ defaultOptions: { queries: { refetchOnWindowFocus: false } } });
 
 export const axiosApiClient = axios.create({

@@ -2,6 +2,7 @@
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
+import { useSorting } from '@/hooks/use-sorting';
 import { SortOrderType } from '@/lib/type/types';
 import { getGenericKeys, sortByFn, translateProp } from '@/lib/utils';
 import { ArrowDown, ArrowUp } from 'lucide-react';
@@ -13,16 +14,7 @@ interface IProps<T extends Record<string, any>> {
 }
 
 export default function AdminList<T extends Record<string, any>>({ items, renderItem }: IProps<T>) {
-    const [selectedSortKey, setSelectedSortKey] = useState<string>();
-    const [sortOrder, setSortOrder] = useState<SortOrderType>('asc');
-
-    const keys = getGenericKeys(items);
-    const sortKey = keys.find((k) => k.key === selectedSortKey);
-
-    const sortedItems = useMemo(() => {
-        if (!items || !sortKey) return items ?? [];
-        return sortByFn(items, sortKey, sortOrder);
-    }, [items, sortKey]);
+    const { sortedItems, selectedSortKey, setSelectedSortKey, setSortOrder, keys } = useSorting(items);
 
     return (
         <div className="flex flex-col gap-4">
