@@ -1,10 +1,13 @@
-import SkeletonLoader from '@/components/ui/skeleton-loader';
-import { IMaster } from '@/lib/type/types';
-import AdminCard from '../../ui/admin-card';
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { useDialogStore } from '@/hooks/use-dialog-store';
+import { IMaster } from '@/lib/type/types';
 import { Settings2 } from 'lucide-react';
+import AdminCard from '../../ui/admin-card';
 import MastersServiceList from './master-service-list/masters-service-list';
+
+import AdminList from '@/components/common/admin-list';
 
 interface IProps {
     masters?: IMaster[];
@@ -14,9 +17,10 @@ export default function MastersAdminList({ masters }: IProps) {
     const { openDialog } = useDialogStore();
 
     return (
-        <div className="flex flex-col gap-5">
-            {masters && masters.length > 0 ? (
-                masters.map((master, index) => (
+        <div className="flex flex-col gap-4">
+            <AdminList
+                items={masters}
+                renderItem={(master, index) => (
                     <AdminCard key={index}>
                         <AdminCard.Header>{master.name}</AdminCard.Header>
                         <AdminCard.Row>
@@ -43,10 +47,8 @@ export default function MastersAdminList({ masters }: IProps) {
                             </Button>
                         </AdminCard.Row>
                     </AdminCard>
-                ))
-            ) : (
-                <SkeletonLoader className={'w-1/2 h-6'} />
-            )}
+                )}
+            />
         </div>
     );
 }

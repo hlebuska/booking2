@@ -23,6 +23,8 @@ class BarberSerializer(serializers.ModelSerializer):
 
 
 class ServiceSerializer(serializers.ModelSerializer):
+    price = serializers.FloatField()
+
     class Meta:
         model = BarberService
         fields = '__all__'

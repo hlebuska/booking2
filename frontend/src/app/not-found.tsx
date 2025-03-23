@@ -12,7 +12,7 @@ export default function NotFound() {
             <Button onClick={() => router.back()}>
                 <ChevronLeft /> Назад
             </Button>
-            <H2>Что то пошло не так! Страница не найдена.</H2>
+            <H2>Что-то пошло не так! Страница не найдена.</H2>
         </div>
     );
 }

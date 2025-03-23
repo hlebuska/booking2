@@ -37,3 +37,19 @@ export const H5: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ childre
         </h5>
     );
 };
+
+export const Body1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, className, ...props }) => {
+    return (
+        <p className={`scroll-m-20 text-sm sm:text-base/none leading-none tracking-tight ${className}`} {...props}>
+            {children}
+        </p>
+    );
+};
+
+export const Body2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, className, ...props }) => {
+    return (
+        <p className={`scroll-m-20 text-xs sm:text-base/none leading-none tracking-tight ${className}`} {...props}>
+            {children}
+        </p>
+    );
+};

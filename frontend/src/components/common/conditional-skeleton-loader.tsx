@@ -33,7 +33,7 @@ export default function ConditionalSkeletonLoader({
     }
 
     if (isEmpty) {
-        return <div className="text-gray-500 text-center">{emptyMessage}</div>;
+        return <div className="text-zinc-500 text-center">{emptyMessage}</div>;
     }
 
     return <>{children}</>;

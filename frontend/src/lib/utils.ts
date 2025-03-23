@@ -2,12 +2,13 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { IMaster, IPatchService, IPostBooking, IService } from './type/types';
+import { GenericKeyInfo, IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './type/types';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+//Misc
 export const phoneRegex = new RegExp(/^\+7\s?7\d{2}\s?\d{3}\s?\d{4}$/);
 
 export const formatDuration = (duration: number): string => {
@@ -29,13 +30,53 @@ export const breadcrumbNames: Record<string, string> = {
 };
 
 //Filters
-
 export const filterServices = (service: IService, searchTerm: string) =>
     service.name.toLowerCase().includes(searchTerm.toLowerCase());
 
 export const filterMasters = (master: IMaster, searchTerm: string) =>
     master.name.toLowerCase().includes(searchTerm.toLowerCase());
 
+//Sorting stuff
+export const sortingPropNames: Record<string, string> = {
+    name: 'По названию',
+    price: 'По цене',
+    description: 'По описанию',
+    duration: 'По длительности',
+};
+
+export const translateProp = (prop: string): string => {
+    return sortingPropNames[prop] || prop;
+};
+
+export const getGenericKeys = <T extends Record<string, any>>(items?: T[]): GenericKeyInfo<T>[] => {
+    if (!items || items.length === 0) return [];
+
+    const keys = Object.keys(items[0])
+        .filter((key) => key !== 'id')
+        .map((key) => {
+            return { key, type: typeof items[0][key] };
+        });
+
+    return keys;
+};
+
+export const sortByFn = <T extends Record<string, any>>(
+    items: T[],
+    sortBy: GenericKeyInfo<T>,
+    order: SortOrderType = 'asc'
+) => {
+    if (!sortBy) return items;
+    const sorted = [...items];
+
+    if (sortBy.type === 'string') {
+        sorted.sort((a, b) => String(a[sortBy.key]).localeCompare(String(b[sortBy.key])));
+    } else if (sortBy.type === 'number') {
+        sorted.sort((a, b) => Number(a[sortBy.key]) - Number(b[sortBy.key]));
+    }
+    return order == 'asc' ? sorted : sorted.reverse();
+};
+
+//Fetching
 export const queryClient = new QueryClient({ defaultOptions: { queries: { refetchOnWindowFocus: false } } });
 
 export const axiosApiClient = axios.create({

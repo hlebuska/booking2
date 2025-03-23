@@ -5,7 +5,7 @@ import React from 'react';
 
 const AdminCard = ({ children }: { children?: React.ReactNode }) => {
     return (
-        <div className="flex flex-col items-start justify-between rounded-lg p-3 bg-muted outline-none border overflow-hidden">
+        <div className="flex flex-col items-start justify-between rounded-lg p-3 bg-muted outline-none border overflow-hidden shadow-sm">
             {children}
         </div>
     );
