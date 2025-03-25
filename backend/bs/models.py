@@ -9,6 +9,7 @@ class TimeSlot(models.Model):
 
 class Barber(models.Model):
     name = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
     services = models.ManyToManyField('BarberService', related_name='barbers')
     def __str__(self):
         return self.name
