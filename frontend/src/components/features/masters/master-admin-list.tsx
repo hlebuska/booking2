@@ -3,11 +3,22 @@
 import { Button } from '@/components/ui/button';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { IMaster } from '@/lib/type/types';
-import { Settings2 } from 'lucide-react';
-import AdminCard from '../../ui/admin-card';
+import { EllipsisVertical, Pencil, Settings2, Trash2 } from 'lucide-react';
+import AdminCard from '@/components/ui/admin-card';
 import MastersServiceList from './master-service-list/masters-service-list';
 
 import AdminList from '@/components/common/admin-list';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import useConfirm from '@/hooks/use-confirm';
+import { deleteMaster, queryClient } from '@/lib/utils';
 
 interface IProps {
     masters?: IMaster[];
@@ -15,6 +26,7 @@ interface IProps {
 
 export default function MastersAdminList({ masters }: IProps) {
     const { openDialog } = useDialogStore();
+    const { confirm } = useConfirm();
 
     return (
         <div className="flex flex-col gap-4">
@@ -22,15 +34,61 @@ export default function MastersAdminList({ masters }: IProps) {
                 items={masters}
                 renderItem={(master, index) => (
                     <AdminCard key={index}>
-                        <AdminCard.Header>{master.name}</AdminCard.Header>
+                        <AdminCard.Header>
+                            <AdminCard.Title>{master.name}</AdminCard.Title>
+                            <div className="ml-auto absolute right-0 top-1/2 -translate-y-1/2">
+                                <DropdownMenu modal={false}>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="ghost" className="p-2">
+                                            <EllipsisVertical />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        <DropdownMenuLabel>Мастер</DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuGroup>
+                                            <DropdownMenuItem
+                                                onSelect={(e) => {
+                                                    e.preventDefault();
+                                                    openDialog({
+                                                        content: <>yo</>,
+                                                        title: 'Редактирование мастера',
+                                                        description: 'Введите данные о мастере.',
+                                                    });
+                                                }}
+                                            >
+                                                <Pencil />
+                                                <span>Редактировать</span>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem
+                                                onSelect={(e) => {
+                                                    e.preventDefault();
+                                                    confirm({
+                                                        title: 'Вы уверены что хотите удалить эту мастера?',
+                                                        description: `Это действие безвозвратно удалит мастера - (${master.name}).`,
+                                                        onConfirm: async () => {
+                                                            await deleteMaster(master.id);
+                                                            queryClient.invalidateQueries({ queryKey: ['services'] });
+                                                        },
+                                                    });
+                                                }}
+                                            >
+                                                <Trash2 />
+                                                <span>Удалить</span>
+                                            </DropdownMenuItem>
+                                        </DropdownMenuGroup>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </div>
+                        </AdminCard.Header>
                         <AdminCard.Row>
                             <AdminCard.RowTitle>Описание: </AdminCard.RowTitle>
-                            <AdminCard.RowDescription>Первая категория</AdminCard.RowDescription>
+                            <AdminCard.RowDescription>{master.description}</AdminCard.RowDescription>
                         </AdminCard.Row>
                         <AdminCard.Row>
                             <AdminCard.RowTitle>Услуги: </AdminCard.RowTitle>
                             <AdminCard.RowDescription truncate>
-                                [ПЕРЕДЕЛАТЬ] - список услуг мастера
+                                Список услуг доступных данному мастеру.
                             </AdminCard.RowDescription>
                             <Button
                                 variant="ghost"

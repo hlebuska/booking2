@@ -104,6 +104,14 @@ export async function postBooking(bookingData: IPostBooking) {
 }
 
 //Masters
+export async function deleteMaster(id: number) {
+    try {
+        const { data } = await axiosApiClient.delete(`barbers/${id}/`);
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 //Services
 export async function getServices() {
