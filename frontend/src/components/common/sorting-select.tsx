@@ -19,7 +19,7 @@ export default function SortingSelect<T extends Record<string, any>>({
     return (
         <div className="flex gap-2">
             {/* Sorting By Select */}
-            <div className="flex items-center gap-2 mt-2 relative w-[30%]">
+            <div className="flex items-center gap-2 mt-2 relative w-1/2 xs:w-1/3">
                 <Select defaultValue="no" onValueChange={(value) => setSelectedSortKey(value)}>
                     <SelectTrigger className=" gap-2 text-zinc-500">
                         <SelectValue placeholder="Без сортировки" />
@@ -37,7 +37,7 @@ export default function SortingSelect<T extends Record<string, any>>({
                 </Select>
             </div>
             {/* Asc/Desc Select */}
-            <div className="flex items-center gap-2 mt-2 relative">
+            <div className="flex items-center gap-2 mt-2 relative w-1/2 xs:w-1/4">
                 <div className="absolute inset-y-0 top-1/2 -translate-y-1/2 flex items-center ml-[9px] pointer-events-none w-4 h-4 text-zinc-500"></div>
 
                 <Select
