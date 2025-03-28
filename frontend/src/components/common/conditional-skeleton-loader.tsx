@@ -1,4 +1,5 @@
 import { Skeleton } from '../ui/skeleton';
+import SkeletonLoader from '../ui/skeleton-loader';
 
 interface IProps {
     isLoading: boolean;
@@ -23,7 +24,7 @@ export default function ConditionalSkeletonLoader({
     if (isLoading) {
         return (
             <div className={className}>
-                <Skeleton {...props} className="animate-pulse w-full h-full" />
+                <SkeletonLoader {...props} className="w-1/3 h-full" />
             </div>
         );
     }

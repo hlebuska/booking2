@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 export function useSearch<T>(unfilteredData: T[] = [], filterFn: (item: T, searchItem: string) => boolean) {
     const [searchItem, setSearchItem] = useState('');
     const [filteredData, setFilteredData] = useState(unfilteredData);
+    const [notFoundText, setNotFoundText] = useState('');
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         //Filtering
@@ -14,8 +15,11 @@ export function useSearch<T>(unfilteredData: T[] = [], filterFn: (item: T, searc
 
         if (filteredItems.length > 0) {
             setFilteredData(filteredItems);
+            setNotFoundText('');
         } else {
-            setFilteredData(unfilteredData);
+            setFilteredData([]);
+            console.log('not found');
+            setNotFoundText(`По запросу "${searchItem}" ничего не найдено.`);
         }
     };
 
@@ -24,5 +28,5 @@ export function useSearch<T>(unfilteredData: T[] = [], filterFn: (item: T, searc
         setFilteredData(unfilteredData);
     }, [unfilteredData]);
 
-    return { searchItem, handleInputChange, filteredData };
+    return { searchItem, handleInputChange, filteredData, notFoundText };
 }

@@ -3,9 +3,16 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 export default function useMasters() {
-    const servicesQuery = useQuery({ queryKey: ['masters'], queryFn: getMasters });
+    const {
+        data,
+        isLoading: isMastersLoading,
+        isError: isMastersError,
+    } = useQuery({
+        queryKey: ['masters'],
+        queryFn: getMasters,
+    });
 
-    const unfilteredMasters = useMemo(() => servicesQuery.data ?? [], [servicesQuery.data]);
+    const unfilteredMasters = useMemo(() => data ?? [], [data]);
 
-    return { unfilteredMasters };
+    return { unfilteredMasters, isMastersLoading, isMastersError };
 }
