@@ -14,7 +14,7 @@ interface IProps {
 
 export default function MastersServiceList({ masterId }: IProps) {
     const { unfilteredServices, isMasterServicesLoading, isMastersServicesError } = useMasterServices(masterId);
-    const { handleInputChange, searchItem, filteredData } = useSearch(unfilteredServices, filterServices);
+    const { handleInputChange, searchItem, filteredData, notFoundText } = useSearch(unfilteredServices, filterServices);
 
     return (
         <div className="flex flex-col justify-start gap-4">
@@ -23,12 +23,13 @@ export default function MastersServiceList({ masterId }: IProps) {
             <ConditionalSkeletonLoader
                 isLoading={isMasterServicesLoading}
                 isError={isMastersServicesError}
-                isEmpty={filteredData.length == 0 && !!filteredData}
+                isEmpty={unfilteredServices.length == 0 && !!unfilteredServices}
                 emptyMessage="В базе данных нет услуг."
             >
                 {filteredData.map((service: IService, index: number) => (
                     <MastersServiceOption name={service.name} index={index} key={index} />
                 ))}
+                <p className="text-zinc-500">{notFoundText}</p>
                 <div>
                     <Button>Сохранить</Button>
                 </div>

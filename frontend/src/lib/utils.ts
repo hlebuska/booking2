@@ -104,6 +104,15 @@ export async function postBooking(bookingData: IPostBooking) {
 }
 
 //Masters
+export async function postMaster(masterData: Omit<IMaster, 'id'>) {
+    try {
+        const { data } = await axiosApiClient.post(`masters/`, masterData);
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export async function deleteMaster(id: number) {
     try {
         const { data } = await axiosApiClient.delete(`barbers/${id}/`);

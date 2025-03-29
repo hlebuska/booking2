@@ -1,5 +1,7 @@
 'use client';
+import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
 import MastersAdminList from '@/components/features/masters/master-admin-list';
+import CreateMasterForm from '@/components/forms/create-master-form';
 import CreateServiceForm from '@/components/forms/create-service-form';
 import { Button } from '@/components/ui/button';
 import IconInput from '@/components/ui/icon-input';
@@ -10,8 +12,11 @@ import { filterMasters } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
 
 export default function ServiceManage() {
-    const { unfilteredMasters } = useMasters();
-    const { searchItem, handleInputChange, filteredData } = useSearch(unfilteredMasters ?? [], filterMasters);
+    const { unfilteredMasters, isMastersLoading, isMastersError } = useMasters();
+    const { searchItem, handleInputChange, filteredData, notFoundText } = useSearch(
+        unfilteredMasters ?? [],
+        filterMasters
+    );
     const { openDialog } = useDialogStore();
 
     return (
@@ -19,16 +24,24 @@ export default function ServiceManage() {
             <Button
                 onClick={() => {
                     openDialog({
-                        content: <CreateServiceForm />,
-                        title: 'Создание услуги',
-                        description: 'Введите данные об услуге.',
+                        content: <CreateMasterForm />,
+                        title: 'Создание мастера',
+                        description: 'Введите данные о мастере.',
                     });
                 }}
             >
                 Создать мастера
             </Button>
             <IconInput icon={<SearchIcon strokeWidth={2} />} value={searchItem} onChange={handleInputChange} />
-            <MastersAdminList masters={filteredData} />
+            <ConditionalSkeletonLoader
+                isLoading={isMastersLoading}
+                isError={isMastersError}
+                isEmpty={unfilteredMasters.length == 0 && !!unfilteredMasters}
+                emptyMessage="В базе данных нет услуг."
+            >
+                <MastersAdminList masters={filteredData} />
+                <p className="text-zinc-500">{notFoundText}</p>
+            </ConditionalSkeletonLoader>
         </div>
     );
 }

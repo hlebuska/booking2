@@ -8,10 +8,14 @@ import useServices from '@/hooks/use-services';
 import { SearchIcon } from 'lucide-react';
 import ServiceAdminList from '@/components/features/services/service-admin-list';
 import { filterServices } from '@/lib/utils';
+import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
 
 export default function ServiceManage() {
-    const { unfilteredServices } = useServices();
-    const { searchItem, handleInputChange, filteredData } = useSearch(unfilteredServices ?? [], filterServices);
+    const { unfilteredServices, isServicesLoading, isServicesError } = useServices();
+    const { searchItem, handleInputChange, filteredData, notFoundText } = useSearch(
+        unfilteredServices ?? [],
+        filterServices
+    );
     const { openDialog } = useDialogStore();
 
     return (
@@ -28,8 +32,16 @@ export default function ServiceManage() {
                 Создать услугу
             </Button>
             <IconInput icon={<SearchIcon strokeWidth={2} />} value={searchItem} onChange={handleInputChange} />
-
-            <ServiceAdminList services={filteredData} />
+            <ConditionalSkeletonLoader
+                isLoading={isServicesLoading}
+                isError={isServicesError}
+                isEmpty={unfilteredServices.length == 0 && !!unfilteredServices}
+                emptyMessage="В базе данных нет услуг."
+                className="h-3"
+            >
+                <ServiceAdminList services={filteredData} />
+                <p className="text-zinc-500">{notFoundText}</p>
+            </ConditionalSkeletonLoader>
         </div>
     );
 }
