@@ -6,10 +6,14 @@ import { useSearch } from '@/hooks/use-search';
 import { SearchIcon } from 'lucide-react';
 import useServices from '@/hooks/use-services';
 import { filterServices } from '@/lib/utils';
+import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
 
 export default function ServiceSelectPage() {
-    const { unfilteredServices } = useServices();
-    const { searchItem, handleInputChange, filteredData } = useSearch(unfilteredServices ?? [], filterServices);
+    const { unfilteredServices, isServicesLoading, isServicesError } = useServices();
+    const { searchItem, handleInputChange, filteredData, notFoundText } = useSearch(
+        unfilteredServices ?? [],
+        filterServices
+    );
 
     return (
         <div className="space-y-6 mx-auto p-4 sm:p-9 w-full max-w-3xl px-4 sm:px-20 md:px-24 lg:px-12 bg-white h-full min-h-screen">
@@ -17,7 +21,16 @@ export default function ServiceSelectPage() {
             <div className="flex flex-col gap-3">
                 <IconInput icon={<SearchIcon strokeWidth={2} />} value={searchItem} onChange={handleInputChange} />
             </div>
-            <ServiceSelectList services={filteredData} />
+            <ConditionalSkeletonLoader
+                isLoading={isServicesLoading}
+                isError={isServicesError}
+                isEmpty={unfilteredServices.length == 0 && !!unfilteredServices}
+                emptyMessage="В базе данных нет услуг."
+                className="h-3"
+            >
+                <ServiceSelectList services={filteredData} />
+                <p className="text-zinc-500">{notFoundText}</p>
+            </ConditionalSkeletonLoader>
         </div>
     );
 }
