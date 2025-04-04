@@ -14,26 +14,30 @@ class BarberViewSet(viewsets.ModelViewSet):
         slots = BarberTime.objects.filter(barber_id=pk)
         return Response({
             'schedules': [
-                {'id': slot.time_slots.id, 'time': slot.time_slots.start_time, 'is_available': slot.is_available} 
+                {'id': slot.time_slots.id, 'time': slot.time_slots.start_time.strftime("%H:%M"), 'is_available': slot.is_available} 
                 for slot in slots
             ]
         })
     
-    @action(methods=['get'], detail=True)
+    @action(methods=['get', 'post'], detail=True)
     def services(self, request, pk=None):
         barber = self.get_object()  # Получаем объект барбера
-        services_list = barber.services.all()  # Получаем услуги, связанные с этим барбером
-        return Response({
-            'services': [
-                {
-                    'id': service.id, 
-                    'name': service.name, 
-                    'description': service.description, 
-                    'price': service.price
-                }
-                for service in services_list
-            ]
-        })
+        if request.method == 'GET':
+            services_list = barber.services.all()  # Получаем услуги, связанные с этим барбером
+            return Response([
+                    {
+                        'id': service.id, 
+                        'name': service.name, 
+                        'description': service.description, 
+                        'price': service.price
+                    }
+                    for service in services_list
+                ]
+            )
+        elif request.method == 'POST':
+            list_of_service_ids = request.data.get('services')
+            barber.services.set(list_of_service_ids)
+            return Response('success')
 
 class ServiceViewSet(viewsets.ModelViewSet):
     queryset = BarberService.objects.all()
@@ -43,15 +47,14 @@ class ServiceViewSet(viewsets.ModelViewSet):
     def barbers(self, request, pk = None):
         service = self.get_object()
         barbers_list = service.barbers.all()
-        return Response({
-            'barbers': [{
+        return Response([{
                 'id':barber.id,
                 'name': barber.name,
 
             }
             for barber in barbers_list
             ]
-        })
+        )
         
 
 class BookingViewSet(viewsets.ModelViewSet):
