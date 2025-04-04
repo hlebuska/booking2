@@ -1,5 +1,5 @@
+import { H5 } from '@/components/ui/typography';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import { H5 } from '../../../../../components/ui/typography';
 
 interface IProps {
     name: string;
@@ -23,9 +23,9 @@ export default function MasterCard({ name, id, setMasterId, isSelected }: IProps
             }}
         >
             <div className="flex gap-3 items-start">
-                <Avatar>
+                <Avatar className="flex justify-center items-center">
                     <AvatarImage className="w-11" src={imgURL} />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarFallback>Selected</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col ">
                     <H5 className="">{name}</H5>

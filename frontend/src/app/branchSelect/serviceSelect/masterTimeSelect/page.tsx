@@ -1,15 +1,21 @@
 'use client';
-import BookingFormDialog from '@/app/branchSelect/serviceSelect/masterTimeSelect/components/booking-form-dialog';
-import SelectMasterDialog from '@/app/branchSelect/serviceSelect/masterTimeSelect/components/select-master-dialog';
-import SlotsList from '@/app/branchSelect/serviceSelect/masterTimeSelect/components/slots-list';
+import BookingForm from '@/components/forms/booking-form';
+import BookingFormDialog from '@/components/features/booking/booking-form-dialog';
+import MasterDialogTrigger from '@/components/features/masters/master-dialog-trigger';
+import SelectMasterList from '@/components/features/masters/select-master-list';
+import SlotsList from '@/components/features/masters/slots-list';
+import { Button } from '@/components/ui/button';
+
 import { H2 } from '@/components/ui/typography';
 import { useBooking } from '@/hooks/use-booking';
+import { useDialogStore } from '@/hooks/use-dialog-store';
 import useStore from '@/hooks/use-store';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export default function MasterTimeSelectPage() {
     const router = useRouter();
+    const { openDialog, setOpen } = useDialogStore();
 
     const {
         selectedMaster,
@@ -29,15 +35,33 @@ export default function MasterTimeSelectPage() {
         }
     }, [serviceIdState, router]);
 
+    const closeDialog = useCallback(() => {
+        setOpen(false);
+    }, [setOpen]);
+
+    useEffect(() => {
+        closeDialog();
+    }, [selectedMaster, closeDialog]);
+
     return (
         <div className="space-y-6 mx-auto p-4 sm:p-9 w-full max-w-3xl px-4 sm:px-20 md:px-24 lg:px-12 bg-white h-full min-h-screen">
             <H2>Новая запись</H2>
 
-            <SelectMasterDialog
-                selectedMasterName={selectedMasterName}
-                barbers={barbersQuery.data}
-                selectedMaster={selectedMaster}
-                setSelectedMaster={setSelectedMaster}
+            <MasterDialogTrigger
+                name={selectedMasterName}
+                id={selectedMaster}
+                onClick={() =>
+                    openDialog({
+                        content: (
+                            <SelectMasterList
+                                masters={barbersQuery.data}
+                                setMasterId={setSelectedMaster}
+                                selectedMaster={selectedMaster}
+                            />
+                        ),
+                        title: 'Выберите мастера',
+                    })
+                }
             />
 
             <SlotsList
@@ -49,11 +73,26 @@ export default function MasterTimeSelectPage() {
                 isError={barbersQuery.isError || scheduleQuery.isError}
             />
 
-            <BookingFormDialog
-                selectedMaster={selectedMaster}
-                selectedService={serviceIdState}
-                selectedSlot={selectedSlot}
-            />
+            <Button
+                variant="default"
+                disabled={!selectedSlot || !selectedMaster}
+                onClick={() => {
+                    if (selectedMaster !== null && selectedSlot !== null && serviceIdState !== null) {
+                        openDialog({
+                            content: (
+                                <BookingForm
+                                    barber_id={selectedMaster}
+                                    time_id={selectedSlot}
+                                    service_id={serviceIdState}
+                                />
+                            ),
+                            title: 'Новая запись',
+                        });
+                    }
+                }}
+            >
+                Записаться
+            </Button>
         </div>
     );
 }

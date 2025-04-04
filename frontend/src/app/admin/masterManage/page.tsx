@@ -1,17 +1,17 @@
 'use client';
+import MastersAdminList from '@/components/features/masters/master-admin-list';
 import CreateServiceForm from '@/components/forms/create-service-form';
 import { Button } from '@/components/ui/button';
 import IconInput from '@/components/ui/icon-input';
 import { useDialogStore } from '@/hooks/use-dialog-store';
+import useMasters from '@/hooks/use-masters';
 import { useSearch } from '@/hooks/use-search';
-import useServices from '@/hooks/use-services';
+import { filterMasters } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
-import ServiceAdminList from '@/components/features/services/service-admin-list';
-import { filterServices } from '@/lib/utils';
 
 export default function ServiceManage() {
-    const { unfilteredServices } = useServices();
-    const { searchItem, handleInputChange, filteredData } = useSearch(unfilteredServices ?? [], filterServices);
+    const { unfilteredMasters } = useMasters();
+    const { searchItem, handleInputChange, filteredData } = useSearch(unfilteredMasters ?? [], filterMasters);
     const { openDialog } = useDialogStore();
 
     return (
@@ -25,11 +25,10 @@ export default function ServiceManage() {
                     });
                 }}
             >
-                Создать услугу
+                Создать мастера
             </Button>
             <IconInput icon={<SearchIcon strokeWidth={2} />} value={searchItem} onChange={handleInputChange} />
-
-            <ServiceAdminList services={filteredData} />
+            <MastersAdminList masters={filteredData} />
         </div>
     );
 }
