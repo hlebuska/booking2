@@ -1,3 +1,4 @@
+from decimal import Decimal, InvalidOperation
 from rest_framework import serializers
 from .models import *
 class TimeSlotSerializer(serializers.ModelSerializer):
@@ -23,12 +24,11 @@ class BarberSerializer(serializers.ModelSerializer):
 
 
 class ServiceSerializer(serializers.ModelSerializer):
-    price = serializers.FloatField()
-
     class Meta:
         model = BarberService
         fields = '__all__'
 
+    
 
 class BookingSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,4 +1,3 @@
-import { Skeleton } from '../ui/skeleton';
 import SkeletonLoader from '../ui/skeleton-loader';
 
 interface IProps {
@@ -23,7 +22,7 @@ export default function ConditionalSkeletonLoader({
 }: IProps) {
     if (isLoading) {
         return (
-            <div className={className}>
+            <div className={`min-h-5 ${className}`}>
                 <SkeletonLoader {...props} className="w-1/3 h-full" />
             </div>
         );
@@ -33,7 +32,7 @@ export default function ConditionalSkeletonLoader({
         return <div className="text-red-500 text-center">{errorMessage}</div>;
     }
 
-    if (isEmpty) {
+    if (!isLoading && !isError && isEmpty) {
         return <div className="text-zinc-500 text-center">{emptyMessage}</div>;
     }
 

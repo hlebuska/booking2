@@ -14,6 +14,8 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { RequiredStar } from '@/components/ui/required-star';
+import { useDialogStore } from '@/hooks/use-dialog-store';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
     barber_id: number;
@@ -34,6 +36,9 @@ const formSchema = z.object({
 });
 
 export default function BookingForm({ barber_id, time_id }: IProps) {
+    const { setOpen } = useDialogStore();
+    const router = useRouter();
+
     const form = useForm<IBookingFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: { phone_number: '', name: '', comment: '' },
@@ -47,8 +52,10 @@ export default function BookingForm({ barber_id, time_id }: IProps) {
             toast({
                 variant: 'success',
                 title: 'Запись прошла успешно.',
-                description: 'Запись к мастеру ${barber_id} на ${time_id} прошла успешно.',
+                description: 'Запись прошла успешно.',
             });
+            setOpen(false);
+            router.push('/success');
         },
         onError: (error) => {
             if (axios.isAxiosError(error)) {

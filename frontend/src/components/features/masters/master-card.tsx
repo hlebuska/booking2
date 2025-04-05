@@ -4,8 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 interface IProps {
     name: string;
     id: number;
-    setMasterId: (id: number) => void;
-    isSelected: boolean;
+    setMasterId?: (id: number) => void;
+    isSelected?: boolean;
 }
 
 export default function MasterCard({ name, id, setMasterId, isSelected }: IProps) {
@@ -15,7 +15,7 @@ export default function MasterCard({ name, id, setMasterId, isSelected }: IProps
 
     return (
         <div
-            className={`flex items-start justify-between rounded-lg border p-2 sm:p-4 text-left text-sm transition-all bg-muted hover:bg-accent hover:bg-gray-50 cursor-pointer`}
+            className={`flex w-full items-start justify-between rounded-lg border p-2 sm:p-4 text-left text-sm transition-all bg-white hover:bg-accent hover:bg-gray-50 cursor-pointer`}
             onClick={() => {
                 if (setMasterId) {
                     setMasterId(id);
