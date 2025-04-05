@@ -1,20 +1,18 @@
 'use client';
-import BookingForm from '@/components/forms/booking-form';
-import BookingFormDialog from '@/components/features/booking/booking-form-dialog';
 import MasterDialogTrigger from '@/components/features/masters/master-dialog-trigger';
 import SelectMasterList from '@/components/features/masters/select-master-list';
 import SlotsList from '@/components/features/masters/slots-list';
+import BookingForm from '@/components/forms/booking-form';
 import { Button } from '@/components/ui/button';
 
-import { H2, H4 } from '@/components/ui/typography';
+import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
+import { H2 } from '@/components/ui/typography';
 import { useBooking } from '@/hooks/use-booking';
 import { useDialogStore } from '@/hooks/use-dialog-store';
+import useService from '@/hooks/use-service';
 import useStore from '@/hooks/use-store';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
-import ServiceCard from '@/components/features/services/service-card';
-import useService from '@/hooks/use-service';
-import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
 
 export default function MasterTimeSelectPage() {
     const router = useRouter();
