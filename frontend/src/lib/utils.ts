@@ -27,6 +27,7 @@ export const breadcrumbNames: Record<string, string> = {
     serviceManage: 'Настройка услуг',
     masterManage: 'Настройка мастеров',
     branchManage: 'Настройка филиалов',
+    success: 'Успешная запись',
 };
 
 //Filters
@@ -68,11 +69,23 @@ export const sortByFn = <T extends Record<string, any>>(
     if (!sortBy) return items;
     const sorted = [...items];
 
-    if (sortBy.type === 'string') {
-        sorted.sort((a, b) => String(a[sortBy.key]).localeCompare(String(b[sortBy.key])));
-    } else if (sortBy.type === 'number') {
-        sorted.sort((a, b) => Number(a[sortBy.key]) - Number(b[sortBy.key]));
-    }
+    sorted.sort((a, b) => {
+        const aVal = a[sortBy.key];
+        const bVal = b[sortBy.key];
+
+        const aNum = Number(aVal);
+        const bNum = Number(bVal);
+
+        const aIsNumber = !isNaN(aNum);
+        const bIsNumber = !isNaN(bNum);
+
+        if (aIsNumber && bIsNumber) {
+            return aNum - bNum;
+        }
+
+        return String(aVal).localeCompare(String(bVal));
+    });
+
     return order == 'asc' ? sorted : sorted.reverse();
 };
 
@@ -125,6 +138,11 @@ export async function deleteMaster(id: number) {
 //Services
 export async function getServices() {
     const { data } = await axiosApiClient.get(`services/`);
+    return data;
+}
+
+export async function getServiceById(id: number) {
+    const { data } = await axiosApiClient.get(`services/${id}`);
     return data;
 }
 
