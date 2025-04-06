@@ -2,6 +2,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { GenericKeyInfo, SortOrderType } from '@/lib/type/types';
 import { translateProp } from '@/lib/utils';
 import { ArrowDown, ArrowUp } from 'lucide-react';
+import { motion } from 'motion/react';
 import { Dispatch, SetStateAction } from 'react';
 
 interface IProps<T extends Record<string, any>> {
@@ -19,7 +20,15 @@ export default function SortingSelect<T extends Record<string, any>>({
     return (
         <div className="flex gap-2">
             {/* Sorting By Select */}
-            <div className="flex items-center gap-2 mt-2 relative w-1/2 xs:w-1/3">
+            <motion.div
+                initial={{ scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{
+                    duration: 0.2,
+                }}
+                viewport={{ once: true }}
+                className="flex items-center gap-2 mt-2 relative w-1/2 xs:w-1/3"
+            >
                 <Select defaultValue="no" onValueChange={(value) => setSelectedSortKey(value)}>
                     <SelectTrigger className=" gap-2 text-zinc-500">
                         <SelectValue placeholder="Без сортировки" />
@@ -35,9 +44,19 @@ export default function SortingSelect<T extends Record<string, any>>({
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-            </div>
+            </motion.div>
             {/* Asc/Desc Select */}
-            <div className="flex items-center gap-2 mt-2 relative w-1/2 xs:w-1/4">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{
+                    type: 'spring',
+                    bounce: 0.3,
+                    duration: 0.5,
+                }}
+                viewport={{ once: true }}
+                className="flex items-center gap-2 mt-2 relative w-1/2 xs:w-1/4"
+            >
                 <div className="absolute inset-y-0 top-1/2 -translate-y-1/2 flex items-center ml-[9px] pointer-events-none w-4 h-4 text-zinc-500"></div>
 
                 <Select
@@ -65,7 +84,7 @@ export default function SortingSelect<T extends Record<string, any>>({
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-            </div>
+            </motion.div>
         </div>
     );
 }
