@@ -12,28 +12,31 @@ class BarberViewSet(viewsets.ModelViewSet):
     @action(methods=['get'], detail=True)
     def schedules(self, request, pk=None):
         slots = BarberTime.objects.filter(barber_id=pk)
-        return Response({
-            'schedules': [
+        return Response([
                 {'id': slot.time_slots.id, 'time': slot.time_slots.start_time.strftime("%H:%M"), 'is_available': slot.is_available} 
                 for slot in slots
             ]
-        })
+        )
     
     @action(methods=['get', 'post'], detail=True)
     def services(self, request, pk=None):
         barber = self.get_object()  # Получаем объект барбера
+
         if request.method == 'GET':
-            services_list = barber.services.all()  # Получаем услуги, связанные с этим барбером
+            all_services = BarberService.objects.all()  # Все услуги
+            selected_services = barber.services.values_list('id', flat=True)  # ID прикреплённых
+
             return Response([
-                    {
-                        'id': service.id, 
-                        'name': service.name, 
-                        'description': service.description, 
-                        'price': service.price
-                    }
-                    for service in services_list
-                ]
-            )
+                {
+                    'id': service.id,
+                    'name': service.name,
+                    'description': service.description,
+                    'price': service.price,
+                    'selected': service.id in selected_services
+                }
+                for service in all_services
+            ])
+
         elif request.method == 'POST':
             list_of_service_ids = request.data.get('services')
             barber.services.set(list_of_service_ids)
