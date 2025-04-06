@@ -5,6 +5,7 @@ import { H5 } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import LogoLink from '@/components/ui/logo-link';
 import { useRouter } from 'next/navigation';
+import { motion } from 'motion/react';
 
 interface IProps {
     name: string;
@@ -21,7 +22,7 @@ export default function BranchCard({ name, address, mapSrc, gisLink, googleLink 
     };
 
     return (
-        <div className="flex flex-col gap-2 items-start justify-between rounded-lg border p-2 sm:p-4 text-left text-sm transition-all bg-muted ">
+        <motion.div className="flex flex-col gap-2 items-start justify-between rounded-lg border p-2 sm:p-4 text-left text-sm transition-all bg-white">
             <div className="h-auto w-full">
                 <img src={mapSrc + process.env.NEXT_PUBLIC_GEOAPIFY_API} alt="address" className="w-full " />
             </div>
@@ -52,6 +53,6 @@ export default function BranchCard({ name, address, mapSrc, gisLink, googleLink 
                     />
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }

@@ -1,13 +1,22 @@
 'use client';
 
 import { H4 } from '@/components/ui/typography';
+import { motion } from 'motion/react';
 import React from 'react';
 
 const AdminCard = ({ children }: { children?: React.ReactNode }) => {
     return (
-        <div className="flex flex-col items-start justify-between rounded-lg p-3 bg-muted outline-none border overflow-hidden shadow-sm">
+        <motion.div
+            initial={{ opacity: 0, scale: 0.95, x: '5vw' }}
+            whileInView={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{
+                duration: Math.random() * 0.3,
+            }}
+            viewport={{ once: true }}
+            className="flex flex-col items-start justify-between rounded-lg p-3 bg-white  outline-none border overflow-hidden shadow-sm"
+        >
             {children}
-        </div>
+        </motion.div>
     );
 };
 
