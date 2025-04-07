@@ -6,12 +6,17 @@ class BarberSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Barber
-        exclude = ['services']
+        exclude = ['services', 'time_slots']
 
 
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = BarberService
+        fields = '__all__'
+
+class ScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TimeSlot
         fields = '__all__'
 
     

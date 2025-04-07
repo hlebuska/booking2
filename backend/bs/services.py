@@ -8,17 +8,17 @@ class BookingService:
     @staticmethod
     def get_time_instance(barber_id, time_id):
         try:
-            return BarberTime.objects.get(barber_id=barber_id, time_slots_id=time_id)
+            return BarberTime.objects.get(barber_id=barber_id, time_slot_id=time_id)
         except BarberTime.DoesNotExist:
             raise ValueError(f"У парикмахера с ID {barber_id} нет временного слота с ID {time_id}.")
 
     @staticmethod
     def create_booking(barber_id, time_id, name, phone_number, comment):
         time_instance = BookingService.get_time_instance(barber_id, time_id)
-
+        print(time_instance)
         if not time_instance.is_available:
             barber_name = time_instance.barber.name
-            time_slot = time_instance.time_slots.start_time.strftime("%H:%M")
+            time_slot = time_instance.time_slot.start_time.strftime("%H:%M")
             raise ValueError(f"Временной слот {time_slot} для парикмахера {barber_name} уже забронирован.")
 
         time_instance.is_available = False
