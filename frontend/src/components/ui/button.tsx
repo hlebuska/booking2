@@ -4,6 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 import { motion } from 'motion/react';
+import { springFadeInVariant } from '@/lib/animation-varitants';
 
 const buttonVariants = cva(
     'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:focus-visible:ring-zinc-300',
@@ -45,16 +46,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({ className, variant, size, asChild = false, ...props }, ref) => {
         const Comp = asChild ? Slot : 'button';
         return (
-            <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{
-                    type: 'spring',
-                    bounce: 0.2,
-                    duration: 0.5,
-                }}
-                viewport={{ once: true }}
-            >
+            <motion.div variants={springFadeInVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}>
                 <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
             </motion.div>
         );

@@ -1,18 +1,15 @@
 'use client';
 
 import { H4 } from '@/components/ui/typography';
+import { cardVariants } from '@/lib/animation-varitants';
+
 import { motion } from 'motion/react';
 import React from 'react';
 
 const AdminCard = ({ children }: { children?: React.ReactNode }) => {
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.95, x: '5vw' }}
-            whileInView={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{
-                duration: Math.random() * 0.3,
-            }}
-            viewport={{ once: true }}
+            variants={cardVariants}
             className="flex flex-col items-start justify-between rounded-lg p-3 bg-white  outline-none border overflow-hidden shadow-sm"
         >
             {children}
@@ -51,7 +48,9 @@ const AdminCardRowDescription = ({
     children?: React.ReactNode;
     truncate?: boolean;
 }) => {
-    return <div className={`w-8/12 ${truncate ? 'line-clamp-1' : 'break-words'}`}>{children}</div>;
+    return (
+        <div className={`flex items-center gap-1 w-8/12 ${truncate ? 'line-clamp-1' : 'break-words'}`}>{children}</div>
+    );
 };
 
 AdminCard.Header = AdminCardHeader;

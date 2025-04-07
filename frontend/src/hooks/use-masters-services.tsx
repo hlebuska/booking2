@@ -13,6 +13,5 @@ export default function useMasterServices(masterId: number) {
     });
 
     const unfilteredServices = useMemo(() => data ?? [], [data]);
-
     return { unfilteredServices, isMasterServicesLoading, isMastersServicesError };
 }

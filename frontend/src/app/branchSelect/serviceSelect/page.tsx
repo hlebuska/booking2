@@ -1,13 +1,11 @@
 'use client';
-import IconInput from '@/components/ui/icon-input';
+import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
+import SearchBar from '@/components/common/search-bar';
 import ServiceSelectList from '@/components/features/services/service-select-list';
 import { H2 } from '@/components/ui/typography';
 import { useSearch } from '@/hooks/use-search';
-import { SearchIcon } from 'lucide-react';
 import useServices from '@/hooks/use-services';
 import { filterServices } from '@/lib/utils';
-import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
-import SearchBar from '@/components/common/search-bar';
 
 export default function ServiceSelectPage() {
     const { unfilteredServices, isServicesLoading, isServicesError } = useServices();

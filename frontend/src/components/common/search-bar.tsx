@@ -1,4 +1,5 @@
 import IconInput from '@/components/ui/icon-input';
+import { springFadeInVariant } from '@/lib/animation-varitants';
 import { SearchIcon } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -10,11 +11,9 @@ interface IProps {
 export default function SearchBar({ value, onChange }: IProps) {
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{
-                duration: 0.2,
-            }}
+            variants={springFadeInVariant}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
             className="flex flex-col gap-3"
         >
