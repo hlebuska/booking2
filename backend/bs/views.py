@@ -2,42 +2,65 @@ from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import *
-from .serializers import BarberSerializer, BookingSerializer, ServiceSerializer
+from .serializers import BarberSerializer, BookingSerializer, ServiceSerializer, ScheduleSerializer
 from .services import BookingService
 
 class BarberViewSet(viewsets.ModelViewSet):
     queryset = Barber.objects.all()
     serializer_class = BarberSerializer
 
-    @action(methods=['get'], detail=True)
+    @action(methods=['get', 'post'], detail=True)
     def schedules(self, request, pk=None):
-        slots = BarberTime.objects.filter(barber_id=pk)
-        return Response({
-            'schedules': [
-                {'id': slot.time_slots.id, 'time': slot.time_slots.start_time.strftime("%H:%M"), 'is_available': slot.is_available} 
+        barber = self.get_object()
+
+        if request.method == 'GET':
+            slots = BarberTime.objects.filter(barber=barber)
+            return Response([
+                {
+                    'id': slot.time_slot.id,
+                    'time': slot.time_slot.start_time.strftime("%H:%M"),
+                    'is_available': slot.is_available
+                }
                 for slot in slots
-            ]
-        })
+            ])
+
+        elif request.method == 'POST':
+            time_ids = request.data.get('time_slots', [])
+            try:
+                barber.time_slots.set(time_ids)
+            except:
+                return Response({"status": "unable assign time slots"}, status=404)
+
+            return Response({"status": "successfully assigned time slots"}, status=201)
+
     
     @action(methods=['get', 'post'], detail=True)
     def services(self, request, pk=None):
         barber = self.get_object()  # Получаем объект барбера
+
         if request.method == 'GET':
-            services_list = barber.services.all()  # Получаем услуги, связанные с этим барбером
+            all_services = BarberService.objects.all()  # Все услуги
+            selected_services = barber.services.values_list('id', flat=True)  # ID прикреплённых
+
             return Response([
-                    {
-                        'id': service.id, 
-                        'name': service.name, 
-                        'description': service.description, 
-                        'price': service.price
-                    }
-                    for service in services_list
-                ]
-            )
+                {
+                    'id': service.id,
+                    'name': service.name,
+                    'description': service.description,
+                    'price': service.price,
+                    'selected': service.id in selected_services
+                }
+                for service in all_services
+            ])
+
         elif request.method == 'POST':
-            list_of_service_ids = request.data.get('services')
-            barber.services.set(list_of_service_ids)
-            return Response('success')
+            list_of_service_ids = request.data.get('services', [])
+            try:
+                barber.services.set(list_of_service_ids)
+            except:
+                return Response({"status": f"unable assign services to {barber}"}, status=404)
+
+            return Response({"status": f"successfully assigned services to {barber}"}, status=201)
 
 class ServiceViewSet(viewsets.ModelViewSet):
     queryset = BarberService.objects.all()
@@ -47,14 +70,13 @@ class ServiceViewSet(viewsets.ModelViewSet):
     def barbers(self, request, pk = None):
         service = self.get_object()
         barbers_list = service.barbers.all()
-        return Response([{
+        return Response([
+            {
                 'id':barber.id,
                 'name': barber.name,
-
             }
             for barber in barbers_list
-            ]
-        )
+            ])
         
 
 class BookingViewSet(viewsets.ModelViewSet):
@@ -109,3 +131,8 @@ class BookingViewSet(viewsets.ModelViewSet):
             return Response(result, status=status.HTTP_200_OK)
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ScheduleViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = TimeSlot.objects.all()
+    serializer_class = ScheduleSerializer
