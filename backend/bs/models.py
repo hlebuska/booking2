@@ -33,6 +33,9 @@ class BarberBooking(models.Model):
     comment = models.TextField()
     booked_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"Booking for {self.name} at {self.time_slot.start_time.strftime('%H:%M')} with {self.barber.name}"
+
 class BarberService(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()

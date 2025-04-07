@@ -1,9 +1,16 @@
+
 from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import *
 from .serializers import BarberSerializer, BookingSerializer, ServiceSerializer, ScheduleSerializer
 from .services import BookingService
+import logging
+from django.core.cache import cache
+
+logger = logging.getLogger('myapp')
+cached_slots = dict()
+cached_services = dict()
 
 class BarberViewSet(viewsets.ModelViewSet):
     queryset = Barber.objects.all()
@@ -12,22 +19,46 @@ class BarberViewSet(viewsets.ModelViewSet):
     @action(methods=['get', 'post'], detail=True)
     def schedules(self, request, pk=None):
         barber = self.get_object()
-
+        user_type = request.query_params.get("user_type", "client")
         if request.method == 'GET':
-            slots = BarberTime.objects.filter(barber=barber)
-            return Response([
-                {
+            cached_slots[user_type] = cache.get(f'barber_{barber.id}_schedules_{user_type}')
+            if cached_slots[user_type]:
+                logger.info(f"Данные о расписании барбера {barber} для {user_type} извлечены из кэша.")
+                return Response(cached_slots[user_type])
+            if user_type == "client":
+                slots = BarberTime.objects.filter(barber=barber)
+                schedule_data = [{
                     'id': slot.time_slot.id,
                     'time': slot.time_slot.start_time.strftime("%H:%M"),
                     'is_available': slot.is_available
                 }
-                for slot in slots
-            ])
+                for slot in slots]
+                
+            elif user_type == "admin":
+                slots = TimeSlot.objects.all()
+                schedule_data = [{
+                    'id':slot.id,
+                    'time': slot.start_time.strftime("%H:%M"),
+                    'selected': slot.id in barber.time_slots.values_list("id", flat = True)
+                }
+                for slot in slots]
+
+            else:
+                return Response({"error": "Invalid user_type"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            if schedule_data:
+                cache.set(f'barber_{barber.id}_schedules_{user_type}', schedule_data, timeout=300)
+                logger.info(f"Данные о расписании барбера {barber} для {user_type} сохранены в кэш.")
+            return Response(schedule_data)
+
 
         elif request.method == 'POST':
             time_ids = request.data.get('time_slots', [])
             try:
                 barber.time_slots.set(time_ids)
+                cache.delete(f'barber_{barber.id}_schedules_client')
+                cache.delete(f'barber_{barber.id}_schedules_admin')
+                logger.info(f"Кэш с расписанием удален")
             except:
                 return Response({"status": "unable assign time slots"}, status=404)
 
@@ -36,27 +67,44 @@ class BarberViewSet(viewsets.ModelViewSet):
     
     @action(methods=['get', 'post'], detail=True)
     def services(self, request, pk=None):
-        barber = self.get_object()  # Получаем объект барбера
-
+        barber = self.get_object()
+        user_type = request.query_params.get("user_type", "client")
         if request.method == 'GET':
-            all_services = BarberService.objects.all()  # Все услуги
-            selected_services = barber.services.values_list('id', flat=True)  # ID прикреплённых
+            cached_services[user_type] = cache.get(f'barber_{barber.id}_services_{user_type}')
+            if cached_services[user_type]:
+                logger.info(f"Данные об услугах барбера {barber} для {user_type} извлечены из кэша.")
+                return Response(cached_services[user_type])
+            if user_type == 'client':
+                barber_services = barber.services.all()
+            elif user_type == 'admin':
+                barber_services = BarberService.objects.all() 
+            else:
+                return Response({"error": "Invalid user_type"}, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response([
+            selected_services = barber.services.values_list('id', flat=True) if user_type == 'admin' else []
+
+            services_data = [
                 {
                     'id': service.id,
                     'name': service.name,
                     'description': service.description,
                     'price': service.price,
-                    'selected': service.id in selected_services
+                    'selected': service.id in selected_services if user_type == 'admin' else None
                 }
-                for service in all_services
-            ])
+                for service in barber_services
+            ]
+            if services_data:
+                cache.set(f'barber_{barber.id}_services_{user_type}', services_data, timeout=300)
+                logger.info(f"Данные об услугах барбера {barber} для {user_type} сохранены в кэш.")
+            return Response(services_data)
 
         elif request.method == 'POST':
             list_of_service_ids = request.data.get('services', [])
             try:
                 barber.services.set(list_of_service_ids)
+                cache.delete(f'barber_{barber.id}_services_client')
+                cache.delete(f'barber_{barber.id}_services_admin')
+                logger.info(f"Кэш с услугами удален")
             except:
                 return Response({"status": f"unable assign services to {barber}"}, status=404)
 
@@ -79,58 +127,54 @@ class ServiceViewSet(viewsets.ModelViewSet):
             ])
         
 
+
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = BarberBooking.objects.all()
     serializer_class = BookingSerializer
 
     def create(self, request, *args, **kwargs):
-        barber_id = request.data.get('barber_id')
-        time_id = request.data.get('time_id')
-        name = request.data.get('name')
-        phone_number = request.data.get('phone_number')
-        comment = request.data.get('comment', '')
+        serializer = self.get_serializer(data=request.data)
 
-        missing_fields = []
-        if not barber_id:
-            missing_fields.append("barber_id")
-        if not time_id:
-            missing_fields.append("time_id")
-        if not name:
-            missing_fields.append("name")
-        if not phone_number:
-            missing_fields.append("phone_number")
+        if serializer.is_valid():
+            barber = serializer.validated_data['barber']
+            time = serializer.validated_data['time_slot']
+            name = serializer.validated_data['name']
+            phone_number = serializer.validated_data['phone_number']
+            comment = serializer.validated_data.get('comment', '')
 
-        if missing_fields:
-            return Response(
-                {"error": f"The following fields are required: {', '.join(missing_fields)}."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            logger.debug(f"Attempting to create booking for barber {barber}, time {time}, name {name}")
 
-        try:
-            booking = BookingService.create_booking(
-                barber_id=barber_id,
-                time_id=time_id,
-                name=name,
-                phone_number=phone_number,
-                comment=comment
-            )
-        except ValueError as e:
-            return Response(
-                {"error": str(e)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        serializer = self.get_serializer(booking)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            try:
+                booking = BookingService.create_booking(
+                    barber=barber,
+                    time=time,
+                    name=name,
+                    phone_number=phone_number,
+                    comment=comment
+                )
+                logger.info(f"Booking created: {booking}")
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+            except ValueError as e:
+                logger.error(f"Failed to create booking: {str(e)}")
+                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, *args, **kwargs):
         booking_id = kwargs.get('pk')
 
+        logger.debug(f"Attempting to delete booking with ID {booking_id}")
+
         try:
             result = BookingService.delete_booking(booking_id=booking_id)
+            logger.info(f"Successfully deleted booking with ID {booking_id}")
             return Response(result, status=status.HTTP_200_OK)
+
         except ValueError as e:
+            logger.error(f"Failed to delete booking with ID {booking_id}: {str(e)}")
             return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
+
 
 
 class ScheduleViewSet(viewsets.ReadOnlyModelViewSet):
