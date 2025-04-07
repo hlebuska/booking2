@@ -148,7 +148,7 @@ export async function getServiceById(id: number) {
 
 export async function getMastersServices(masterId: number) {
     const { data } = await axiosApiClient.get(`barbers/${masterId}/services/`);
-    return data.services;
+    return data;
 }
 
 export async function postService(serviceData: Omit<IService, 'id'>) {

@@ -1,4 +1,5 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { springFadeInVariant } from '@/lib/animation-varitants';
 import { GenericKeyInfo, SortOrderType } from '@/lib/type/types';
 import { translateProp } from '@/lib/utils';
 import { ArrowDown, ArrowUp } from 'lucide-react';
@@ -21,11 +22,9 @@ export default function SortingSelect<T extends Record<string, any>>({
         <div className="flex gap-2">
             {/* Sorting By Select */}
             <motion.div
-                initial={{ scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{
-                    duration: 0.2,
-                }}
+                variants={springFadeInVariant}
+                initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true }}
                 className="flex items-center gap-2 mt-2 relative w-1/2 xs:w-1/3"
             >
@@ -47,13 +46,9 @@ export default function SortingSelect<T extends Record<string, any>>({
             </motion.div>
             {/* Asc/Desc Select */}
             <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{
-                    type: 'spring',
-                    bounce: 0.3,
-                    duration: 0.5,
-                }}
+                variants={springFadeInVariant}
+                initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true }}
                 className="flex items-center gap-2 mt-2 relative w-1/2 xs:w-1/4"
             >

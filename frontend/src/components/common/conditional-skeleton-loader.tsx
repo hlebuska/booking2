@@ -1,3 +1,4 @@
+import { Spinner } from '../ui/loader';
 import SkeletonLoader from '../ui/skeleton-loader';
 
 interface IProps {
@@ -22,8 +23,8 @@ export default function ConditionalSkeletonLoader({
 }: IProps) {
     if (isLoading) {
         return (
-            <div className={`min-h-5 ${className}`}>
-                <SkeletonLoader {...props} className="w-1/3 h-full" />
+            <div className={`relative h-[20vh] flex justify-center items-center ${className}`}>
+                <Spinner {...props} size="medium" />
             </div>
         );
     }

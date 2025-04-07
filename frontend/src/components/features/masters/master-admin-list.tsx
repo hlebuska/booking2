@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { IMaster } from '@/lib/type/types';
-import { EllipsisVertical, Pencil, Settings2, Trash2 } from 'lucide-react';
+import { CalendarCheck, EllipsisVertical, Pencil, Scissors, Settings2, Trash2 } from 'lucide-react';
 import AdminCard from '@/components/ui/admin-card';
 import MastersServiceList from './master-service-list/masters-service-list';
 
@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import useConfirm from '@/hooks/use-confirm';
 import { deleteMaster, queryClient } from '@/lib/utils';
+import { MastersSchedule } from './master-schedule.tsx/master-schedule';
 
 interface IProps {
     masters?: IMaster[];
@@ -88,7 +89,8 @@ export default function MastersAdminList({ masters }: IProps) {
                         <AdminCard.Row>
                             <AdminCard.RowTitle>Услуги: </AdminCard.RowTitle>
                             <AdminCard.RowDescription truncate>
-                                Список услуг доступных данному мастеру.
+                                <Scissors strokeWidth={1.5} size={20} className="hidden xs:inline" /> Список услуг
+                                доступных данному мастеру.
                             </AdminCard.RowDescription>
                             <Button
                                 variant="ghost"
@@ -98,6 +100,26 @@ export default function MastersAdminList({ masters }: IProps) {
                                         content: <MastersServiceList masterId={master.id} />,
                                         title: 'Редактирование доступных услуг',
                                         description: 'Выберите услуги которые может выполнять данный мастер.',
+                                    })
+                                }
+                            >
+                                <Settings2 />
+                            </Button>
+                        </AdminCard.Row>
+                        <AdminCard.Row>
+                            <AdminCard.RowTitle>Услуги: </AdminCard.RowTitle>
+                            <AdminCard.RowDescription truncate>
+                                <CalendarCheck size={20} strokeWidth={1.5} className="hidden xs:inline" /> Расписание
+                                мастера.
+                            </AdminCard.RowDescription>
+                            <Button
+                                variant="ghost"
+                                className="p-2 h-fit"
+                                onClick={() =>
+                                    openDialog({
+                                        content: <MastersSchedule />,
+                                        title: 'Редактирование расписания мастера',
+                                        description: 'Выберите часы в которые мастер доступен для записи.',
                                     })
                                 }
                             >
