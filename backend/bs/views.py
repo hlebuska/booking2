@@ -2,8 +2,9 @@
 from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.views import APIView
 from .models import *
-from .serializers import BarberSerializer, BookingSerializer, ServiceSerializer, ScheduleSerializer
+from .serializers import BarberSerializer, BookingSerializer, ServiceSerializer, ScheduleSerializer, RegisterSerializer
 from .services import BookingService
 import logging
 from django.core.cache import cache
@@ -180,3 +181,15 @@ class BookingViewSet(viewsets.ModelViewSet):
 class ScheduleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = TimeSlot.objects.all()
     serializer_class = ScheduleSerializer
+
+
+class RegisterView(APIView):
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response({"message":"Пользователь создан"})
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
