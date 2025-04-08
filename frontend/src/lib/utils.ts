@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { GenericKeyInfo, IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './type/types';
+import { GenericKeyInfo, IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './types';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -103,7 +103,7 @@ export async function getMasters() {
 }
 
 export async function getScheduleByMaster(masterId: number) {
-    const { data } = await axiosApiClient.get(`barbers/${masterId}/schedules/`);
+    const { data } = await axiosApiClient.get(`barbers/${masterId}/schedules/?user_type=client`);
     return data;
 }
 

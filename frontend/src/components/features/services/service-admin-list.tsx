@@ -7,7 +7,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { IService } from '@/lib/type/types';
+import { IService } from '@/lib/types';
 import { deleteService, formatDuration, queryClient } from '@/lib/utils';
 import AdminCard from '../../ui/admin-card';
 

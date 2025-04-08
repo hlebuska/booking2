@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import IconInput from '@/components/ui/icon-input';
 import useMasterServices from '@/hooks/use-masters-services';
 import { useSearch } from '@/hooks/use-search';
-import { IService } from '@/lib/type/types';
+import { IService } from '@/lib/types';
 import { filterServices } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
 import MastersServiceOption from './masters-service-option';

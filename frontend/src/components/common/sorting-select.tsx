@@ -1,6 +1,6 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { springFadeInVariant } from '@/lib/animation-varitants';
-import { GenericKeyInfo, SortOrderType } from '@/lib/type/types';
+import { GenericKeyInfo, SortOrderType } from '@/lib/types';
 import { translateProp } from '@/lib/utils';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import { motion } from 'motion/react';

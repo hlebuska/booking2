@@ -7,7 +7,7 @@ import { RequiredStar } from '@/components/ui/required-star';
 import { Textarea } from '@/components/ui/textarea';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { useToast } from '@/hooks/use-toast';
-import { IMaster } from '@/lib/type/types';
+import { IMaster } from '@/lib/types';
 import { postMaster, queryClient } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';

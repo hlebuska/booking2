@@ -2,7 +2,7 @@
 import SortingSelect from '@/components/common/sorting-select';
 import { useSorting } from '@/hooks/use-sorting';
 import { containerVariants } from '@/lib/animation-varitants';
-import { IService } from '@/lib/type/types';
+import { IService } from '@/lib/types';
 import { motion } from 'motion/react';
 import ServiceCard from './service-card';
 
