@@ -1,8 +1,9 @@
 'use client';
 import SortingSelect from '@/components/common/sorting-select';
 import { useSorting } from '@/hooks/use-sorting';
+import { containerVariants } from '@/lib/animation-varitants';
 import { IService } from '@/lib/type/types';
-import { H3 } from '../../ui/typography';
+import { motion } from 'motion/react';
 import ServiceCard from './service-card';
 
 interface IProps {
@@ -13,9 +14,8 @@ export default function ServiceSelectList({ services }: IProps) {
     const { sortedItems, selectedSortKey, setSelectedSortKey, setSortOrder, keys } = useSorting(services);
 
     return (
-        <div>
-            <div className="flex flex-col gap-4">
-                <H3>Стрижка головы</H3>
+        sortedItems.length > 0 && (
+            <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex flex-col gap-4">
                 <SortingSelect
                     keys={keys}
                     setSelectedSortKey={setSelectedSortKey}
@@ -32,7 +32,7 @@ export default function ServiceSelectList({ services }: IProps) {
                         key={index}
                     />
                 ))}
-            </div>
-        </div>
+            </motion.div>
+        )
     );
 }

@@ -1,7 +1,7 @@
 'use client';
 import MasterDialogTrigger from '@/components/features/masters/master-dialog-trigger';
 import SelectMasterList from '@/components/features/masters/select-master-list';
-import SlotsList from '@/components/features/masters/slots-list';
+import SlotsList from '@/components/features/booking/slots-list';
 import BookingForm from '@/components/forms/booking-form';
 import { Button } from '@/components/ui/button';
 

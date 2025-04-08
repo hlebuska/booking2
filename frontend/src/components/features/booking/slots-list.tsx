@@ -4,6 +4,8 @@ import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group';
 import { Label } from '@radix-ui/react-label';
 import { ISlot, SetNumberStateType } from '@/lib/type/types';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
+import { motion } from 'motion/react';
+import { containerVariants, slotVariants } from '@/lib/animation-varitants';
 
 interface IProps {
     schedules: ISlot[];
@@ -27,9 +29,15 @@ export default function SlotsListPage({ schedules, selectedMaster, setSelectedSl
     const renderSlots = (slots: ISlot[], title: string) => (
         <div>
             <H4 className="mb-3">{title}</H4>
-            <div className="flex flex-wrap gap-2 w-full">
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                className="flex flex-wrap gap-2 w-full"
+            >
                 {slots.map((slot) => (
-                    <div
+                    <motion.div
+                        variants={slotVariants}
                         key={slot.id}
                         className="flex-grow-0 flex-shrink-0 w-[calc(25%_-_0.5rem)] 
                                 sm:w-[calc(20%_-_0.5rem)]
@@ -42,9 +50,9 @@ export default function SlotsListPage({ schedules, selectedMaster, setSelectedSl
                         >
                             {slot.time}
                         </Label>
-                    </div>
+                    </motion.div>
                 ))}
-            </div>
+            </motion.div>
         </div>
     );
 
