@@ -2,7 +2,7 @@
 
 import { useSorting } from '@/hooks/use-sorting';
 import SortingSelect from './sorting-select';
-import { motion } from 'motion/react';
+import { AnimatePresence, delay, motion } from 'motion/react';
 import { containerVariants } from '@/lib/animation-varitants';
 
 interface IProps<T extends Record<string, any>> {
@@ -14,14 +14,16 @@ export default function AdminList<T extends Record<string, any>>({ items, render
     const { sortedItems, selectedSortKey, setSelectedSortKey, setSortOrder, keys } = useSorting(items);
 
     return (
-        <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex flex-col gap-4">
-            <SortingSelect
-                keys={keys}
-                setSelectedSortKey={setSelectedSortKey}
-                selectedSortKey={selectedSortKey}
-                setSortOrder={setSortOrder}
-            />
-            {sortedItems.map((item, index) => renderItem(item, index))}
-        </motion.div>
+        sortedItems.length > 0 && (
+            <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex flex-col gap-4">
+                <SortingSelect
+                    keys={keys}
+                    setSelectedSortKey={setSelectedSortKey}
+                    selectedSortKey={selectedSortKey}
+                    setSortOrder={setSortOrder}
+                />
+                {sortedItems.map((item, index) => renderItem(item, index))}
+            </motion.div>
+        )
     );
 }

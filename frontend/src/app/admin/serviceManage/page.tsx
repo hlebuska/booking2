@@ -1,16 +1,13 @@
 'use client';
+import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
+import SearchBar from '@/components/common/search-bar';
+import ServiceAdminList from '@/components/features/services/service-admin-list';
 import CreateServiceForm from '@/components/forms/create-service-form';
 import { Button } from '@/components/ui/button';
-import IconInput from '@/components/ui/icon-input';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { useSearch } from '@/hooks/use-search';
 import useServices from '@/hooks/use-services';
-import { SearchIcon } from 'lucide-react';
-import ServiceAdminList from '@/components/features/services/service-admin-list';
 import { filterServices } from '@/lib/utils';
-import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
-import SearchBar from '@/components/common/search-bar';
-import { motion } from 'motion/react';
 
 export default function ServiceManage() {
     const { unfilteredServices, isServicesLoading, isServicesError } = useServices();
@@ -39,7 +36,7 @@ export default function ServiceManage() {
                 isLoading={isServicesLoading}
                 isError={isServicesError}
                 isEmpty={unfilteredServices.length == 0 && !!unfilteredServices}
-                emptyMessage="В базе данных нет услуг."
+                emptyMessage="В базе данных нет услугO."
                 className="h-3"
             >
                 <ServiceAdminList services={filteredData} />

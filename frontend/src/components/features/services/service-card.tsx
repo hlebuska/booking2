@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { H5 } from '@/components/ui/typography';
 import useStore from '@/hooks/use-store';
+import { motion } from 'motion/react';
+import { cardVariants } from '@/lib/animation-varitants';
 
 interface IProps {
     serviceId: number;
@@ -26,7 +28,8 @@ export default function ServiceCard({ serviceId, name, description, duration, pr
     };
 
     return (
-        <div
+        <motion.div
+            variants={cardVariants}
             className="flex flex-col  items-start justify-between rounded-[10px] bordersm:p-4 text-left text-sm transition-all hover:bg-gray-50 bg-muted outline-none outline-offset-0  cursor-pointer  overflow-hidden border "
             onClick={() => handleServiceSelect()}
         >
@@ -44,6 +47,6 @@ export default function ServiceCard({ serviceId, name, description, duration, pr
                 </p>
                 <H5 className="font-normal">{price} ₸</H5>
             </div>
-        </div>
+        </motion.div>
     );
 }

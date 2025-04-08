@@ -109,7 +109,11 @@ function TimeSlotCard({ time, day }: TimeSlotCardProps) {
     return (
         <Card
             // Base Card styling
-            className={cn('shadow-n one p-2 transition-colors rounded-none border-r-0 border-b-0')}
+            className={cn(
+                `shadow-n one transition-colors rounded-none border-r-0 border-b-0 text-white ${
+                    checked ? 'bg-blue-400 text-white border-blue-300' : 'bg-white text-black'
+                }`
+            )}
         >
             {/* Hidden checkbox for a11y */}
             <input
@@ -124,13 +128,12 @@ function TimeSlotCard({ time, day }: TimeSlotCardProps) {
             <label
                 htmlFor={checkboxId}
                 className={cn(
-                    'flex items-center justify-between w-full h-full cursor-pointer hover:bg-accent',
+                    'flex items-center justify-center w-full h-full cursor-pointer hover:bg-accent p-2 '
                     // Tailwind class that triggers once the sibling checkbox is checked
-                    'peer-checked:bg-primary/10 peer-checked:border peer-checked:border-primary'
                 )}
             >
                 {/* We can show the time or any text here */}
-                <div className="hidden sm:block text-xs text-muted-foreground">{time}</div>
+                <div className="hidden sm:block text-xs text-muted-foreground text-center">{time}</div>
             </label>
         </Card>
     );
