@@ -6,6 +6,7 @@ import { motion } from 'motion/react';
 
 interface IProps {
     value: string;
+    defaultValue?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

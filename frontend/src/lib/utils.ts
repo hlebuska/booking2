@@ -102,8 +102,8 @@ export async function getMasters() {
     return data;
 }
 
-export async function getScheduleByMaster(masterId: number) {
-    const { data } = await axiosApiClient.get(`barbers/${masterId}/schedules/?user_type=client`);
+export async function getScheduleByMaster(masterId: number, role: 'admin' | 'client') {
+    const { data } = await axiosApiClient.get(`barbers/${masterId}/schedules/?user_type=${role}`);
     return data;
 }
 
@@ -146,8 +146,8 @@ export async function getServiceById(id: number) {
     return data;
 }
 
-export async function getMastersServices(masterId: number) {
-    const { data } = await axiosApiClient.get(`barbers/${masterId}/services/`);
+export async function getMastersServices(masterId: number, role: 'admin' | 'client') {
+    const { data } = await axiosApiClient.get(`barbers/${masterId}/services/?user_type=${role}`);
     return data;
 }
 

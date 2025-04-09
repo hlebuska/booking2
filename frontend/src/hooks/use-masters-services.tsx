@@ -9,7 +9,7 @@ export default function useMasterServices(masterId: number) {
         isError: isMastersServicesError,
     } = useQuery({
         queryKey: ['masterServices', masterId],
-        queryFn: () => getMastersServices(masterId),
+        queryFn: () => getMastersServices(masterId, 'admin'),
     });
 
     const unfilteredServices = useMemo(() => data ?? [], [data]);
