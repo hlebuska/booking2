@@ -4,6 +4,7 @@ import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { GenericKeyInfo, ILogin, IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './types';
 import useStore from '@/hooks/use-store';
+import { error } from 'console';
 
 //Misc
 export function cn(...inputs: ClassValue[]) {
@@ -96,11 +97,44 @@ export const queryClient = new QueryClient({ defaultOptions: { queries: { refetc
 
 export const axiosApiClient = axios.create({
     baseURL: process.env.SERVER_URL || 'http://localhost:8000/api',
+    withCredentials: true,
 });
+
+axiosApiClient.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+
+        if (originalRequest.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+
+            try {
+                const refreshResponse = await axios.post(
+                    '/api/token/refresh/',
+                    {}, // body empty, cookie will be used
+                    { withCredentials: true }
+                );
+
+                //Update token
+                const newAccessToken = refreshResponse.data.access;
+                useStore.getState().setAccessToken(newAccessToken);
+
+                //Redo the original request
+                originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                return axiosApiClient(originalRequest); // retry request
+            } catch (refreshError) {
+                console.error('Refresh failed, logging out user');
+                useStore.getState().setAccessToken(null); // or navigate to login page
+                window.location.href = '/login';
+                return Promise.reject(refreshError);
+            }
+        }
+    }
+);
 
 //CRUDS
 export async function getMasters() {
-    const { data } = await axiosApiClient.get('/v1/barbers');
+    const { data } = await axiosApiClient.get('/v1/barbers/');
     return data;
 }
 
