@@ -1,10 +1,9 @@
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import useStore from '@/hooks/use-store';
 import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 import { GenericKeyInfo, ILogin, IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './types';
-import useStore from '@/hooks/use-store';
-import { error } from 'console';
 
 //Misc
 export function cn(...inputs: ClassValue[]) {
@@ -104,19 +103,16 @@ axiosApiClient.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
+        console.log(originalRequest);
 
-        if (originalRequest.response?.status === 401 && !originalRequest._retry) {
+        if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
-
+            console.log('404 caught');
             try {
-                const refreshResponse = await axios.post(
-                    '/api/token/refresh/',
-                    {}, // body empty, cookie will be used
-                    { withCredentials: true }
-                );
+                const refreshResponse = await refreshToken();
 
                 //Update token
-                const newAccessToken = refreshResponse.data.access;
+                const newAccessToken = refreshResponse.access;
                 useStore.getState().setAccessToken(newAccessToken);
 
                 //Redo the original request
@@ -124,8 +120,9 @@ axiosApiClient.interceptors.response.use(
                 return axiosApiClient(originalRequest); // retry request
             } catch (refreshError) {
                 console.error('Refresh failed, logging out user');
+                console.log(refreshError);
                 useStore.getState().setAccessToken(null); // or navigate to login page
-                window.location.href = '/login';
+                // window.location.href = '/login';
                 return Promise.reject(refreshError);
             }
         }
@@ -198,5 +195,10 @@ export async function patchService(id: number, serviceData: IPatchService) {
 
 export async function login(loginData: ILogin) {
     const { data } = await axiosApiClient.post(`token/`, loginData);
+    return data;
+}
+
+export async function refreshToken() {
+    const { data } = await axiosApiClient.post(`token/refresh/`, {}, { withCredentials: true });
     return data;
 }

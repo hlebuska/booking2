@@ -245,7 +245,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             httponly=True,
             secure=True, 
             samesite='Lax',
-            path='/api/token/refresh/',
+            path='/',
             max_age=1 * 24 * 60 * 60 
         )
 
