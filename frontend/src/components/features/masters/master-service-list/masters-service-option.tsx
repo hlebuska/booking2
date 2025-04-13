@@ -5,7 +5,6 @@ import { cardVariants } from '@/lib/animation-varitants';
 
 import { ExternalLink } from 'lucide-react';
 import { motion } from 'motion/react';
-import { useRouter } from 'next/navigation';
 
 interface IProps {
     name: string;
@@ -14,7 +13,6 @@ interface IProps {
 }
 
 export default function MastersServiceOption({ name, index, checked }: IProps) {
-    const router = useRouter();
     const { setOpen } = useDialogStore();
 
     return (

@@ -10,7 +10,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { H4 } from '../ui/typography';
-import { login } from '@/lib/utils';
+import { login, queryClient } from '@/lib/utils';
+import { useMutation } from '@tanstack/react-query';
+import { ILogin } from '@/lib/types';
+import useStore from '@/hooks/use-store';
+import axios from 'axios';
 
 interface LoginFormValues {
     username: string;
@@ -26,10 +30,46 @@ const formSchema = z.object({
 export default function LoginForm() {
     const { toast } = useToast();
     const [showPassword, setShowPassword] = useState(false);
+    const { setAccessToken } = useStore();
 
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: { username: '', password: '' },
+    });
+    
+    const mutation = useMutation({
+        mutationFn: (data: ILogin) => {
+            return login(data);
+        },
+        onSuccess: (data) => {
+            toast({
+                variant: 'success',
+                title: 'Авторизация прошла успешно.',
+                description: `Авторизация пользователя "${data.username}" прошла успешно.`,
+            });
+
+            setAccessToken(data.refresh);
+            form.reset();
+            // queryClient.invalidateQueries({ queryKey: ['services'] });
+            // setOpen(false);
+        },
+        onError: (error) => {
+            if (axios.isAxiosError(error)) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Ошибка.',
+                    description: error.response?.data.error,
+                    duration: 2000,
+                });
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: 'Ошибка.',
+                    description: 'Что-то пошло не так.',
+                    duration: 2000,
+                });
+            }
+        },
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
@@ -39,10 +79,11 @@ export default function LoginForm() {
         console.log(data);
 
         // Example success toast
-        toast({
-            title: 'Успешный вход',
-            description: 'Вы успешно вошли в систему',
-        });
+        // toast({
+        //     title: 'Успешный вход',
+        //     description: 'Вы успешно вошли в систему',
+        // });
+        mutation.mutate(values);
     }
 
     const togglePasswordVisibility = () => {

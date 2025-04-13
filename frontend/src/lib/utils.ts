@@ -108,31 +108,19 @@ export async function getScheduleByMaster(masterId: number, role: 'admin' | 'cli
 }
 
 export async function postBooking(bookingData: IPostBooking) {
-    try {
-        const { data } = await axiosApiClient.post(`/v1/booking/`, bookingData);
-        return data;
-    } catch (error) {
-        throw error; // Ensure error is properly handled
-    }
+    const { data } = await axiosApiClient.post(`/v1/booking/`, bookingData);
+    return data;
 }
 
 //Masters
 export async function postMaster(masterData: Omit<IMaster, 'id'>) {
-    try {
-        const { data } = await axiosApiClient.post(`/v1/masters/`, masterData);
-        return data;
-    } catch (error) {
-        throw error;
-    }
+    const { data } = await axiosApiClient.post(`/v1/masters/`, masterData);
+    return data;
 }
 
 export async function deleteMaster(id: number) {
-    try {
-        const { data } = await axiosApiClient.delete(`/v1/barbers/${id}/`);
-        return data;
-    } catch (error) {
-        throw error;
-    }
+    const { data } = await axiosApiClient.delete(`/v1/barbers/${id}/`);
+    return data;
 }
 
 //Services
@@ -152,39 +140,23 @@ export async function getMastersServices(masterId: number, role: 'admin' | 'clie
 }
 
 export async function postService(serviceData: Omit<IService, 'id'>) {
-    try {
-        const { data } = await axiosApiClient.post(`/v1/services/`, serviceData);
-        return data;
-    } catch (error) {
-        throw error;
-    }
+    const { data } = await axiosApiClient.post(`/v1/services/`, serviceData);
+    return data;
 }
 
 export async function deleteService(id: number) {
-    try {
-        const { data } = await axiosApiClient.delete(`/v1/services/${id}/`);
-        return data;
-    } catch (error) {
-        throw error;
-    }
+    const { data } = await axiosApiClient.delete(`/v1/services/${id}/`);
+    return data;
 }
 
 export async function patchService(id: number, serviceData: IPatchService) {
-    try {
-        const { data } = await axiosApiClient.patch(`/v1/services/${id}/`, serviceData);
-        return data;
-    } catch (error) {
-        throw error;
-    }
+    const { data } = await axiosApiClient.patch(`/v1/services/${id}/`, serviceData);
+    return data;
 }
 
 //Auth
 
 export async function login(loginData: ILogin) {
-    try {
-        const { data } = await axiosApiClient.post(`token/`, loginData);
-        return data;
-    } catch (error) {
-        throw error;
-    }
+    const { data } = await axiosApiClient.post(`token/`, loginData);
+    return data;
 }
