@@ -8,6 +8,9 @@ from .serializers import BarberSerializer, BookingSerializer, ServiceSerializer,
 from .services import BookingService
 import logging
 from django.core.cache import cache
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 
 logger = logging.getLogger('myapp')
 cached_slots = dict()
@@ -216,3 +219,31 @@ class RegisterView(APIView):
             return Response({"message":"Пользователь создан"})
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = TokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception:
+            return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        data = serializer.validated_data
+        refresh_token = data.get('refresh')
+        access_token = data.get('access')
+
+        response = Response({'access': access_token}, status=status.HTTP_200_OK)
+        response.set_cookie(
+            key='refresh_token',
+            value=refresh_token,
+            httponly=True,
+            secure=True, 
+            samesite='Lax',
+            path='/api/token/refresh/',
+            max_age=1 * 24 * 60 * 60 
+        )
+
+        return response
