@@ -10,7 +10,7 @@ export function useBooking() {
     const barbersQuery = useQuery({ queryKey: ['barbers'], queryFn: getMasters });
     const scheduleQuery = useQuery({
         queryKey: ['schedule', masterIdState],
-        queryFn: () => (masterIdState ? getScheduleByMaster(masterIdState) : { schedules: [] }),
+        queryFn: () => (masterIdState ? getScheduleByMaster(masterIdState, 'client') : { schedules: [] }),
         enabled: !!masterIdState,
     });
 

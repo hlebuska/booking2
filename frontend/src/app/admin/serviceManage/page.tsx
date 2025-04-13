@@ -8,12 +8,17 @@ import { useDialogStore } from '@/hooks/use-dialog-store';
 import { useSearch } from '@/hooks/use-search';
 import useServices from '@/hooks/use-services';
 import { filterServices } from '@/lib/utils';
+import { useSearchParams } from 'next/navigation';
 
 export default function ServiceManage() {
+    const searchParams = useSearchParams();
+    const initialSearch = searchParams.get('search') ?? '';
+
     const { unfilteredServices, isServicesLoading, isServicesError } = useServices();
     const { searchItem, handleInputChange, filteredData, notFoundText } = useSearch(
         unfilteredServices ?? [],
-        filterServices
+        filterServices,
+        initialSearch
     );
     const { openDialog } = useDialogStore();
 
@@ -31,7 +36,7 @@ export default function ServiceManage() {
                 Создать услугу
             </Button>
 
-            <SearchBar value={searchItem} onChange={handleInputChange} />
+            <SearchBar value={searchItem} defaultValue={initialSearch} onChange={handleInputChange} />
             <ConditionalSkeletonLoader
                 isLoading={isServicesLoading}
                 isError={isServicesError}

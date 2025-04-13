@@ -1,9 +1,9 @@
 'use client';
 
 import { useSorting } from '@/hooks/use-sorting';
-import SortingSelect from './sorting-select';
-import { AnimatePresence, delay, motion } from 'motion/react';
 import { containerVariants } from '@/lib/animation-varitants';
+import { motion } from 'motion/react';
+import SortingSelect from './sorting-select';
 
 interface IProps<T extends Record<string, any>> {
     items?: T[];

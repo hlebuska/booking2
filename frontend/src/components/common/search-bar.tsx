@@ -1,10 +1,12 @@
 import IconInput from '@/components/ui/icon-input';
-import { springFadeInVariant } from '@/lib/animation-variants';
+import { springFadeInVariant } from '@/lib/animation-varitants';
+
 import { SearchIcon } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface IProps {
     value: string;
+    defaultValue?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

@@ -1,4 +1,4 @@
-import { SortOrderType } from '@/lib/type/types';
+import { SortOrderType } from '@/lib/types';
 import { getGenericKeys, sortByFn } from '@/lib/utils';
 import { useMemo, useState } from 'react';
 

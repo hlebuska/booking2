@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { useDialogStore } from '@/hooks/use-dialog-store';
-import { IMaster } from '@/lib/type/types';
+import { IMaster } from '@/lib/types';
 import { CalendarCheck, EllipsisVertical, Pencil, Scissors, Settings2, Trash2 } from 'lucide-react';
 import AdminCard from '@/components/ui/admin-card';
 import MastersServiceList from './master-service-list/masters-service-list';

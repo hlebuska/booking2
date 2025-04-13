@@ -2,7 +2,7 @@
 import { H4 } from '@/components/ui/typography';
 import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group';
 import { Label } from '@radix-ui/react-label';
-import { ISlot, SetNumberStateType } from '@/lib/type/types';
+import { ISlot, SetNumberStateType } from '@/lib/types';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
 import { motion } from 'motion/react';
 import { containerVariants, slotVariants } from '@/lib/animation-varitants';

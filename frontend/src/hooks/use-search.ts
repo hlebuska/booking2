@@ -2,31 +2,43 @@
 
 import { useEffect, useState } from 'react';
 
-export function useSearch<T>(unfilteredData: T[] = [], filterFn: (item: T, searchItem: string) => boolean) {
-    const [searchItem, setSearchItem] = useState('');
-    const [filteredData, setFilteredData] = useState(unfilteredData);
+export function useSearch<T>(
+    unfilteredData: T[] = [],
+    filterFn: (item: T, searchItem: string) => boolean,
+    initialSearch: string = ''
+) {
+    const [searchItem, setSearchItem] = useState(initialSearch);
+    const [filteredData, setFilteredData] = useState<T[]>([]);
     const [notFoundText, setNotFoundText] = useState('');
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        //Filtering
-        const searchTerm = e.target.value;
-        setSearchItem(searchTerm);
-        const filteredItems = unfilteredData.filter((item) => filterFn(item, searchTerm));
+    const applyFilter = (term: string) => {
+        const results = unfilteredData.filter((item) => filterFn(item, term));
 
-        if (filteredItems.length > 0) {
-            setFilteredData(filteredItems);
+        if (results.length > 0) {
+            setFilteredData(results);
             setNotFoundText('');
         } else {
             setFilteredData([]);
-            console.log('not found');
-            setNotFoundText(`По запросу "${searchItem}" ничего не найдено.`);
+            setNotFoundText(`По запросу "${term}" ничего не найдено.`);
         }
     };
 
-    //Update unfilteredServices on fetch
-    useEffect(() => {
-        setFilteredData(unfilteredData);
-    }, [unfilteredData]);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const term = e.target.value;
+        setSearchItem(term);
+        applyFilter(term.trim());
+    };
 
-    return { searchItem, handleInputChange, filteredData, notFoundText };
+    useEffect(() => {
+        setSearchItem(initialSearch);
+        applyFilter(initialSearch);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initialSearch, unfilteredData]);
+
+    return {
+        searchItem,
+        handleInputChange,
+        filteredData,
+        notFoundText,
+    };
 }

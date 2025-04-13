@@ -1,11 +1,12 @@
 import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
+import SearchBar from '@/components/common/search-bar';
 import { Button } from '@/components/ui/button';
-import IconInput from '@/components/ui/icon-input';
 import useMasterServices from '@/hooks/use-masters-services';
 import { useSearch } from '@/hooks/use-search';
-import { IService } from '@/lib/type/types';
+import { containerVariants } from '@/lib/animation-varitants';
+import { IService } from '@/lib/types';
 import { filterServices } from '@/lib/utils';
-import { SearchIcon } from 'lucide-react';
+import { motion } from 'motion/react';
 import MastersServiceOption from './masters-service-option';
 
 interface IProps {
@@ -18,7 +19,7 @@ export default function MastersServiceList({ masterId }: IProps) {
 
     return (
         <div className="flex flex-col justify-start gap-4">
-            <IconInput icon={<SearchIcon strokeWidth={2} />} value={searchItem} onChange={handleInputChange} />
+            <SearchBar value={searchItem} onChange={handleInputChange} />
 
             <ConditionalSkeletonLoader
                 isLoading={isMasterServicesLoading}
@@ -26,10 +27,20 @@ export default function MastersServiceList({ masterId }: IProps) {
                 isEmpty={unfilteredServices.length == 0 && !!unfilteredServices}
                 emptyMessage="В базе данных нет услуг."
             >
-                {filteredData.map((service: IService, index: number) => (
-                    <MastersServiceOption name={service.name} index={index} key={index} />
-                ))}
-                <p className="text-zinc-500">{notFoundText}</p>
+                {filteredData.length > 0 && (
+                    <motion.div variants={containerVariants} initial="hidden" animate="show">
+                        {filteredData.map((service: IService, index: number) => (
+                            <MastersServiceOption
+                                name={service.name}
+                                index={index}
+                                key={index}
+                                checked={service.selected}
+                            />
+                        ))}
+                    </motion.div>
+                )}
+
+                {notFoundText && <p className="text-zinc-500">{notFoundText}</p>}
                 <div>
                     <Button>Сохранить</Button>
                 </div>

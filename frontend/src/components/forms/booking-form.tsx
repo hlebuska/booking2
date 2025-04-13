@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { PhoneInput } from '@/components/ui/phone-input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { IPostBooking } from '@/lib/type/types';
+import { IPostBooking } from '@/lib/types';
 import { phoneRegex, postBooking } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -79,7 +79,8 @@ export default function BookingForm({ barber_id, time_id }: IProps) {
     const { toast } = useToast();
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        mutation.mutate({ ...values, barber_id, time_id });
+        const new_phone_number = values.phone_number.replace(/\D+/g, '');
+        mutation.mutate({ ...values, barber: barber_id, time_slot: time_id, phone_number: new_phone_number });
     }
 
     return (

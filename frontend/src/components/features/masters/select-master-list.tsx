@@ -1,4 +1,4 @@
-import { IMaster } from '@/lib/type/types';
+import { IMaster } from '@/lib/types';
 import MasterCard from './master-card';
 
 interface IProps {
