@@ -49,7 +49,7 @@ export default function LoginForm() {
                 description: `Авторизация пользователя прошла успешно.`,
             });
 
-            setAccessToken(data.refresh);
+            setAccessToken(data.access);
             router.push('/admin');
             form.reset();
         },
@@ -96,7 +96,7 @@ export default function LoginForm() {
     };
 
     return (
-        <div className="mx-auto w-full max-w-md p-6 space-y-6 bg-white ">
+        <div className="mx-auto w-full max-w-md p-6 space-y-6 bg-white rounded-md">
             <div className="space-y-2 text-center">
                 <H4>Вход</H4>
                 <p className="text-muted-foreground">Введите ваши данные для доступа к панели администратора</p>

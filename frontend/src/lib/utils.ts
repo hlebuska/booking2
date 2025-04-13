@@ -98,28 +98,6 @@ export const axiosApiClient = axios.create({
     baseURL: process.env.SERVER_URL || 'http://localhost:8000/api',
 });
 
-axiosApiClient.interceptors.request.use(
-    (config) => {
-        const token = useStore.getState().accessToken;
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    (error) => Promise.reject(error)
-);
-
-axiosApiClient.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.response?.status === 401) {
-            // Optionally reset auth state or redirect to login
-            useStore.getState().setAccessToken(null);
-        }
-        return Promise.reject(error);
-    }
-);
-
 //CRUDS
 export async function getMasters() {
     const { data } = await axiosApiClient.get('/v1/barbers');
@@ -159,10 +137,14 @@ export async function getServiceById(id: number) {
 }
 
 export async function getMastersServices(masterId: number, role: 'admin' | 'client') {
-    const { data } = await axiosApiClient.get(`/v1/barbers/${masterId}/services/?user_type=${role}`);
+    const token = useStore.getState().accessToken;
+
+    const headers = token && role === 'admin' ? { Authorization: `Bearer ${token}` } : undefined;
+
+    const { data } = await axiosApiClient.get(`/v1/barbers/${masterId}/services/?user_type=${role}`, { headers });
+
     return data;
 }
-
 export async function postService(serviceData: Omit<IService, 'id'>) {
     const { data } = await axiosApiClient.post(`/v1/services/`, serviceData);
     return data;

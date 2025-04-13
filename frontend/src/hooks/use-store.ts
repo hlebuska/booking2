@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 
 type State = {
     serviceIdState: number | null;
@@ -16,25 +16,28 @@ type Action = {
 };
 
 const useStore = create<State & Action>()(
-    persist(
-        (set) => ({
-            serviceIdState: null,
-            masterIdState: null,
-            branchIdState: null,
-            accessToken: null,
+    devtools(
+        persist(
+            (set) => ({
+                serviceIdState: null,
+                masterIdState: null,
+                branchIdState: null,
+                accessToken: null,
 
-            setServiceId: (serviceIdState: number) => set({ serviceIdState }),
-            setMasterId: (masterIdState: number | null) => set({ masterIdState }),
-            setBranchId: (branchIdState: number) => set({ branchIdState }),
-            setAccessToken: (accessToken: string | null) => set({ accessToken }),
+                setServiceId: (serviceIdState: number) => set({ serviceIdState }),
+                setMasterId: (masterIdState: number | null) => set({ masterIdState }),
+                setBranchId: (branchIdState: number) => set({ branchIdState }),
+                setAccessToken: (accessToken: string | null) => set({ accessToken }),
 
-            clearServiceId: () => set({ serviceIdState: null }),
-            clearMasterId: () => set({ masterIdState: null }),
-            clearBranchId: () => set({ branchIdState: null }),
+                clearServiceId: () => set({ serviceIdState: null }),
+                clearMasterId: () => set({ masterIdState: null }),
+                clearBranchId: () => set({ branchIdState: null }),
 
-            clearAll: () => set({ serviceIdState: null, masterIdState: null, branchIdState: null }),
-        }),
-        { name: 'bookingState' }
+                clearAll: () => set({ serviceIdState: null, masterIdState: null, branchIdState: null }),
+            }),
+            { name: 'bookingState' }
+        ),
+        { name: 'Zustand Store' }
     )
 );
 
