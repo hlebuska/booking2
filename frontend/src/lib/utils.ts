@@ -3,12 +3,13 @@ import { twMerge } from 'tailwind-merge';
 import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { GenericKeyInfo, ILogin, IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './types';
+import useStore from '@/hooks/use-store';
 
+//Misc
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-//Misc
 export const phoneRegex = new RegExp(/^\+7\s?7\d{2}\s?\d{3}\s?\d{4}$/);
 
 export const formatDuration = (duration: number): string => {
@@ -28,6 +29,7 @@ export const breadcrumbNames: Record<string, string> = {
     masterManage: 'Настройка мастеров',
     branchManage: 'Настройка филиалов',
     success: 'Успешная запись',
+    login: 'Авторизация',
 };
 
 //Filters
@@ -95,6 +97,28 @@ export const queryClient = new QueryClient({ defaultOptions: { queries: { refetc
 export const axiosApiClient = axios.create({
     baseURL: process.env.SERVER_URL || 'http://localhost:8000/api',
 });
+
+axiosApiClient.interceptors.request.use(
+    (config) => {
+        const token = useStore.getState().accessToken;
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
+axiosApiClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            // Optionally reset auth state or redirect to login
+            useStore.getState().setAccessToken(null);
+        }
+        return Promise.reject(error);
+    }
+);
 
 //CRUDS
 export async function getMasters() {

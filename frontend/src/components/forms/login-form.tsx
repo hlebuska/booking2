@@ -3,18 +3,19 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import useStore from '@/hooks/use-store';
 import { useToast } from '@/hooks/use-toast';
+import { ILogin } from '@/lib/types';
+import { login } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { H4 } from '../ui/typography';
-import { login, queryClient } from '@/lib/utils';
-import { useMutation } from '@tanstack/react-query';
-import { ILogin } from '@/lib/types';
-import useStore from '@/hooks/use-store';
-import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 interface LoginFormValues {
     username: string;
@@ -26,9 +27,9 @@ const formSchema = z.object({
     password: z.string().min(3, 'Пароль должен содержать не менее 3 символов'),
 });
 
-//add mutaitoN!
 export default function LoginForm() {
     const { toast } = useToast();
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const { setAccessToken } = useStore();
 
@@ -36,7 +37,7 @@ export default function LoginForm() {
         resolver: zodResolver(formSchema),
         defaultValues: { username: '', password: '' },
     });
-    
+
     const mutation = useMutation({
         mutationFn: (data: ILogin) => {
             return login(data);
@@ -45,20 +46,34 @@ export default function LoginForm() {
             toast({
                 variant: 'success',
                 title: 'Авторизация прошла успешно.',
-                description: `Авторизация пользователя "${data.username}" прошла успешно.`,
+                description: `Авторизация пользователя прошла успешно.`,
             });
 
             setAccessToken(data.refresh);
+            router.push('/admin');
             form.reset();
-            // queryClient.invalidateQueries({ queryKey: ['services'] });
-            // setOpen(false);
         },
         onError: (error) => {
             if (axios.isAxiosError(error)) {
+                const status = error.response?.status;
+
+                let description = 'Что-то пошло не так.';
+                if (status === 401) {
+                    description = 'Неверное имя пользователя или пароль.';
+                } else if (error.response?.data?.error) {
+                    description = error.response.data.error;
+                }
+
                 toast({
                     variant: 'destructive',
                     title: 'Ошибка.',
-                    description: error.response?.data.error,
+                    description,
+                    duration: 2000,
+                });
+                toast({
+                    variant: 'destructive',
+                    title: 'Ошибка.',
+                    description,
                     duration: 2000,
                 });
             } else {
@@ -73,16 +88,6 @@ export default function LoginForm() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Here you would typically handle authentication
-        console.log(values);
-        const data = login(values);
-        console.log(data);
-
-        // Example success toast
-        // toast({
-        //     title: 'Успешный вход',
-        //     description: 'Вы успешно вошли в систему',
-        // });
         mutation.mutate(values);
     }
 
@@ -91,7 +96,7 @@ export default function LoginForm() {
     };
 
     return (
-        <div className="mx-auto w-full max-w-md p-6 space-y-6 bg-white rounded-lg shadow-md">
+        <div className="mx-auto w-full max-w-md p-6 space-y-6 bg-white ">
             <div className="space-y-2 text-center">
                 <H4>Вход</H4>
                 <p className="text-muted-foreground">Введите ваши данные для доступа к панели администратора</p>

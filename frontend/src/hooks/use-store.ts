@@ -12,7 +12,7 @@ type Action = {
     setServiceId: (serviceIdState: number) => void;
     setMasterId: (masterIdState: number | null) => void;
     setBranchId: (branchIdState: number) => void;
-    setAccessToken: (accessToken: string) => void;
+    setAccessToken: (accessToken: string | null) => void;
 };
 
 const useStore = create<State & Action>()(
@@ -26,7 +26,7 @@ const useStore = create<State & Action>()(
             setServiceId: (serviceIdState: number) => set({ serviceIdState }),
             setMasterId: (masterIdState: number | null) => set({ masterIdState }),
             setBranchId: (branchIdState: number) => set({ branchIdState }),
-            setAccessToken: (accessToken: string) => set({ accessToken }),
+            setAccessToken: (accessToken: string | null) => set({ accessToken }),
 
             clearServiceId: () => set({ serviceIdState: null }),
             clearMasterId: () => set({ masterIdState: null }),
