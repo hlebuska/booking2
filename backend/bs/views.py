@@ -10,6 +10,9 @@ import logging
 from django.core.cache import cache
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework.exceptions import AuthenticationFailed
+
 
 
 logger = logging.getLogger('myapp')
@@ -247,3 +250,15 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         )
 
         return response
+
+
+class CookieTokenRefreshView(TokenRefreshView):
+    def post(self, request, *args, **kwargs):
+        refresh = request.COOKIES.get('refresh_token')
+
+        if not refresh:
+            raise AuthenticationFailed('No refresh token in cookies')
+
+        serializer = self.get_serializer(data={'refresh': refresh})
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.validated_data)
