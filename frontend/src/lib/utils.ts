@@ -109,6 +109,11 @@ export const axiosApiClient = axios.create({
     withCredentials: true,
 });
 
+const axiosRefreshClient = axios.create({
+    baseURL: process.env.SERVER_URL || 'http://localhost:8000/api',
+    withCredentials: true,
+});
+
 axiosApiClient.interceptors.response.use(
     (response) => response,
     async (error) => {
@@ -205,6 +210,6 @@ export async function login(loginData: ILogin) {
 }
 
 export async function refreshToken() {
-    const { data } = await axiosApiClient.post(`token/refresh/`, {}, { withCredentials: true });
+    const { data } = await axiosRefreshClient.post(`token/refresh/`, {}, { withCredentials: true });
     return data;
 }
