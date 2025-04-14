@@ -40,6 +40,7 @@ export const breadcrumbNames: Record<string, string> = {
     branchManage: 'Настройка филиалов',
     success: 'Успешная запись',
     login: 'Авторизация',
+    settings: 'Настройки',
 };
 
 //Filters
@@ -204,7 +205,6 @@ export async function patchService(id: number, serviceData: IPatchService) {
 }
 
 //Auth
-
 export async function login(loginData: ILogin) {
     const { data } = await axiosApiClient.post(`token/`, loginData);
     return data;
@@ -212,5 +212,10 @@ export async function login(loginData: ILogin) {
 
 export async function refreshToken() {
     const { data } = await axiosRefreshClient.post(`token/refresh/`, {}, { withCredentials: true });
+    return data;
+}
+
+export async function verifyToken(token: string) {
+    const data = await axiosApiClient.post(`token/verify/`, { token }, { withCredentials: true });
     return data;
 }

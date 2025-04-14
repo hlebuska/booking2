@@ -10,13 +10,13 @@ const NAV_ITEMS = [
     { href: '/admin/branchManage', label: 'Филиалы', icon: Building2 },
     { href: '/admin/serviceManage', label: 'Услуги', icon: Scissors },
     { href: '/admin/masterManage', label: 'Мастера', icon: UserRound },
-    { href: '/settings', label: 'Настройки', icon: Settings },
+    { href: '/admin/settings', label: 'Настройки', icon: Settings },
 ];
 
 export default function AdminNavbar() {
     const pathname = usePathname();
-    const { accessToken } = useStore();
-    if (!pathname.startsWith('/admin') || !accessToken) return null;
+
+    if (!pathname.startsWith('/admin')) return null;
 
     return (
         <nav className="mx-auto pt-6 w-full max-w-3xl px-4 sm:px-20 md:px-24 lg:px-12 bg-white h-full">

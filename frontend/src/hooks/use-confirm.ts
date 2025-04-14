@@ -1,6 +1,6 @@
 interface ConfirmDialogOptions {
     title: string;
-    description: string;
+    description?: string;
     onConfirm?: () => void;
 }
 
