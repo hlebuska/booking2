@@ -4,6 +4,7 @@ import axios from 'axios';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { GenericKeyInfo, ILogin, IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './types';
+import { deleteCookie, getCookie, setCookie } from './cookies';
 
 //Misc
 export function cn(...inputs: ClassValue[]) {
@@ -127,14 +128,15 @@ axiosApiClient.interceptors.response.use(
 
                 //Update token
                 const newAccessToken = refreshResponse.access;
-                useStore.getState().setAccessToken(newAccessToken);
+                // useStore.getState().setAccessToken(newAccessToken);
+                setCookie('access_token', newAccessToken);
 
                 //Redo the original request
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
 
                 return axiosApiClient(originalRequest); // retry request
             } catch (refreshError) {
-                useStore.getState().setAccessToken(null); // or navigate to login page
+                deleteCookie('access_token');
                 window.location.href = '/login';
                 return Promise.reject(refreshError);
             }
@@ -181,7 +183,7 @@ export async function getServiceById(id: number) {
 }
 
 export async function getMastersServices(masterId: number, role: 'admin' | 'client') {
-    const token = useStore.getState().accessToken;
+    const token = getCookie('access_token');
 
     const headers = token && role === 'admin' ? { Authorization: `Bearer ${token}` } : undefined;
 

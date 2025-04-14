@@ -1,25 +1,22 @@
-import { useEffect } from 'react';
-import useStore from './use-store';
+import { getCookie } from '@/lib/cookies';
 import { verifyToken } from '@/lib/utils';
+import { useEffect } from 'react';
 
 export default function useAuthGuard() {
-    const { accessToken } = useStore();
+    const accessToken = getCookie('access_token');
 
     useEffect(() => {
-        const checkToken = async () => {
-            if (!accessToken) {
-                window.location.href = '/login';
-                return;
-            }
-        };
+        // 2. If we have hydrated but still no token, go to login
 
-        try {
-            const data = verifyToken(accessToken!);
-        } catch (error) {
-            console.log(error);
+        if (!accessToken) {
             window.location.href = '/login';
+            return;
         }
 
-        checkToken();
+        try {
+            const data = verifyToken(accessToken ? accessToken : '');
+        } catch (error) {
+            window.location.href = '/login';
+        }
     }, [accessToken]);
 }

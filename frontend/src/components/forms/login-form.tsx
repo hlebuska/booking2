@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { H4 } from '../ui/typography';
 import { useRouter } from 'next/navigation';
+import { setCookie } from '@/lib/cookies';
 
 interface LoginFormValues {
     username: string;
@@ -49,7 +50,9 @@ export default function LoginForm() {
                 description: `Авторизация пользователя прошла успешно.`,
             });
 
-            setAccessToken(data.access);
+            // setAccessToken(data.access);
+            setCookie('access_token', data.access);
+            setCookie('refresh_token', data.refresh);
             router.push('/admin');
             form.reset();
         },

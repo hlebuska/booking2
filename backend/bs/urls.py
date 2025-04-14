@@ -15,7 +15,7 @@ router.register(r'booking', BookingViewSet, basename='booking')
 
 urlpatterns = [
     path('api/v1/', include(router.urls)),
-    path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', CookieTokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/register/', RegisterView.as_view(), name='register'),
