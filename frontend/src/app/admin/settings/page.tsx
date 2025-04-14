@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import useAuthGuard from '@/hooks/use-auth-guard';
 import useConfirm from '@/hooks/use-confirm';
 import useStore from '@/hooks/use-store';
+import { deleteCookie } from '@/lib/cookies';
 import { DoorOpen } from 'lucide-react';
 
 export default function AdminSettings() {
@@ -17,7 +18,8 @@ export default function AdminSettings() {
                         title: 'Вы уверены что хотите выйти из аккаунта?',
                         description: '',
                         onConfirm: async () => {
-                            useStore.getState().setAccessToken(null);
+                            deleteCookie('access_token');
+                            window.location.href = '/login';
                         },
                     });
                 }}
