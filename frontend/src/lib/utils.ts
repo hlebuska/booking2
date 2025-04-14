@@ -130,6 +130,7 @@ axiosApiClient.interceptors.response.use(
 
                 //Redo the original request
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
                 return axiosApiClient(originalRequest); // retry request
             } catch (refreshError) {
                 useStore.getState().setAccessToken(null); // or navigate to login page

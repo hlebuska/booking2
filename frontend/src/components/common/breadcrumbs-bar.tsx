@@ -6,12 +6,16 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import useStore from '@/hooks/use-store';
 import { breadcrumbNames } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 
 export default function BreadcrumbsBar() {
     const pathname = usePathname();
     const pathSegments = pathname.split('/').filter(Boolean);
+
+    const { accessToken } = useStore();
+    if (pathname.startsWith('/admin') && !accessToken) return null;
 
     return (
         <Breadcrumb className="mx-auto pt-9 w-full max-w-3xl px-4 sm:px-20 md:px-24 lg:px-12 bg-white h-full min-h-scr">

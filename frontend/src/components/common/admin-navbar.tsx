@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Home, Building2, Scissors, UserRound, Settings } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import useStore from '@/hooks/use-store';
 
 const NAV_ITEMS = [
     { href: '/admin', label: 'Главная', icon: Home },
@@ -14,8 +15,8 @@ const NAV_ITEMS = [
 
 export default function AdminNavbar() {
     const pathname = usePathname();
-
-    if (!pathname.startsWith('/admin')) return null;
+    const { accessToken } = useStore();
+    if (!pathname.startsWith('/admin') || !accessToken) return null;
 
     return (
         <nav className="mx-auto pt-6 w-full max-w-3xl px-4 sm:px-20 md:px-24 lg:px-12 bg-white h-full">
