@@ -4,6 +4,7 @@ import SearchBar from '@/components/common/search-bar';
 import ServiceAdminList from '@/components/features/services/service-admin-list';
 import CreateServiceForm from '@/components/forms/create-service-form';
 import { Button } from '@/components/ui/button';
+import useAuthGuard from '@/hooks/use-auth-guard';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { useSearch } from '@/hooks/use-search';
 import useServices from '@/hooks/use-services';
@@ -11,6 +12,7 @@ import { filterServices } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 
 export default function ServiceManage() {
+    useAuthGuard();
     const searchParams = useSearchParams();
     const initialSearch = searchParams.get('search') ?? '';
 

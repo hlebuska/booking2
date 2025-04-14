@@ -19,6 +19,16 @@ export const formatDuration = (duration: number): string => {
     return `${hours ? `${hours} ч.` : ''} ${minutes ? `${minutes} мин.` : ''}`.trim();
 };
 
+export const formatTime = (mins: number): string => {
+    const hours = Math.floor(mins / 60);
+    const minutes = mins % 60;
+
+    const paddedHours = String(hours).padStart(2, '0');
+    const paddedMinutes = String(minutes).padStart(2, '0');
+
+    return `${paddedHours}:${paddedMinutes}`;
+};
+
 export const breadcrumbNames: Record<string, string> = {
     '': 'Главная',
     branchSelect: 'Филиал',
@@ -30,6 +40,7 @@ export const breadcrumbNames: Record<string, string> = {
     branchManage: 'Настройка филиалов',
     success: 'Успешная запись',
     login: 'Авторизация',
+    settings: 'Настройки',
 };
 
 //Filters
@@ -99,15 +110,18 @@ export const axiosApiClient = axios.create({
     withCredentials: true,
 });
 
+const axiosRefreshClient = axios.create({
+    baseURL: process.env.SERVER_URL || 'http://localhost:8000/api',
+    withCredentials: true,
+});
+
 axiosApiClient.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        console.log(originalRequest);
 
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
-            console.log('404 caught');
             try {
                 const refreshResponse = await refreshToken();
 
@@ -117,12 +131,11 @@ axiosApiClient.interceptors.response.use(
 
                 //Redo the original request
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
                 return axiosApiClient(originalRequest); // retry request
             } catch (refreshError) {
-                console.error('Refresh failed, logging out user');
-                console.log(refreshError);
                 useStore.getState().setAccessToken(null); // or navigate to login page
-                // window.location.href = '/login';
+                window.location.href = '/login';
                 return Promise.reject(refreshError);
             }
         }
@@ -192,13 +205,17 @@ export async function patchService(id: number, serviceData: IPatchService) {
 }
 
 //Auth
-
 export async function login(loginData: ILogin) {
     const { data } = await axiosApiClient.post(`token/`, loginData);
     return data;
 }
 
 export async function refreshToken() {
-    const { data } = await axiosApiClient.post(`token/refresh/`, {}, { withCredentials: true });
+    const { data } = await axiosRefreshClient.post(`token/refresh/`, {}, { withCredentials: true });
+    return data;
+}
+
+export async function verifyToken(token: string) {
+    const data = await axiosApiClient.post(`token/verify/`, { token }, { withCredentials: true });
     return data;
 }

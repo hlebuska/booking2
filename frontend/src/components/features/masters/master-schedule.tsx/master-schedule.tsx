@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { cn, formatDuration, formatTime } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
+import { DualRangeSlider } from '@/components/ui/dual-range-slider';
 
 // 1) Define the days of the week
 const weekdays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
@@ -47,9 +48,24 @@ export function MastersSchedule() {
             },
         }));
     };
+    const [values, setValues] = useState([0, 100]);
+
+    //   const hours = Math.floor(duration / 60);
+    //  const minutes = duration % 60;
 
     return (
         <div className="w-full overflow-x-auto">
+            <div className="py-8 px-3">
+                <DualRangeSlider
+                    label={(value) => <span>{value ? formatTime(value) : '00:00'}</span>}
+                    value={values}
+                    onValueChange={setValues}
+                    min={0}
+                    max={1440}
+                    step={30}
+                />
+            </div>
+
             <div className="h-full max-h-[70vh] overflow-y-auto pr-2">
                 {/* Header row with weekdays */}
                 <div className="grid grid-cols-8">
@@ -103,7 +119,6 @@ function TimeSlotCard({ time, day }: TimeSlotCardProps) {
     const [checked, setChecked] = useState(false);
 
     useEffect(() => {
-        console.log(checked);
         return () => {};
     }, [checked]);
     return (

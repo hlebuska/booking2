@@ -4,6 +4,7 @@ import MastersAdminList from '@/components/features/masters/master-admin-list';
 import CreateMasterForm from '@/components/forms/create-master-form';
 import { Button } from '@/components/ui/button';
 import IconInput from '@/components/ui/icon-input';
+import useAuthGuard from '@/hooks/use-auth-guard';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import useMasters from '@/hooks/use-masters';
 import { useSearch } from '@/hooks/use-search';
@@ -11,6 +12,7 @@ import { filterMasters } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
 
 export default function ServiceManage() {
+    useAuthGuard();
     const { unfilteredMasters, isMastersLoading, isMastersError } = useMasters();
     const { searchItem, handleInputChange, filteredData, notFoundText } = useSearch(
         unfilteredMasters ?? [],

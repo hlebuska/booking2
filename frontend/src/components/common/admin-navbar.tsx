@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import { Home, Building2, Scissors, UserRound, Settings } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import useStore from '@/hooks/use-store';
 
 const NAV_ITEMS = [
     { href: '/admin', label: 'Главная', icon: Home },
     { href: '/admin/branchManage', label: 'Филиалы', icon: Building2 },
     { href: '/admin/serviceManage', label: 'Услуги', icon: Scissors },
     { href: '/admin/masterManage', label: 'Мастера', icon: UserRound },
-    { href: '/settings', label: 'Настройки', icon: Settings },
+    { href: '/admin/settings', label: 'Настройки', icon: Settings },
 ];
 
 export default function AdminNavbar() {
