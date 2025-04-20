@@ -17,7 +17,7 @@ const BreadcrumbList = React.forwardRef<HTMLOListElement, React.ComponentPropsWi
         <ol
             ref={ref}
             className={cn(
-                'flex flex-wrap items-center gap-1.5 break-words text-sm text-zinc-500 sm:gap-2.5 dark:text-zinc-400',
+                'flex flex-wrap items-center gap-1 xs:gap-1.5 break-words text-sm text-zinc-500 sm:gap-2.5 dark:text-zinc-400',
                 className
             )}
             {...props}
