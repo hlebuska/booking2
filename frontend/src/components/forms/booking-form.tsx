@@ -54,8 +54,16 @@ export default function BookingForm({ barber_id, time_id }: IProps) {
                 title: 'Запись прошла успешно.',
                 description: 'Запись прошла успешно.',
             });
+
             setOpen(false);
-            router.push('/success');
+
+            const params = new URLSearchParams({
+                barberId: data.barber,
+                timeSlot: data.time_slot,
+                comment: data.comment,
+            });
+
+            router.push(`/success?${params.toString()}`);
         },
         onError: (error) => {
             if (axios.isAxiosError(error)) {

@@ -150,6 +150,11 @@ export async function getMasters() {
     return data;
 }
 
+export async function getMasterById(id: number) {
+    const { data } = await axiosApiClient.get(`/v1/barbers/${id}`);
+    return data;
+}
+
 export async function getScheduleByMaster(masterId: number, role: 'admin' | 'client') {
     const { data } = await axiosApiClient.get(`/v1/barbers/${masterId}/schedules/?user_type=${role}`);
     return data;
