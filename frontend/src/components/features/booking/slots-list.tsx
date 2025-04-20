@@ -56,25 +56,20 @@ export default function SlotsListPage({ schedules, selectedMaster, setSelectedSl
         </div>
     );
 
+    if (!selectedMaster) {
+        return <></>;
+    }
+
+    if (morningSlots?.length == 0 && daySlots?.length == 0 && eveningSlots?.length == 0)
+        return <p>У выбранного мастера нет доступных записей.</p>;
+
     return (
         <RadioGroup className="" onValueChange={(value) => setSelectedSlot(parseInt(value, 10))}>
-            {isLoading ? (
-                <SkeletonLoader className="h-6 w-40" />
-            ) : schedules?.length > 0 ? (
-                <div className="flex flex-col gap-3">
-                    {morningSlots.length > 0 && renderSlots(morningSlots, 'Утро')}
-                    {daySlots.length > 0 && renderSlots(daySlots, 'День')}
-                    {eveningSlots.length > 0 && renderSlots(eveningSlots, 'Вечер')}
-                </div>
-            ) : selectedMaster ? (
-                <div>
-                    <p>У выбранного мастера нет доступных записей.</p>
-                </div>
-            ) : (
-                <div>
-                    <p>Выберите мастера чтобы увидеть доступные расписания</p>
-                </div>
-            )}
+            <div className="flex flex-col gap-3">
+                {morningSlots?.length > 0 && renderSlots(morningSlots, 'Утро')}
+                {daySlots?.length > 0 && renderSlots(daySlots, 'День')}
+                {eveningSlots?.length > 0 && renderSlots(eveningSlots, 'Вечер')}
+            </div>
         </RadioGroup>
     );
 }

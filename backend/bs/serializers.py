@@ -23,6 +23,8 @@ class ScheduleSerializer(serializers.ModelSerializer):
 
     
 class BookingSerializer(serializers.ModelSerializer):
+    comment = serializers.CharField(required=False, allow_blank=True)
+     
     class Meta:
         model = BarberBooking
         fields = '__all__'

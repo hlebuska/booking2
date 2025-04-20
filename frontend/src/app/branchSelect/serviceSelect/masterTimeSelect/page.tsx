@@ -71,14 +71,19 @@ export default function MasterTimeSelectPage() {
                 }
             />
 
-            <SlotsList
-                schedules={scheduleQuery.data}
-                selectedMaster={selectedMaster}
-                selectedSlot={selectedSlot}
-                setSelectedSlot={setSelectedSlot}
+            <ConditionalSkeletonLoader
                 isLoading={barbersQuery.isLoading || scheduleQuery.isLoading}
                 isError={barbersQuery.isError || scheduleQuery.isError}
-            />
+            >
+                <SlotsList
+                    schedules={scheduleQuery.data}
+                    selectedMaster={selectedMaster}
+                    selectedSlot={selectedSlot}
+                    setSelectedSlot={setSelectedSlot}
+                    isLoading={barbersQuery.isLoading || scheduleQuery.isLoading}
+                    isError={barbersQuery.isError || scheduleQuery.isError}
+                />
+            </ConditionalSkeletonLoader>
 
             <Button
                 variant="default"
