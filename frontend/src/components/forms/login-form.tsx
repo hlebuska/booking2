@@ -50,7 +50,6 @@ export default function LoginForm() {
                 description: `Авторизация пользователя прошла успешно.`,
             });
 
-            // setAccessToken(data.access);
             setCookie('access_token', data.access);
             setCookie('refresh_token', data.refresh);
             router.push('/admin');
@@ -66,13 +65,6 @@ export default function LoginForm() {
                 } else if (error.response?.data?.error) {
                     description = error.response.data.error;
                 }
-
-                toast({
-                    variant: 'destructive',
-                    title: 'Ошибка.',
-                    description,
-                    duration: 2000,
-                });
                 toast({
                     variant: 'destructive',
                     title: 'Ошибка.',

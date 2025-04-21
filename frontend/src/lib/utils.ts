@@ -121,14 +121,17 @@ axiosApiClient.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        const isLoginRequest =
+            originalRequest.method === 'post' &&
+            (originalRequest.url?.endsWith('/token/') || originalRequest.url?.endsWith('token'));
+
+        if (error.response?.status === 401 && !originalRequest._retry && !isLoginRequest) {
             originalRequest._retry = true;
             try {
                 const refreshResponse = await refreshToken();
 
                 //Update token
                 const newAccessToken = refreshResponse.access;
-                // useStore.getState().setAccessToken(newAccessToken);
                 setCookie('access_token', newAccessToken);
 
                 //Redo the original request
@@ -140,6 +143,8 @@ axiosApiClient.interceptors.response.use(
                 window.location.href = '/login';
                 return Promise.reject(refreshError);
             }
+        } else {
+            throw error;
         }
     }
 );
