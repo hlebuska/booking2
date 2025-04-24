@@ -17,6 +17,7 @@ import * as z from 'zod';
 import { H4 } from '../ui/typography';
 import { useRouter } from 'next/navigation';
 import { setCookie } from '@/lib/cookies';
+import { Spinner } from '../ui/loader';
 
 interface LoginFormValues {
     username: string;
@@ -32,7 +33,6 @@ export default function LoginForm() {
     const { toast } = useToast();
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
-    const { setAccessToken } = useStore();
 
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(formSchema),
@@ -90,10 +90,13 @@ export default function LoginForm() {
         setShowPassword(!showPassword);
     };
 
+    console.log(mutation.isPending);
+
     return (
         <div className="mx-auto w-full max-w-md p-6 space-y-6 bg-white rounded-md">
             <div className="space-y-2 text-center">
                 <H4>Вход</H4>
+
                 <p className="text-muted-foreground">Введите ваши данные для доступа к панели администратора</p>
             </div>
 
@@ -105,6 +108,7 @@ export default function LoginForm() {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Имя пользователя</FormLabel>
+
                                 <FormControl>
                                     <Input placeholder="Введите имя пользователя" {...field} />
                                 </FormControl>
@@ -145,8 +149,8 @@ export default function LoginForm() {
                         )}
                     />
 
-                    <Button type="submit" className="w-full">
-                        Войти
+                    <Button type="submit" className="w-full" disabled={mutation.isPending}>
+                        {mutation.isPending ? <Spinner size={'small'} className="" /> : <>Войти</>}
                     </Button>
                 </form>
             </Form>
