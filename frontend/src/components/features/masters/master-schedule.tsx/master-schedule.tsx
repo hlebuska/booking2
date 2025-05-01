@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { cn, formatDuration, formatTime } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { DualRangeSlider } from '@/components/ui/dual-range-slider';
+import { cn, formatTime } from '@/lib/utils';
+import { useEffect, useState } from 'react';
 
 // 1) Define the days of the week
 const weekdays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
@@ -49,7 +49,7 @@ export function MastersSchedule() {
         }));
     };
     const [values, setValues] = useState([0, 100]);
-
+    console.log(values);
     //   const hours = Math.floor(duration / 60);
     //  const minutes = duration % 60;
 

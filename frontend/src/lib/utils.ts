@@ -1,10 +1,15 @@
-import useStore from '@/hooks/use-store';
 import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { GenericKeyInfo, ILogin, IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './types';
 import { deleteCookie, getCookie, setCookie } from './cookies';
+import { GenericKeyInfo, ILogin, IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './types';
+
+declare module 'axios' {
+    export interface AxiosRequestConfig {
+        isLoginRequest?: boolean;
+    }
+}
 
 //Misc
 export function cn(...inputs: ClassValue[]) {
@@ -121,9 +126,7 @@ axiosApiClient.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        const isLoginRequest =
-            originalRequest.method === 'post' &&
-            (originalRequest.url?.endsWith('/token/') || originalRequest.url?.endsWith('token'));
+        const isLoginRequest = originalRequest.isLoginRequest === true;
 
         if (error.response?.status === 401 && !originalRequest._retry && !isLoginRequest) {
             originalRequest._retry = true;
@@ -218,7 +221,9 @@ export async function patchService(id: number, serviceData: IPatchService) {
 
 //Auth
 export async function login(loginData: ILogin) {
-    const { data } = await axiosApiClient.post(`token/`, loginData);
+    const { data } = await axiosApiClient.post(`token/`, loginData, {
+        isLoginRequest: true,
+    });
     return data;
 }
 
