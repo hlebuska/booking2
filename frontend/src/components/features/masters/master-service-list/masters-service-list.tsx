@@ -12,6 +12,8 @@ import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useToast } from '@/hooks/use-toast';
+import { Body1, Body2 } from '@/components/ui/typography';
+import { Save } from 'lucide-react';
 
 interface IProps {
     masterId: number;
@@ -61,7 +63,7 @@ export default function MastersServiceList({ masterId }: IProps) {
                 title: 'Услуга успешно обновлена.',
                 description: `Обновление услуг мастера прошло успешно.`,
             });
-            queryClient.invalidateQueries({ queryKey: ['service'] });
+            queryClient.invalidateQueries({ queryKey: ['masterServices'] });
         },
         onError: (error) => {
             if (axios.isAxiosError(error)) {
@@ -107,13 +109,31 @@ export default function MastersServiceList({ masterId }: IProps) {
                 )}
 
                 {notFoundText && <p className="text-zinc-500">{notFoundText}</p>}
-                <div>
+                <div className="flex justify-between     items-center">
                     <Button
                         disabled={Object.keys(changedServices).length === 0}
                         onClick={() => mutation.mutate(changedServices)}
                     >
                         Сохранить
                     </Button>
+
+                    {Object.keys(changedServices).length !== 0 && (
+                        <Body2 className="text-zinc-500 flex gap-1 items-center dark:text-zinc-400">
+                            <motion.div
+                                animate={{
+                                    y: [0, -2, 0],
+                                }}
+                                transition={{
+                                    duration: 0.6,
+                                    repeat: Infinity,
+                                    ease: 'easeInOut',
+                                }}
+                            >
+                                <Save color="#8e8e95" size={20} strokeWidth={1.6} />
+                            </motion.div>
+                            Есть несохраненные изменения!
+                        </Body2>
+                    )}
                 </div>
             </ConditionalSkeletonLoader>
         </div>
@@ -121,3 +141,6 @@ export default function MastersServiceList({ masterId }: IProps) {
 }
 
 //() => updateMasterServices(6, { services: { 1: true } })
+{
+    /* <Save color="#8e8e95" /> */
+}
