@@ -1,9 +1,8 @@
 'use client';
 
+import { Building2, Home, Scissors, Settings, UserRound } from 'lucide-react';
 import Link from 'next/link';
-import { Home, Building2, Scissors, UserRound, Settings } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import useStore from '@/hooks/use-store';
 
 const NAV_ITEMS = [
     { href: '/admin', label: 'Главная', icon: Home },
