@@ -9,7 +9,7 @@ export default function SuccessPage() {
     const searchParams = useSearchParams();
     const masterId = Number(searchParams.get('barberId'));
     const comment = searchParams.get('comment');
-    const timeSlot = searchParams.get('timeSlot');
+    //const timeSlot = searchParams.get('timeSlot');
     console.log(masterId);
 
     const { master, isMasterLoading, isMasterError } = useMaster(masterId);

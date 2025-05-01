@@ -16,7 +16,7 @@ interface IProps {
 }
 
 //Responsible for rendering and selecting slots
-export default function SlotsListPage({ schedules, selectedMaster, setSelectedSlot, isLoading, isError }: IProps) {
+export default function SlotsListPage({ schedules, selectedMaster, setSelectedSlot, isError }: IProps) {
     if (isError) {
         return <div>Error</div>;
     }

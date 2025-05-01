@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useSorting } from '@/hooks/use-sorting';
@@ -7,7 +8,7 @@ import SortingSelect from './sorting-select';
 import { containerVariants } from '@/lib/animations';
 
 interface IProps<T extends Record<string, any>> {
-    items?: T[];
+    items?: T[];    
     renderItem: (item: T, index: number) => React.ReactNode;
 }
 

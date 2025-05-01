@@ -78,7 +78,7 @@ export const translateProp = (prop: string): string => {
     return sortingPropNames[prop] || prop;
 };
 
-export const getGenericKeys = <T extends Record<string, any>>(items?: T[]): GenericKeyInfo<T>[] => {
+export const getGenericKeys = <T extends Record<string, unknown>>(items?: T[]): GenericKeyInfo<T>[] => {
     if (!items || items.length === 0) return [];
 
     const keys = Object.keys(items[0])
@@ -90,7 +90,7 @@ export const getGenericKeys = <T extends Record<string, any>>(items?: T[]): Gene
     return keys;
 };
 
-export const sortByFn = <T extends Record<string, any>>(
+export const sortByFn = <T extends Record<string, unknown>>(
     items: T[],
     sortBy: GenericKeyInfo<T>,
     order: SortOrderType = 'asc'

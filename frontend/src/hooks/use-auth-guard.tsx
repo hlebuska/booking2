@@ -15,7 +15,9 @@ export default function useAuthGuard() {
 
         try {
             const data = verifyToken(accessToken ? accessToken : '');
+            console.log(data);
         } catch (error) {
+            console.log(error);
             window.location.href = '/login';
         }
     }, [accessToken]);

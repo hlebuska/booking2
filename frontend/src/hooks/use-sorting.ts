@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SortOrderType } from '@/lib/types';
 import { getGenericKeys, sortByFn } from '@/lib/utils';
 import { useMemo, useState } from 'react';
