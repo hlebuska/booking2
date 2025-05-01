@@ -13,6 +13,7 @@ import {
     SortOrderType,
     ChangedServicesMap,
     UpdateServicesRequestBody,
+    IPatchMaster,
 } from './types';
 
 declare module 'axios' {
@@ -185,12 +186,17 @@ export async function postBooking(bookingData: IPostBooking) {
 
 //Masters
 export async function postMaster(masterData: Omit<IMaster, 'id'>) {
-    const { data } = await axiosApiClient.post(`/v1/masters/`, masterData);
+    const { data } = await axiosApiClient.post(`/v1/barbers/`, masterData);
     return data;
 }
 
 export async function deleteMaster(id: number) {
     const { data } = await axiosApiClient.delete(`/v1/barbers/${id}/`);
+    return data;
+}
+
+export async function patchMaster(id: number, masterData: IPatchMaster) {
+    const { data } = await axiosApiClient.patch(`/v1/barbers/${id}/`, masterData);
     return data;
 }
 
