@@ -2,8 +2,8 @@
 import { Button } from '@/components/ui/button';
 import useAuthGuard from '@/hooks/use-auth-guard';
 import useConfirm from '@/hooks/use-confirm';
-import useStore from '@/hooks/use-store';
 import { deleteCookie } from '@/lib/cookies';
+
 import { DoorOpen } from 'lucide-react';
 
 export default function AdminSettings() {
