@@ -5,7 +5,7 @@ import { useSorting } from '@/hooks/use-sorting';
 import { IService } from '@/lib/types';
 import { motion } from 'motion/react';
 import ServiceCard from './service-card';
-import { containerVariants } from '@/lib/animation-variants';
+import { containerVariants } from '@/lib/animations';
 
 interface IProps {
     services?: IService[];

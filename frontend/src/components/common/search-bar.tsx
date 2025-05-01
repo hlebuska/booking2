@@ -1,5 +1,5 @@
 import IconInput from '@/components/ui/icon-input';
-import { springFadeInVariant } from '@/lib/animation-variants';
+import { springFadeInVariant } from '@/lib/animations';
 import { SearchIcon } from 'lucide-react';
 import { motion } from 'motion/react';
 
