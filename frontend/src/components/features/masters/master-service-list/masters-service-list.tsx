@@ -109,7 +109,7 @@ export default function MastersServiceList({ masterId }: IProps) {
                 )}
 
                 {notFoundText && <p className="text-zinc-500">{notFoundText}</p>}
-                <div className="flex justify-between     items-center">
+                <div className="flex flex-col xs:flex-row gap-3 xs:gap-0 ">
                     <Button
                         disabled={Object.keys(changedServices).length === 0}
                         onClick={() => mutation.mutate(changedServices)}
