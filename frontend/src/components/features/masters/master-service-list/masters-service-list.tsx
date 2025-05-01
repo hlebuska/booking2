@@ -1,19 +1,19 @@
 import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
 import SearchBar from '@/components/common/search-bar';
 import { Button } from '@/components/ui/button';
+import { Body2 } from '@/components/ui/typography';
 import useMasterServices from '@/hooks/use-masters-services';
 import { useSearch } from '@/hooks/use-search';
+import { useToast } from '@/hooks/use-toast';
 import { containerVariants } from '@/lib/animation-varitants';
 import { ChangedServicesMap, IService } from '@/lib/types';
 import { filterServices, queryClient, updateMasterServices } from '@/lib/utils';
-import { motion } from 'motion/react';
-import MastersServiceOption from './masters-service-option';
-import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useToast } from '@/hooks/use-toast';
-import { Body1, Body2 } from '@/components/ui/typography';
 import { Save } from 'lucide-react';
+import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
+import MastersServiceOption from './masters-service-option';
 
 interface IProps {
     masterId: number;
@@ -60,7 +60,7 @@ export default function MastersServiceList({ masterId }: IProps) {
         onSuccess: (data) => {
             toast({
                 variant: 'success',
-                title: 'Услуга успешно обновлена.',
+                title: 'Услуги успешно обновлены.',
                 description: `Обновление услуг мастера прошло успешно.`,
             });
             queryClient.invalidateQueries({ queryKey: ['masterServices'] });
@@ -109,7 +109,7 @@ export default function MastersServiceList({ masterId }: IProps) {
                 )}
 
                 {notFoundText && <p className="text-zinc-500">{notFoundText}</p>}
-                <div className="flex flex-col xs:flex-row gap-3 xs:gap-0 ">
+                <div className="flex flex-col xs:flex-row gap-3  ">
                     <Button
                         disabled={Object.keys(changedServices).length === 0}
                         onClick={() => mutation.mutate(changedServices)}
@@ -119,7 +119,7 @@ export default function MastersServiceList({ masterId }: IProps) {
 
                     {Object.keys(changedServices).length !== 0 && (
                         <Body2 className="text-zinc-500 flex gap-1 items-center dark:text-zinc-400">
-                            <motion.div
+                            <motion.span
                                 animate={{
                                     y: [0, -2, 0],
                                 }}
@@ -130,7 +130,7 @@ export default function MastersServiceList({ masterId }: IProps) {
                                 }}
                             >
                                 <Save color="#8e8e95" size={20} strokeWidth={1.6} />
-                            </motion.div>
+                            </motion.span>
                             Есть несохраненные изменения!
                         </Body2>
                     )}

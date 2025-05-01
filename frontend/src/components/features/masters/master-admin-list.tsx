@@ -20,6 +20,7 @@ import {
 import useConfirm from '@/hooks/use-confirm';
 import { deleteMaster, queryClient } from '@/lib/utils';
 import MasterSchedule from './master-schedule.tsx/master-schedule';
+import PatchMasterForm from '@/components/forms/patch-master-form';
 
 interface IProps {
     masters?: IMaster[];
@@ -52,7 +53,13 @@ export default function MastersAdminList({ masters }: IProps) {
                                                 onSelect={(e) => {
                                                     e.preventDefault();
                                                     openDialog({
-                                                        content: <>yo</>,
+                                                        content: (
+                                                            <PatchMasterForm
+                                                                id={master.id}
+                                                                name={master.name}
+                                                                description={master.description || ''}
+                                                            />
+                                                        ),
                                                         title: 'Редактирование мастера',
                                                         description: 'Введите данные о мастере.',
                                                     });
@@ -69,7 +76,7 @@ export default function MastersAdminList({ masters }: IProps) {
                                                         description: `Это действие безвозвратно удалит мастера - (${master.name}).`,
                                                         onConfirm: async () => {
                                                             await deleteMaster(master.id);
-                                                            queryClient.invalidateQueries({ queryKey: ['services'] });
+                                                            queryClient.invalidateQueries({ queryKey: ['masters'] });
                                                         },
                                                     });
                                                 }}
