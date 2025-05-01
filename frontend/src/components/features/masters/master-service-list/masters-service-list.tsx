@@ -14,7 +14,7 @@ import { Save } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 import MastersServiceOption from './masters-service-option';
-import { containerVariants } from '@/lib/animation-variants';
+import { containerVariants } from '@/lib/animations';
 
 interface IProps {
     masterId: number;
