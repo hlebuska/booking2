@@ -6,12 +6,12 @@ export default function GlobalDialog() {
 
     return (
         <Dialog open={isOpen} onOpenChange={setOpen}>
-            <DialogContent className="sm:max-w-[700px] min-h-[80%] flex flex-col ">
+            <DialogContent className="sm:max-w-[700px] h-screen max-h-[90%] flex flex-col ">
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     <DialogDescription>{description}</DialogDescription>
                 </DialogHeader>
-                <div className="sm:p-3"> {content}</div>
+                <>{content}</>
             </DialogContent>
         </Dialog>
     );

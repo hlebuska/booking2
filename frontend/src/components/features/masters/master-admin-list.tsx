@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import useConfirm from '@/hooks/use-confirm';
 import { deleteMaster, queryClient } from '@/lib/utils';
-import { MastersSchedule } from './master-schedule.tsx/master-schedule';
+import MasterSchedule from './master-schedule.tsx/master-schedule';
 
 interface IProps {
     masters?: IMaster[];
@@ -107,7 +107,7 @@ export default function MastersAdminList({ masters }: IProps) {
                             </Button>
                         </AdminCard.Row>
                         <AdminCard.Row>
-                            <AdminCard.RowTitle>Услуги: </AdminCard.RowTitle>
+                            <AdminCard.RowTitle>Расписание: </AdminCard.RowTitle>
                             <AdminCard.RowDescription truncate>
                                 <CalendarCheck size={20} strokeWidth={1.5} className="hidden xs:inline" /> Расписание
                                 мастера.
@@ -117,7 +117,7 @@ export default function MastersAdminList({ masters }: IProps) {
                                 className="p-2 h-fit"
                                 onClick={() =>
                                     openDialog({
-                                        content: <MastersSchedule />,
+                                        content: <MasterSchedule />,
                                         title: 'Редактирование расписания мастера',
                                         description: 'Выберите часы в которые мастер доступен для записи.',
                                     })

@@ -138,6 +138,37 @@ class BarberViewSet(viewsets.ModelViewSet):
                 return Response({"status": f"unable assign services to {barber}"}, status=404)
 
             return Response({"status": f"successfully assigned services to {barber}"}, status=201)
+        
+    @action(methods=['post'], detail=True, url_path='set-services-status')
+    def set_services_status(self, request, pk=None):
+        barber = self.get_object()
+        service_map = request.data.get('services', {})
+
+        if not isinstance(service_map, dict):
+            return Response({'error': 'Expected "services" to be a dictionary of {id: boolean}'}, status=400)
+
+        try:
+            for service_id_str, should_be_selected in service_map.items():
+                try:
+                    service_id = int(service_id_str)
+                    service = BarberService.objects.get(id=service_id)
+
+                    if should_be_selected:
+                        barber.services.add(service)
+                    else:
+                        barber.services.remove(service)
+                except (ValueError, BarberService.DoesNotExist):
+                    continue 
+
+            cache.delete(f'barber_{barber.id}_services_client')
+            cache.delete(f'barber_{barber.id}_services_admin')
+
+            return Response({'status': 'services updated'}, status=200)
+
+        except Exception as e:
+            logger.error(f"Error updating services for barber {barber.id}: {e}")
+            return Response({'error': str(e)}, status=400)
+
 
 
 class ServiceViewSet(viewsets.ModelViewSet):

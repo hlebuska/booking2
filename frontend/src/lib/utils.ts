@@ -3,7 +3,17 @@ import axios from 'axios';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { deleteCookie, getCookie, setCookie } from './cookies';
-import { GenericKeyInfo, ILogin, IMaster, IPatchService, IPostBooking, IService, SortOrderType } from './types';
+import {
+    GenericKeyInfo,
+    ILogin,
+    IMaster,
+    IPatchService,
+    IPostBooking,
+    IService,
+    SortOrderType,
+    ChangedServicesMap,
+    UpdateServicesRequestBody,
+} from './types';
 
 declare module 'axios' {
     export interface AxiosRequestConfig {
@@ -204,6 +214,12 @@ export async function getMastersServices(masterId: number, role: 'admin' | 'clie
 
     return data;
 }
+
+export const updateMasterServices = async (masterId: number, data: UpdateServicesRequestBody) => {
+    const res = await axiosApiClient.post(`/v1/barbers/${masterId}/set-services-status/`, data);
+    return res.data;
+};
+
 export async function postService(serviceData: Omit<IService, 'id'>) {
     const { data } = await axiosApiClient.post(`/v1/services/`, serviceData);
     return data;
