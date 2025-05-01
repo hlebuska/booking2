@@ -1,10 +1,11 @@
 'use client';
 import SortingSelect from '@/components/common/sorting-select';
 import { useSorting } from '@/hooks/use-sorting';
-import { containerVariants } from '@/lib/animation-variants';
+
 import { IService } from '@/lib/types';
 import { motion } from 'motion/react';
 import ServiceCard from './service-card';
+import { containerVariants } from '@/lib/animation-variants';
 
 interface IProps {
     services?: IService[];

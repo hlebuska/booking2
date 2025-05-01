@@ -1,7 +1,6 @@
 'use client';
 import { H4 } from '@/components/ui/typography';
 import { containerVariants, slotVariants } from '@/lib/animation-variants';
-
 import { ISlot, SetNumberStateType } from '@/lib/types';
 import { Label } from '@radix-ui/react-label';
 import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group';
