@@ -10,9 +10,10 @@ interface IProps {
     name: string;
     index: number;
     checked?: boolean;
+    onChange: () => void;
 }
 
-export default function MastersServiceOption({ name, index, checked }: IProps) {
+export default function MastersServiceOption({ name, index, checked, onChange }: IProps) {
     const { setOpen } = useDialogStore();
 
     return (
@@ -22,7 +23,7 @@ export default function MastersServiceOption({ name, index, checked }: IProps) {
         >
             <div className="flex gap-3 items-center">
                 <div className=" border-r px-2 flex justify-center items-center">
-                    <Checkbox checked={checked} />
+                    <Checkbox checked={checked} onCheckedChange={() => onChange()} />
                 </div>
 
                 <div className="w-full">{name}</div>
