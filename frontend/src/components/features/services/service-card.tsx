@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { H5 } from '@/components/ui/typography';
 import useStore from '@/hooks/use-store';
 import { motion } from 'motion/react';
-import { cardVariants } from '@/lib/animation-varitants';
+import { cardVariants } from '@/lib/animation-variants';
 
 interface IProps {
     serviceId: number;
