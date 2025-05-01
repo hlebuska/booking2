@@ -11,7 +11,6 @@ import {
     IPostBooking,
     IService,
     SortOrderType,
-    ChangedServicesMap,
     UpdateServicesRequestBody,
     IPatchMaster,
 } from './types';

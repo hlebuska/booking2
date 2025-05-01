@@ -1,5 +1,4 @@
 import { Spinner } from '../ui/loader';
-import SkeletonLoader from '../ui/skeleton-loader';
 
 interface IProps {
     isLoading: boolean;

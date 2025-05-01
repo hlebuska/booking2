@@ -1,6 +1,5 @@
 'use client';
 import ConditionalSkeletonLoader from '@/components/common/conditional-skeleton-loader';
-import { Separator } from '@/components/ui/separator';
 import { Body1, H2, H4 } from '@/components/ui/typography';
 import useMaster from '@/hooks/use-master';
 import { CircleCheckBig } from 'lucide-react';
