@@ -1,7 +1,7 @@
 'use client';
 
 import { useSorting } from '@/hooks/use-sorting';
-import { containerVariants } from '@/lib/animation-varitants';
+import { containerVariants } from '@/lib/animation-variants';
 import { motion } from 'motion/react';
 import SortingSelect from './sorting-select';
 

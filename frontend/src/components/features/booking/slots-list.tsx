@@ -1,11 +1,11 @@
 'use client';
 import { H4 } from '@/components/ui/typography';
-import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group';
-import { Label } from '@radix-ui/react-label';
+import { containerVariants, slotVariants } from '@/lib/animation-variants';
+
 import { ISlot, SetNumberStateType } from '@/lib/types';
-import SkeletonLoader from '@/components/ui/skeleton-loader';
+import { Label } from '@radix-ui/react-label';
+import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group';
 import { motion } from 'motion/react';
-import { containerVariants, slotVariants } from '@/lib/animation-varitants';
 
 interface IProps {
     schedules: ISlot[];

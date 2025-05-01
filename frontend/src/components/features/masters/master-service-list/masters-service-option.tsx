@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useDialogStore } from '@/hooks/use-dialog-store';
-import { cardVariants } from '@/lib/animation-varitants';
+import { cardVariants } from '@/lib/animation-variants';
 
 import { ExternalLink } from 'lucide-react';
 import { motion } from 'motion/react';

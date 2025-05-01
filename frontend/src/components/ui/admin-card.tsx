@@ -1,7 +1,7 @@
 'use client';
 
 import { H4 } from '@/components/ui/typography';
-import { cardVariants } from '@/lib/animation-varitants';
+import { cardVariants } from '@/lib/animation-variants';
 
 import { motion } from 'motion/react';
 import React from 'react';

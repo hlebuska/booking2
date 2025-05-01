@@ -5,7 +5,7 @@ import { Body2 } from '@/components/ui/typography';
 import useMasterServices from '@/hooks/use-masters-services';
 import { useSearch } from '@/hooks/use-search';
 import { useToast } from '@/hooks/use-toast';
-import { containerVariants } from '@/lib/animation-varitants';
+import { containerVariants } from '@/lib/animation-variants';
 import { ChangedServicesMap, IService } from '@/lib/types';
 import { filterServices, queryClient, updateMasterServices } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query';
