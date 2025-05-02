@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import { create } from 'zustand';
 
 interface IDialogOptions {
