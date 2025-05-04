@@ -122,12 +122,12 @@ export const sortByFn = <T extends Record<string, unknown>>(
 export const queryClient = new QueryClient({ defaultOptions: { queries: { refetchOnWindowFocus: false } } });
 
 export const axiosApiClient = axios.create({
-    baseURL: process.env.SERVER_URL || 'http://localhost:8000/api',
+    baseURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:8000/api',
     withCredentials: true,
 });
 
 const axiosRefreshClient = axios.create({
-    baseURL: process.env.SERVER_URL || 'http://localhost:8000/api',
+    baseURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:8000/api',
     withCredentials: true,
 });
 
