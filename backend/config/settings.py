@@ -73,12 +73,15 @@
     CORS_ALLOWED_ORIGINS = [
         'http://localhost:3000',
         'https://booking2-rosy.vercel.app',
+        'https://booking2-j7bfyxspk-gvvass-gmailcoms-projects.vercel.app',
     ]
 
     CSRF_TRUSTED_ORIGINS = [
         'http://localhost:3000',
         'https://booking2-rosy.vercel.app',
+        'https://booking2-j7bfyxspk-gvvass-gmailcoms-projects.vercel.app',
     ]
+
 
     ROOT_URLCONF = 'config.urls'    
 
