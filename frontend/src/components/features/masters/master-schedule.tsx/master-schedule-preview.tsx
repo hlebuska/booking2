@@ -4,8 +4,8 @@ import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
 export default function MasterSchedulePreview() {
-    const [activeCell, setActiveCell] = useState<string | null>(null);
-
+    const [activeCell] = useState<string | null>(null);
+    //setActiveCell
     const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
     // 48 half-hour slots 00:00-23:30

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { springFadeInVariant } from '@/lib/animations';
 import { GenericKeyInfo, SortOrderType } from '@/lib/types';

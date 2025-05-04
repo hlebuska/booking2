@@ -88,8 +88,15 @@ export default function BookingForm({ barber_id, time_id }: IProps) {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         const new_phone_number = values.phone_number.replace(/\D+/g, '');
-        mutation.mutate({ ...values, barber: barber_id, time_slot: time_id, phone_number: new_phone_number });
+        mutation.mutate({
+            ...values,
+            barber: barber_id,
+            time_slot: time_id,
+            phone_number: new_phone_number,
+            service_id: 0,
+        });
     }
+    //SERVICE ID 0 FIX LATER!
 
     return (
         <div className="mx-auto w-full max-w-3xl p-0 ">

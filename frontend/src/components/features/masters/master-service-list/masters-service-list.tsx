@@ -22,7 +22,9 @@ interface IProps {
 
 export default function MastersServiceList({ masterId }: IProps) {
     const { unfilteredServices, isMasterServicesLoading, isMastersServicesError } = useMasterServices(masterId);
-    const { handleInputChange, searchItem, filteredData, notFoundText } = useSearch(unfilteredServices, filterServices);
+    const { handleInputChange, searchItem, notFoundText } = useSearch(unfilteredServices, filterServices);
+    //filteredData
+
     const { toast } = useToast();
 
     //Local state
@@ -58,7 +60,7 @@ export default function MastersServiceList({ masterId }: IProps) {
         mutationFn: (data) => {
             return updateMasterServices(masterId, { services: data });
         },
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast({
                 variant: 'success',
                 title: 'Услуги успешно обновлены.',
