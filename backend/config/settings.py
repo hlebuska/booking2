@@ -71,11 +71,9 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',  # URL вашего фронтенда
-    
-]
+    'http://localhost:3000','https://booking2-kfqrgo2f0-gvvass-gmailcoms-projects.vercel.app']
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'https://booking2-kfqrgo2f0-gvvass-gmailcoms-projects.vercel.app']
 
 ROOT_URLCONF = 'config.urls'    
 
