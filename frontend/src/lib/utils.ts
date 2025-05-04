@@ -121,6 +121,8 @@ export const sortByFn = <T extends Record<string, unknown>>(
 //Fetching
 export const queryClient = new QueryClient({ defaultOptions: { queries: { refetchOnWindowFocus: false } } });
 
+console.log(process.env.NEXT_PUBLIC_SERVER_URL);
+
 export const axiosApiClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:8000/api',
     withCredentials: true,
