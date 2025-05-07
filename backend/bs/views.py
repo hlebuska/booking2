@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 from .models import *
-from .serializers import BarberSerializer, BookingSerializer, ServiceSerializer, ScheduleSerializer, RegisterSerializer
-from .services import BookingService
+from .serializers import *
+from .service_layer.booking import BookingService
 from .service_layer.services import ServicesService
 from .service_layer.schedules import SchedulesService
 import logging
@@ -36,7 +36,7 @@ class BarberViewSet(viewsets.ModelViewSet):
 
         elif request.method == 'POST':
             try:
-               SchedulesService().post_schedules(barber, request.data.get('time_slots', []))
+                SchedulesService().post_schedules(barber, request.data.get('time_slots', []))
             except Exception as e:
                 logger.error(f"Ошибка при назначении слотов: {e}")
                 return Response({"status": "unable assign time slots"}, status=404)
@@ -117,47 +117,60 @@ class BookingViewSet(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer = self.get_serializer(data=request.data)
 
-        if serializer.is_valid():
-            barber = serializer.validated_data['barber']
-            time = serializer.validated_data['time_slot']
-            name = serializer.validated_data['name']
-            phone_number = serializer.validated_data['phone_number']
-            comment = serializer.validated_data.get('comment', '')
+            if serializer.is_valid():
+                barber = serializer.validated_data['barber']
+                time = serializer.validated_data['time_slot']
+                name = serializer.validated_data['name']
+                phone_number = serializer.validated_data['phone_number']
+                comment = serializer.validated_data.get('comment', '')
 
-            logger.debug(f"Attempting to create booking for barber {barber}, time {time}, name {name}")
+                logger.debug(f"Попытка создать бронирование для парикмахера {barber}, время {time}, имя {name}")
 
-            try:
-                booking = BookingService.create_booking(
-                    barber=barber,
-                    time=time,
-                    name=name,
-                    phone_number=phone_number,
-                    comment=comment
-                )
-                logger.info(f"Booking created: {booking}")
+                booking = BookingService().create_booking(
+                        barber=barber,
+                        time=time,
+                        name=name,
+                        phone_number=phone_number,
+                        comment=comment
+                    )
+                serializer = BarberBookingSerializer(booking)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-            except ValueError as e:
-                logger.error(f"Failed to create booking: {str(e)}")
-                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except ValueError as ve:
+            logger.warning(f"Ошибка бизнес-логики при создании бронирования: {str(ve)}")
+            return Response({"error": str(ve)}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        except Exception as e:
+            logger.error(f"Неизвестная ошибка при создании бронирования: {str(e)}")
+            return Response({"error": "Произошла непредвиденная ошибка."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     def destroy(self, request, *args, **kwargs):
         booking_id = kwargs.get('pk')
-
-        logger.debug(f"Attempting to delete booking with ID {booking_id}")
+        logger.debug(f"Попытка удалить бронирование с ID {booking_id}")
 
         try:
-            result = BookingService.delete_booking(booking_id=booking_id)
-            logger.info(f"Successfully deleted booking with ID {booking_id}")
+            result = BookingService().delete_booking(booking_id=booking_id)
+            logger.info(f"Бронирование с ID {booking_id} успешно удалено")
             return Response(result, status=status.HTTP_200_OK)
 
-        except ValueError as e:
-            logger.error(f"Failed to delete booking with ID {booking_id}: {str(e)}")
-            return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
+        except BarberBooking.DoesNotExist:
+            msg = f"Бронирование с ID {booking_id} не найдено."
+            logger.warning(msg)
+            return Response({"error": msg}, status=status.HTTP_404_NOT_FOUND)
+
+        except BarberTime.DoesNotExist:
+            msg = f"Временной слот для бронирования с ID {booking_id} не найден."
+            logger.warning(msg)
+            return Response({"error": msg}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as e:
+            msg = f"Непредвиденная ошибка при удалении бронирования с ID {booking_id}: {str(e)}"
+            logger.error(msg)
+            return Response({"error": "Произошла непредвиденная ошибка."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 

@@ -38,6 +38,8 @@ class BookingSerializer(serializers.ModelSerializer):
         return value
     
 
+    
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only = True)
 
@@ -51,3 +53,11 @@ class RegisterSerializer(serializers.ModelSerializer):
             password = validated_data['password']
         )
         return user
+    
+
+
+class BarberBookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BarberBooking
+        fields = '__all__'  # или перечислите нужные поля
+        # depth = 1
