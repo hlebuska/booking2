@@ -1,25 +1,25 @@
 
-from rest_framework import generics, mixins, viewsets, status
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.exceptions import AuthenticationFailed
+
+import logging
+from django.core.cache import cache
+
 from .models import *
 from .serializers import *
 from .service_layer.booking import BookingService
 from .service_layer.services import ServicesService
 from .service_layer.schedules import SchedulesService
-import logging
-from django.core.cache import cache
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenRefreshView
-from rest_framework.exceptions import AuthenticationFailed
+
 
 
 
 logger = logging.getLogger('myapp')
-cached_slots = dict()
-cached_services = dict()
 
 class BarberViewSet(viewsets.ModelViewSet):
     queryset = Barber.objects.all()
@@ -39,9 +39,10 @@ class BarberViewSet(viewsets.ModelViewSet):
                 SchedulesService().post_schedules(barber, request.data.get('time_slots', []))
             except Exception as e:
                 logger.error(f"Ошибка при назначении слотов: {e}")
-                return Response({"status": "unable assign time slots"}, status=404)
+                return Response({"status": "Не удалось назначить временные слоты"}, status=404)
 
-            return Response({"status": "successfully assigned time slots"}, status=201)
+
+            return Response({"status": "Временные слоты успешно назначены"}, status=201)
 
     
     @action(methods=['get', 'post'], detail=True)
@@ -58,9 +59,11 @@ class BarberViewSet(viewsets.ModelViewSet):
                 ServicesService().post_services(barber, request.data.get('services', []))
             except Exception as e:
                 logger.error(f"Ошибка при назначении услуг: {e}")
-                return Response({"status": f"unable assign services to {barber}"}, status=404)
+                return Response({"status": f"Не удалось назначить услуги для {barber}"}, status=404)
 
-            return Response({"status": f"successfully assigned services to {barber}"}, status=201)
+
+            return Response({"status": f"Услуги успешно назначены для {barber}"}, status=201)
+
         
     @action(methods=['post'], detail=True, url_path='set-services-status')
     def set_services_status(self, request, pk=None):
@@ -68,7 +71,8 @@ class BarberViewSet(viewsets.ModelViewSet):
         service_map = request.data.get('services', {})
 
         if not isinstance(service_map, dict):
-            return Response({'error': 'Expected "services" to be a dictionary of {id: boolean}'}, status=400)
+            return Response({'error': 'Ожидался словарь "services" в формате {id: boolean}'}, status=400)
+
 
         try:
             for service_id_str, should_be_selected in service_map.items():
@@ -86,10 +90,10 @@ class BarberViewSet(viewsets.ModelViewSet):
             cache.delete(f'barber_{barber.id}_services_client')
             cache.delete(f'barber_{barber.id}_services_admin')
 
-            return Response({'status': 'services updated'}, status=200)
+            return Response({'status': 'Услуги обновлены'}, status=200)
 
         except Exception as e:
-            logger.error(f"Error updating services for barber {barber.id}: {e}")
+            logger.error(f"Ошибка при обновлении услуг для парикмахера {barber.id}: {e}")
             return Response({'error': str(e)}, status=400)
 
 
@@ -199,7 +203,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         try:
             serializer.is_valid(raise_exception=True)
         except Exception:
-            return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'detail': 'Неверные учетные данные'}, status=status.HTTP_401_UNAUTHORIZED)
 
         data = serializer.validated_data
         refresh_token = data.get('refresh')
@@ -224,7 +228,7 @@ class CookieTokenRefreshView(TokenRefreshView):
         refresh = request.COOKIES.get('refresh_token')
 
         if not refresh:
-            raise AuthenticationFailed('No refresh token in cookies')
+            raise AuthenticationFailed('Отсутствует refresh токен в cookies')
 
         serializer = self.get_serializer(data={'refresh': refresh})
         serializer.is_valid(raise_exception=True)
