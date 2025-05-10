@@ -16,9 +16,6 @@ from .service_layer.booking import BookingService
 from .service_layer.services import ServicesService
 from .service_layer.schedules import SchedulesService
 
-
-
-
 logger = logging.getLogger('myapp')
 
 class BarberViewSet(viewsets.ModelViewSet):
