@@ -5,7 +5,6 @@ from bs.models import BarberBooking, BarberTime, Barber
 
 logger = logging.getLogger('myapp')
 
-
 class BookingService:
     def _get_time_instance(self, barber: Barber, time) -> BarberTime:
         """
